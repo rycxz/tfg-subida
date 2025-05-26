@@ -74,9 +74,12 @@ public class HomeController {
 
         // Primera foto como principal
         for (PublicacionModel pub : publicaciones) {
-            if (!pub.getFotos().isEmpty()) {
-                pub.setImagen(pub.getFotos().get(0));
-            }
+          if (!pub.getFotos().isEmpty() && !pub.getFotos().get(0).equals("predeterminada.png")) {
+    pub.setImagen(pub.getFotos().get(0));
+        } else {
+            pub.setImagen("/uploads/publicaciones/predeterminada.png"); // o mantén el nombre si lo manejas en la vista
+        }
+
         }
 
         model.addAttribute("publicaciones", publicaciones);

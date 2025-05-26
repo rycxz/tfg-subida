@@ -5,12 +5,14 @@
 
 package kiricasa.programa.controller;
 
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
@@ -22,6 +24,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 
 import jakarta.servlet.http.HttpSession;
 import kiricasa.programa.enums.TipoPiso;
@@ -51,10 +56,11 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/publicacion")
 @AllArgsConstructor
 public class AccionesPublicacionController {
-        private final PublicacionRepository publicacionRepository;
-              private final BarriosRepository barriosRepository;
-               private final AnunciosVistosRepository anuncioVistoRepository;
-    @GetMapping("/editar/{id}")
+    private final PublicacionRepository publicacionRepository;
+    private final BarriosRepository barriosRepository;
+    private final AnunciosVistosRepository anuncioVistoRepository;
+    private Cloudinary cloudinary;
+
     /**
      * Método para mostrar el formulario de edición de una publicación.
      * @param id
@@ -62,14 +68,14 @@ public class AccionesPublicacionController {
      * @param session
      * @return
      */
-        public String mostrarFormularioEdicion(@PathVariable("id") Long id, Model model, HttpSession session) {
+    @GetMapping("/editar/{id}")
+    public String mostrarFormularioEdicion(@PathVariable("id") Long id, Model model, HttpSession session) {
         UsuarioModel usuario = (UsuarioModel) session.getAttribute("usuario");
         if (usuario == null) return "redirect:/auth/login";
 
         PublicacionModel publicacion = publicacionRepository.findById(id).orElse(null);
         if (publicacion == null) return "redirect:/home";
 
-        // Solo dueño o admin
         if (!usuario.getRol().equals(UsuarioRol.ADMIN) && !publicacion.getUsuario().getId().equals(usuario.getId())) {
             return "redirect:/home";
         }
@@ -77,7 +83,7 @@ public class AccionesPublicacionController {
         model.addAttribute("publicacion", publicacion);
         model.addAttribute("barrios", barriosRepository.findAll());
 
-        return "publicacion_editar"; // vista
+        return "publicacion_editar";
     }
 
     /**
@@ -93,22 +99,11 @@ public class AccionesPublicacionController {
      * @param redirectAttributes
      * @return
      */
-        @PostMapping("/editar/{id}/subir-imagen")
-        @SuppressWarnings("CallToPrintStackTrace")
-        /**
-         * Método para subir una imagen a una publicación.
-         * @param id
-         * @param archivo
-         * @param redirectAttributes
-         * @param model
-         * @return
-         */
-    public String subirImagen(@PathVariable Long id,
-                            @RequestParam("imagen") MultipartFile archivo,
-                            RedirectAttributes redirectAttributes,Model model) {
-
-
-
+    @PostMapping("/editar/{id}/subir-imagen")
+    @SuppressWarnings("CallToPrintStackTrace")
+      public String subirImagen(@PathVariable Long id,
+                               @RequestParam("imagen") MultipartFile archivo,
+                               RedirectAttributes redirectAttributes, Model model) {
         PublicacionModel publicacion = publicacionRepository.findById(id).orElse(null);
         if (publicacion == null) {
             redirectAttributes.addFlashAttribute("error", "La publicación no existe.");
@@ -120,58 +115,24 @@ public class AccionesPublicacionController {
             return "redirect:/detalle?id=" + id;
         }
 
-        // Reasignar carpeta si es la predeterminada
-        String carpetaActual = publicacion.getCarpetaImagen();
-        if (carpetaActual.equals("pisos_auto")) {
-            carpetaActual = "publicacion_" + id;
-            publicacion.setCarpetaImagen(carpetaActual);
-
-        }
-
-
- String basePath = new File("src/main/resources/static/uploads/publicaciones/").getAbsolutePath() + "/";
-
-
-
-        String carpetaFinal = basePath + carpetaActual;
-        File directorio = new File(carpetaFinal);
-        if (!directorio.exists()) {
-            @SuppressWarnings("unused")
-            boolean creado = directorio.mkdirs();
-
-        }
-
         try {
-            String nombreArchivo = archivo.getOriginalFilename();
+            Map result = cloudinary.uploader().upload(archivo.getBytes(), ObjectUtils.emptyMap());
+            String url = (String) result.get("secure_url");
 
-            if (nombreArchivo == null || nombreArchivo.trim().isEmpty()) {
-
-                redirectAttributes.addFlashAttribute("error", "Nombre de archivo inválido.");
-                return "redirect:/detalle?id=" + id;
+            for (int i = 0; i < 9; i++) {
+                String imgActual = publicacion.getImagenPorIndice(i);
+                if (imgActual == null || imgActual.isEmpty() || imgActual.equals("predeterminada.png")) {
+                    publicacion.setImagenPorIndice(i, url);
+                    break;
+                }
             }
-
-            Path ruta = Paths.get(carpetaFinal, nombreArchivo);
-
-
-            archivo.transferTo(ruta.toFile());
-
-            // Actualizar primer hueco vacío
-                for (int i = 0; i < 9; i++) {
-            String imgActual = publicacion.getImagenPorIndice(i);
-            if (imgActual == null || imgActual.isEmpty() || imgActual.equals("predeterminada.png")) {
-                publicacion.setImagenPorIndice(i, nombreArchivo);
-                break;
-            }
-        }
-               publicacionRepository.save(publicacion);
+            publicacionRepository.save(publicacion);
             redirectAttributes.addFlashAttribute("success", "Imagen subida correctamente.");
-
         } catch (IOException e) {
-            System.out.println("❌ Error al guardar imagen en disco");
             e.printStackTrace();
-            redirectAttributes.addFlashAttribute("error", "Error al guardar la imagen.");
+            redirectAttributes.addFlashAttribute("error", "Error al subir la imagen a Cloudinary.");
         }
-         model.addAttribute("barrios", barriosRepository.findAll());
+        model.addAttribute("barrios", barriosRepository.findAll());
         return "redirect:/detalle?id=" + id;
     }
 
@@ -185,36 +146,25 @@ public class AccionesPublicacionController {
      * @return
      */
     public String eliminarImagen(@PathVariable Long id,
-                                @RequestParam("imagen") String nombre,
-                                RedirectAttributes redirectAttributes,Model model) {
-
+                                  @RequestParam("imagen") String nombre,
+                                  RedirectAttributes redirectAttributes, Model model) {
         PublicacionModel publicacion = publicacionRepository.findById(id).orElse(null);
         if (publicacion == null) {
             redirectAttributes.addFlashAttribute("error", "Publicación no encontrada.");
             return "redirect:/home";
         }
 
-        // Detectar la posición de la imagen en la lista original
         List<String> imagenes = publicacion.getFotosOriginales();
         int posicion = imagenes.indexOf(nombre);
 
         if (posicion != -1) {
-
-            publicacion.setImagenPorIndice(posicion,"" );
+            publicacion.setImagenPorIndice(posicion, "");
             publicacionRepository.save(publicacion);
-
-            // Eliminar físicamente el archivo
-   String ruta = new File("src/main/resources/static/uploads/publicaciones/" + publicacion.getCarpetaImagen() + "/" + nombre).getAbsolutePath();
-
-
-            File archivo = new File(ruta);
-            if (archivo.exists()) archivo.delete();
-
             redirectAttributes.addFlashAttribute("success", "Imagen eliminada correctamente.");
         } else {
             redirectAttributes.addFlashAttribute("error", "Imagen no encontrada.");
         }
- model.addAttribute("barrios", barriosRepository.findAll());
+        model.addAttribute("barrios", barriosRepository.findAll());
         return "redirect:/detalle?id=" + id;
     }
     /**

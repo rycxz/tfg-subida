@@ -47,7 +47,11 @@
             <form th:action="@{/detalle}" method="get">
                 <input type="hidden" name="id" th:value="${fav.publicacion.id}" />
                 <button type="submit" class="favorito-button">
-                    <img th:src="@{'/uploads/publicaciones/' + ${fav.publicacion.carpeta} + '/' + ${fav.publicacion.imagePrincipal}}" alt="Imagen favorito">
+                   <img th:src="${#strings.isEmpty(fav.publicacion.imagePrincipal) or fav.publicacion.imagePrincipal == 'predeterminada.png'}
+             ? '/uploads/publicaciones/predeterminada.png'
+             : ${fav.publicacion.imagePrincipal}"
+     alt="Imagen favorito">
+
                     <h3 th:text="${fav.publicacion.ubicacion} + ' - ' + ${fav.publicacion.precio}">Ubicación - Precio</h3>
                 </button>
             </form>

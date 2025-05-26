@@ -41,13 +41,14 @@
          th:each="img, iterStat : ${publicacion.fotos}">
 
 
-        <form th:if="${#strings.isEmpty(img) or img == 'predeterminada.png'}"
+      <form th:if="${#strings.isEmpty(img) or img == 'predeterminada.png'}"
               th:action="@{'/publicacion/editar/' + ${publicacion.id} + '/subir-imagen'}"
               method="post"
               enctype="multipart/form-data">
             <input type="hidden" name="posicion" th:value="${iterStat.index}" />
             <label style="cursor: pointer;">
-                <img src="/uploads/publicaciones/predeterminada.png"
+            <img th:src="@{/images/elementos/predeterminada.png}"
+
                      alt="Imagen predeterminada"
                      class="imagen-anuncio">
                 <input type="file"
@@ -60,9 +61,8 @@
 
 
         <div th:if="${not #strings.isEmpty(img) and img != 'predeterminada.png'}">
-            <img th:src="@{'/uploads/publicaciones/' + ${publicacion.carpeta} + '/' + ${img}}"
-                 alt="Imagen anuncio"
-                 class="imagen-anuncio">
+           <img th:src="${img}" alt="Imagen anuncio" class="imagen-anuncio">
+
             <a th:href="@{'/publicacion/editar/' + ${publicacion.id} + '/eliminar-imagen?imagen=' + ${img}}"
                class="boton-eliminar">✖</a>
         </div>

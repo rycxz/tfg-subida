@@ -71,7 +71,10 @@ public String verDetalle(@RequestParam("id") Long id, Model model, RedirectAttri
     System.out.println("Publicacion: " + publicacion.getTitulo());
 
 
-    List<String> fotos = publicacion.getFotos();
+  List<String> fotos = publicacion.getFotos().stream()
+    .map(f -> (f == null || f.equals("predeterminada.png")) ? "predeterminada.png" : f)
+    .toList();
+
     System.out.println("Fotos: " + fotos);
     for (int i = 0; i < fotos.size(); i++) {
         String foto = fotos.get(i);

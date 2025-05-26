@@ -57,8 +57,9 @@
             <button type="submit" class="anuncio-button">
                 <img th:src="${#strings.isEmpty(publicacion.imagePrincipal) or publicacion.imagePrincipal == 'predeterminada.png'}
                                 ? '/uploads/publicaciones/predeterminada.png'
-                                : '/uploads/publicaciones/' + ${publicacion.carpeta} + '/' + ${publicacion.imagePrincipal}"
-                     alt="Imagen anuncio">
+                                : ${publicacion.imagePrincipal}"
+                    alt="Imagen anuncio">
+
                 <h3 th:text="${publicacion.ubicacion} + ' - ' + ${publicacion.precio}">Ubicación + Precio</h3>
             </button>
         </form>

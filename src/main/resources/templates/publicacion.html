@@ -51,12 +51,13 @@
     let fotos = [[${fotos}]];
     let carpeta = [[${publicacion.carpeta}]];
 
-    // Mapeamos a URLs reales o a la predeterminada
-    fotos = fotos.map(foto =>
-        !foto || foto.trim() === "" || foto === "predeterminada.png"
-            ? null
-            : `/uploads/publicaciones/${carpeta}/${foto}`
-    );
+// Las URLs Cloudinary ya están completas. Solo usar directamente, excepto si es predeterminada.
+fotos = fotos.map(foto =>
+    !foto || foto.trim() === "" || foto === "predeterminada.png"
+        ? null
+        : foto
+);
+
 
     // Si todas las imágenes están vacías, poner al menos una predeterminada
     if (fotos.every(f => f === null)) {
