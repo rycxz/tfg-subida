@@ -45,7 +45,7 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
         .authorizeHttpRequests(auth -> auth
             .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
             //rutas permitidas
-            .requestMatchers("/auth/**","/nl/**", "/css/**", "/js/**", "/images/**","/uploads/**","variado/**" ).permitAll()
+            .requestMatchers("/","/auth/**","/nl/**", "/css/**", "/js/**", "/images/**","/uploads/**","variado/**" ).permitAll()
             .anyRequest().authenticated()
         )
 
