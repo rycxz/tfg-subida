@@ -129,7 +129,7 @@ public class AccionesPublicacionController {
         }
 
 
- String basePath = "C:/Users/recur/Desktop/TFG/Codigo/programa/uploads/publicaciones/";
+ String basePath = new File("src/main/resources/static/uploads/publicaciones/").getAbsolutePath() + "/";
 
 
 
@@ -204,11 +204,8 @@ public class AccionesPublicacionController {
             publicacionRepository.save(publicacion);
 
             // Eliminar físicamente el archivo
-           String ruta = "C:/Users/recur/Desktop/TFG/Codigo/programa/uploads/publicaciones/"
+   String ruta = new File("src/main/resources/static/uploads/publicaciones/" + publicacion.getCarpetaImagen() + "/" + nombre).getAbsolutePath();
 
-
-
-                        + publicacion.getCarpetaImagen() + "/" + nombre;
 
             File archivo = new File(ruta);
             if (archivo.exists()) archivo.delete();
@@ -368,7 +365,7 @@ public class AccionesPublicacionController {
         // Crear carpeta en disco
         String carpeta = "publicacion_" + publicacion.getId();
         publicacion.setCarpetaImagen(carpeta);
-    String basePath = "C:/Users/recur/Desktop/TFG/Codigo/programa/uploads/publicaciones/";
+    String basePath = new File("src/main/resources/static/uploads/publicaciones/").getAbsolutePath() + "/";
 
 
 

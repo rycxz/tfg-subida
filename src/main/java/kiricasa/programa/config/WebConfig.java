@@ -12,8 +12,8 @@ public class WebConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         // Esto hace que http://localhost:8080/uploads/** apunte a la carpeta real uploads/ en el proyecto la ruta es absoluta
         // cambia la ruta a la carpeta donde tienes los archivos subidos
-        registry.addResourceHandler("/uploads/**")
-              .addResourceLocations("file:C:/Users/recur/Desktop/TFG/Codigo/programa/uploads/");
+registry.addResourceHandler("/uploads/**")
+        .addResourceLocations("classpath:/static/uploads/");
 
     }
 }
