@@ -22,10 +22,7 @@ public class NoLoggedController {
 
     private final PublicacionRepository publicacionRepository;
     private final BarriosRepository barriosRepository;
-            @GetMapping("/")
-        public String redireccionRaiz() {
-            return "redirect:/nl/home";
-        }
+
 
 
     /**
