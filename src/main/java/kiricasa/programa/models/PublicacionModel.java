@@ -44,7 +44,8 @@ public class PublicacionModel {
     private LocalDateTime fechaPublicacion;
 
     private String carpeta = "publicacion_" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("ddMMyyyyHHmmss"));
-@Column(nullable = false)
+
+    @Column(nullable = false)
     private String imagen;
     @Column(nullable = false)
     private String imagen2;
@@ -69,7 +70,7 @@ public class PublicacionModel {
     @Enumerated(EnumType.STRING)
     private TipoPiso tipo;
 
-    private Integer  precio;
+    private Integer precio;
     private String estado;
 
     @Column(nullable = false)
@@ -89,60 +90,67 @@ public class PublicacionModel {
     @ToString.Exclude
     private BarriosModel barrio;
 
-// Devuelve la lista cruda, sin predeterminadas
-public List<String> getFotosOriginales() {
-    return List.of(imagen, imagen2, imagen3, imagen4, imagen5, imagen6, imagen7, imagen8, imagen9);
-}
-
-public void setImagenPorIndice(int index, String valor) {
-    switch (index) {
-        case 0 -> this.imagen = valor;
-        case 1 -> this.imagen2 = valor;
-        case 2 -> this.imagen3 = valor;
-        case 3 -> this.imagen4 = valor;
-        case 4 -> this.imagen5 = valor;
-        case 5 -> this.imagen6 = valor;
-        case 6 -> this.imagen7 = valor;
-        case 7 -> this.imagen8 = valor;
-        case 8 -> this.imagen9 = valor;
+    // Devuelve solo nombres de archivo sin ruta
+    public List<String> getFotosOriginales() {
+        return List.of(imagen, imagen2, imagen3, imagen4, imagen5, imagen6, imagen7, imagen8, imagen9);
     }
-}
 
-
- public String getImagePrincipal() {
-    return (imagen == null || imagen.isEmpty()) ? "predeterminada.png" : imagen;
-}
-
+    // Devuelve rutas relativas completas para mostrar las imágenes
     public List<String> getFotos() {
-    List<String> imagenesOriginales = List.of(imagen, imagen2, imagen3, imagen4, imagen5, imagen6, imagen7, imagen8, imagen9);
+        List<String> nombres = getFotosOriginales();
+        List<String> rutas = new ArrayList<>();
 
-    List<String> imagenes = new ArrayList<>();
-    for (String img : imagenesOriginales) {
-        if (img == null || img.isEmpty()) {
-            imagenes.add("predeterminada.png");
-        } else {
-            imagenes.add(img);
+        for (String nombre : nombres) {
+            if (nombre != null && !nombre.isEmpty() && !nombre.equals("predeterminada.png")) {
+                rutas.add("images/uploads/publicaciones/" + carpeta + "/" + nombre);
+            }
+        }
+
+        if (rutas.isEmpty()) {
+            rutas.add("images/uploads/publicaciones/predeterminada.png");
+        }
+
+        return rutas;
+    }
+
+    public void setImagenPorIndice(int index, String valor) {
+        switch (index) {
+            case 0 -> this.imagen = valor;
+            case 1 -> this.imagen2 = valor;
+            case 2 -> this.imagen3 = valor;
+            case 3 -> this.imagen4 = valor;
+            case 4 -> this.imagen5 = valor;
+            case 5 -> this.imagen6 = valor;
+            case 6 -> this.imagen7 = valor;
+            case 7 -> this.imagen8 = valor;
+            case 8 -> this.imagen9 = valor;
         }
     }
 
-    return imagenes;
-}
+    public String getImagePrincipal() {
+        for (int i = 0; i < 9; i++) {
+            String img = getImagenPorIndice(i);
+            if (img != null && !img.isEmpty() && !img.equals("predeterminada.png")) {
+                return "images/uploads/publicaciones/" + carpeta + "/" + img;
+            }
+        }
+        return "images/uploads/publicaciones/predeterminada.png";
+    }
 
-public String getImagenPorIndice(int index) {
-    return switch (index) {
-        case 0 -> imagen;
-        case 1 -> imagen2;
-        case 2 -> imagen3;
-        case 3 -> imagen4;
-        case 4 -> imagen5;
-        case 5 -> imagen6;
-        case 6 -> imagen7;
-        case 7 -> imagen8;
-        case 8 -> imagen9;
-        default -> null;
-    };
-}
-
+    public String getImagenPorIndice(int index) {
+        return switch (index) {
+            case 0 -> imagen;
+            case 1 -> imagen2;
+            case 2 -> imagen3;
+            case 3 -> imagen4;
+            case 4 -> imagen5;
+            case 5 -> imagen6;
+            case 6 -> imagen7;
+            case 7 -> imagen8;
+            case 8 -> imagen9;
+            default -> null;
+        };
+    }
 
     public String getCarpetaImagen() {
         return carpeta;

@@ -12,7 +12,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
@@ -24,9 +23,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import com.cloudinary.Cloudinary;
-import com.cloudinary.utils.ObjectUtils;
 
 import jakarta.servlet.http.HttpSession;
 import kiricasa.programa.enums.TipoPiso;
@@ -59,7 +55,7 @@ public class AccionesPublicacionController {
     private final PublicacionRepository publicacionRepository;
     private final BarriosRepository barriosRepository;
     private final AnunciosVistosRepository anuncioVistoRepository;
-    private Cloudinary cloudinary;
+
 
     /**
      * Método para mostrar el formulario de edición de una publicación.
@@ -99,44 +95,60 @@ public class AccionesPublicacionController {
      * @param redirectAttributes
      * @return
      */
-    @PostMapping("/editar/{id}/subir-imagen")
-    @SuppressWarnings("CallToPrintStackTrace")
-      public String subirImagen(@PathVariable Long id,
-                               @RequestParam("imagen") MultipartFile archivo,
-                               RedirectAttributes redirectAttributes, Model model) {
-        PublicacionModel publicacion = publicacionRepository.findById(id).orElse(null);
-        if (publicacion == null) {
-            redirectAttributes.addFlashAttribute("error", "La publicación no existe.");
-            return "redirect:/home";
-        }
+@PostMapping("/editar/{id}/subir-imagen")
+@SuppressWarnings("CallToPrintStackTrace")
+public String subirImagen(@PathVariable Long id,
+                          @RequestParam("imagen") MultipartFile archivo,
+                          RedirectAttributes redirectAttributes, Model model) {
+    PublicacionModel publicacion = publicacionRepository.findById(id).orElse(null);
+    if (publicacion == null) {
+        redirectAttributes.addFlashAttribute("error", "La publicación no existe.");
+        return "redirect:/home";
+    }
 
-        if (archivo == null || archivo.isEmpty()) {
-            redirectAttributes.addFlashAttribute("error", "No se seleccionó ninguna imagen.");
-            return "redirect:/detalle?id=" + id;
-        }
-
-        try {
-            Map result = cloudinary.uploader().upload(archivo.getBytes(), ObjectUtils.emptyMap());
-            String url = (String) result.get("secure_url");
-
-            for (int i = 0; i < 9; i++) {
-                String imgActual = publicacion.getImagenPorIndice(i);
-                if (imgActual == null || imgActual.isEmpty() || imgActual.equals("predeterminada.png")) {
-                    publicacion.setImagenPorIndice(i, url);
-                    break;
-                }
-            }
-            publicacionRepository.save(publicacion);
-            redirectAttributes.addFlashAttribute("success", "Imagen subida correctamente.");
-        } catch (IOException e) {
-            e.printStackTrace();
-            redirectAttributes.addFlashAttribute("error", "Error al subir la imagen a Cloudinary.");
-        }
-        model.addAttribute("barrios", barriosRepository.findAll());
+    if (archivo == null || archivo.isEmpty()) {
+        redirectAttributes.addFlashAttribute("error", "No se seleccionó ninguna imagen.");
         return "redirect:/detalle?id=" + id;
     }
 
-    @GetMapping("/editar/{id}/eliminar-imagen")
+    try {
+
+        String carpeta = publicacion.getCarpetaImagen();
+         if (carpeta == null || carpeta.isEmpty()) {
+            carpeta = "publicacion_" + publicacion.getId();
+            publicacion.setCarpetaImagen(carpeta);
+        }
+
+        String rutaBase = new File("src/main/resources/static/uploads/publicaciones/").getAbsolutePath();
+        File carpetaDir = new File(rutaBase, carpeta);
+        if (!carpetaDir.exists()) carpetaDir.mkdirs();
+
+
+        String nombreOriginal = archivo.getOriginalFilename();
+        Path destino = Paths.get(carpetaDir.getAbsolutePath(), nombreOriginal);
+        archivo.transferTo(destino.toFile());
+
+
+        String rutaRelativa = "uploads/publicaciones/" + carpeta + "/" + nombreOriginal;
+
+        for (int i = 0; i < 9; i++) {
+            String imgActual = publicacion.getImagenPorIndice(i);
+            if (imgActual == null || imgActual.isEmpty() || imgActual.equals("predeterminada.png")) {
+                publicacion.setImagenPorIndice(i, rutaRelativa);
+                break;
+            }
+        }
+
+        publicacionRepository.save(publicacion);
+        redirectAttributes.addFlashAttribute("success", "Imagen subida correctamente.");
+    } catch (IOException e) {
+        e.printStackTrace();
+        redirectAttributes.addFlashAttribute("error", "Error al guardar la imagen en disco.");
+    }
+
+    model.addAttribute("barrios", barriosRepository.findAll());
+    return "redirect:/detalle?id=" + id;
+}
     /**
      * Método para eliminar una imagen de una publicación.
      * @param id
@@ -145,28 +157,44 @@ public class AccionesPublicacionController {
      * @param model
      * @return
      */
-    public String eliminarImagen(@PathVariable Long id,
-                                  @RequestParam("imagen") String nombre,
-                                  RedirectAttributes redirectAttributes, Model model) {
-        PublicacionModel publicacion = publicacionRepository.findById(id).orElse(null);
-        if (publicacion == null) {
-            redirectAttributes.addFlashAttribute("error", "Publicación no encontrada.");
-            return "redirect:/home";
-        }
+@GetMapping("/editar/{id}/eliminar-imagen")
+public String eliminarImagen(@PathVariable Long id,
+                             @RequestParam("imagen") String nombre,
+                             RedirectAttributes redirectAttributes, Model model) {
+    PublicacionModel publicacion = publicacionRepository.findById(id).orElse(null);
+    if (publicacion == null) {
+        redirectAttributes.addFlashAttribute("error", "Publicación no encontrada.");
+        return "redirect:/home";
+    }
 
-        List<String> imagenes = publicacion.getFotosOriginales();
-        int posicion = imagenes.indexOf(nombre);
+    List<String> imagenes = publicacion.getFotosOriginales();
+    int posicion = imagenes.indexOf(nombre);
 
-        if (posicion != -1) {
+    if (posicion != -1) {
+
+        String rutaBase = new File("src/main/resources/static").getAbsolutePath();
+        File archivo = new File(rutaBase, nombre);
+        if (archivo.exists()) {
+            if (archivo.delete()) {
+                publicacion.setImagenPorIndice(posicion, "");
+                publicacionRepository.save(publicacion);
+                redirectAttributes.addFlashAttribute("success", "Imagen eliminada correctamente.");
+            } else {
+                redirectAttributes.addFlashAttribute("error", "No se pudo eliminar la imagen del disco.");
+            }
+        } else {
+
             publicacion.setImagenPorIndice(posicion, "");
             publicacionRepository.save(publicacion);
-            redirectAttributes.addFlashAttribute("success", "Imagen eliminada correctamente.");
-        } else {
-            redirectAttributes.addFlashAttribute("error", "Imagen no encontrada.");
+            redirectAttributes.addFlashAttribute("success", "Imagen eliminada de la publicación (no estaba en disco).");
         }
-        model.addAttribute("barrios", barriosRepository.findAll());
-        return "redirect:/detalle?id=" + id;
+    } else {
+        redirectAttributes.addFlashAttribute("error", "Imagen no encontrada en la publicación.");
     }
+
+    model.addAttribute("barrios", barriosRepository.findAll());
+    return "redirect:/detalle?id=" + id;
+}
     /**
      * Método para mostrar el formulario de edición de una publicación.
      *
@@ -177,7 +205,7 @@ public class AccionesPublicacionController {
      * @return Vista del formulario de edición.
      *
      */
-    @PostMapping("/editar/{id}/editarinfo")
+@PostMapping("/editar/{id}/editarinfo")
     public String editarInfoPublicacion(@PathVariable Long id,
                                     @RequestParam String titulo,
                                     @RequestParam String descripcion,
@@ -209,13 +237,13 @@ public class AccionesPublicacionController {
 
     PublicacionModel publicacion = optionalPublicacion.get();
 
-    // Verificar permisos
+
     if (!usuario.getId().equals(publicacion.getUsuario().getId()) && usuario.getRol() != UsuarioRol.ADMIN) {
         redirectAttributes.addFlashAttribute("error", "No tienes permisos para editar esta publicación.");
         return "redirect:/home";
     }
 
-    // Actualizar los datos
+
     publicacion.setTitulo(titulo);
     publicacion.setDescripcion(descripcion);
     publicacion.setPrecio(precio);
@@ -235,8 +263,8 @@ public class AccionesPublicacionController {
     return "redirect:/detalle?id=" + id;
 
 }
-    @GetMapping("/nueva")
-        public String mostrarFormularioPublicar(Model model, HttpSession session) {
+@GetMapping("/nueva")
+public String mostrarFormularioPublicar(Model model, HttpSession session) {
             UsuarioModel usuario = (UsuarioModel) session.getAttribute("usuario");
             if (usuario == null) {
                 return "redirect:/auth/login";
@@ -248,154 +276,148 @@ public class AccionesPublicacionController {
             model.addAttribute("barrios", barrios);
             return "publicar";
         }
-    @PostMapping("/publicar")
-    /**
-     * Método para publicar una nueva publicación.
-     * @param titulo
-     * @param descripcion
-     * @param precio
-     * @param estado
-     * @param tipo
-     * @param ubicacion
-     * @param metrosCuadrados
-     * @param habitaciones
-     * @param permiteMascotas
-     * @param numeroCompañeros
-     * @param barrioId
-     * @param imagenes
-     * @param redirectAttributes
-     * @param session
-     * @param model
-     * @return
-     */
-        @SuppressWarnings("CallToPrintStackTrace")
-    public String publicarNuevaPublicacion(@RequestParam String titulo,
-                                        @RequestParam String descripcion,
-                                        @RequestParam Integer precio,
-                                        @RequestParam String estado,
-                                        @RequestParam TipoPiso tipo,
-                                        @RequestParam String ubicacion,
-                                        @RequestParam int metrosCuadrados,
-                                        @RequestParam String habitaciones,
-                                        @RequestParam(required = false, defaultValue = "false") boolean permiteMascotas,
-                                        @RequestParam int numeroCompañeros,
-                                        @RequestParam Long barrioId,
-                                        @RequestParam("imagenes") List<MultipartFile> imagenes,
-                                        RedirectAttributes redirectAttributes,
-                                        HttpSession session,Model model) {
+@PostMapping("/publicar")
+@SuppressWarnings("CallToPrintStackTrace")
+public String publicarNuevaPublicacion(@RequestParam String titulo,
+                                       @RequestParam String descripcion,
+                                       @RequestParam Integer precio,
+                                       @RequestParam String estado,
+                                       @RequestParam TipoPiso tipo,
+                                       @RequestParam String ubicacion,
+                                       @RequestParam int metrosCuadrados,
+                                       @RequestParam String habitaciones,
+                                       @RequestParam(required = false, defaultValue = "false") boolean permiteMascotas,
+                                       @RequestParam int numeroCompañeros,
+                                       @RequestParam Long barrioId,
+                                       @RequestParam("imagenes") List<MultipartFile> imagenes,
+                                       RedirectAttributes redirectAttributes,
+                                       HttpSession session,
+                                       Model model) {
 
-        UsuarioModel usuario = (UsuarioModel) session.getAttribute("usuario");
-        String token = (String) session.getAttribute("jwt");
-        if (usuario == null || token == null) {
-            redirectAttributes.addFlashAttribute("error", "Sesión expirada.");
-            return "redirect:/auth/login";
-        }
-        // Crear publicación con imágenes predeterminadas
-        PublicacionModel publicacion = new PublicacionModel();
-        publicacion.setTitulo(titulo);
-        publicacion.setDescripcion(descripcion);
-        publicacion.setPrecio(precio);
-        publicacion.setEstado(estado);
-        publicacion.setTipo(tipo);
-        publicacion.setUbicacion(ubicacion);
-        publicacion.setMetrosCuadrados(metrosCuadrados);
-        publicacion.setHabitaciones(habitaciones);
-        publicacion.setPermiteMascotas(permiteMascotas);
-        publicacion.setNumeroCompañeros(numeroCompañeros);
-        publicacion.setUsuario(usuario);
-        barriosRepository.findById(barrioId).ifPresent(publicacion::setBarrio);
-        // Inicializar imágenes con predeterminada
-        for (int i = 0; i < 9; i++) {
-            publicacion.setImagenPorIndice(i, "predeterminada.png");
-        }
+    UsuarioModel usuario = (UsuarioModel) session.getAttribute("usuario");
+    String token = (String) session.getAttribute("jwt");
 
-        // Guardar para generar el ID (carpeta)
-        publicacionRepository.save(publicacion);
-
-        // Crear carpeta en disco
-        String carpeta = "publicacion_" + publicacion.getId();
-        publicacion.setCarpetaImagen(carpeta);
-    String basePath = new File("src/main/resources/static/uploads/publicaciones/").getAbsolutePath() + "/";
-
-
-
-        String rutaFinal = basePath + carpeta;
-        File carpetaDir = new File(rutaFinal);
-        if (!carpetaDir.exists()) carpetaDir.mkdirs();
-
-        // Subir imágenes
-        List<String> nombresImagenes = new ArrayList<>();
-        int contador = 0;
-
-        for (MultipartFile imagen : imagenes) {
-            if (imagen != null && !imagen.isEmpty() && contador < 9) {
-                try {
-                    String nombreOriginal = imagen.getOriginalFilename();
-                    Path destino = Paths.get(rutaFinal, nombreOriginal);
-                    imagen.transferTo(destino.toFile());
-                    nombresImagenes.add(nombreOriginal);
-                    contador++;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    redirectAttributes.addFlashAttribute("error", "Error al guardar imagen: " + imagen.getOriginalFilename());
-                    System.out.println("❌ Error al guardar imagen en disco");
-                    return "redirect:/publicacion/nueva";
-                }
-            }
-            return "redirect:/home";
-        }
-    model.addAttribute("barrios", barriosRepository.findAll());
-        // Reasignar imágenes subidas (si hay)
-        for (int i = 0; i < nombresImagenes.size(); i++) {
-            publicacion.setImagenPorIndice(i, nombresImagenes.get(i));
-        }
-
-        // Guardar cambios definitivos
-        publicacionRepository.save(publicacion);
-
-        redirectAttributes.addFlashAttribute("success", "Anuncio publicado correctamente.");
-        return "redirect:/perfil/ver";
+    if (usuario == null || token == null) {
+        redirectAttributes.addFlashAttribute("error", "Sesión expirada.");
+        return "redirect:/auth/login";
     }
-    @GetMapping("/eliminar/{id}")
-  /**
-   * Método para eliminar una publicación.
-   * @param id                 ID de la publicación a eliminar.
-   */
-    public String eliminarPublicacion(
-            @PathVariable Long id,
-            RedirectAttributes redirectAttributes,
-            HttpSession session
-    ) {
-        UsuarioModel usuario = (UsuarioModel) session.getAttribute("usuario");
-        String token = (String) session.getAttribute("jwt");
-        if (usuario == null || token == null) {
-            redirectAttributes.addFlashAttribute("error", "Debes iniciar sesión para eliminar.");
-            return "redirect:/nl/home";
+
+    // Crear nueva publicación
+    PublicacionModel publicacion = new PublicacionModel();
+    publicacion.setTitulo(titulo.trim());
+    publicacion.setDescripcion(descripcion.trim());
+    publicacion.setPrecio(precio);
+    publicacion.setEstado(estado);
+    publicacion.setTipo(tipo);
+    publicacion.setUbicacion(ubicacion.trim());
+    publicacion.setMetrosCuadrados(metrosCuadrados);
+    publicacion.setHabitaciones(habitaciones.trim());
+    publicacion.setPermiteMascotas(permiteMascotas);
+    publicacion.setNumeroCompañeros(numeroCompañeros);
+    publicacion.setUsuario(usuario);
+    barriosRepository.findById(barrioId).ifPresent(publicacion::setBarrio);
+
+    // Inicializar imágenes predeterminadas
+    for (int i = 0; i < 9; i++) {
+        publicacion.setImagenPorIndice(i, "predeterminada.png");
+    }
+
+    // Guardar inicialmente para obtener ID
+    publicacionRepository.save(publicacion);
+
+    // Crear carpeta en disco
+    String carpeta = "publicacion_" + publicacion.getId();
+    publicacion.setCarpetaImagen(carpeta);
+    String rutaBase = new File("src/main/resources/static/uploads/publicaciones/").getAbsolutePath();
+    String rutaFinal = rutaBase + "/" + carpeta;
+
+    File carpetaDir = new File(rutaFinal);
+    if (!carpetaDir.exists()) carpetaDir.mkdirs();
+
+    // Guardar imágenes físicas
+    List<String> nombresImagenes = new ArrayList<>();
+    int contador = 0;
+
+    for (MultipartFile imagen : imagenes) {
+        if (imagen != null && !imagen.isEmpty() && contador < 9) {
+            try {
+                String nombreOriginal = imagen.getOriginalFilename();
+                Path destino = Paths.get(rutaFinal, nombreOriginal);
+                imagen.transferTo(destino.toFile());
+
+                // Guardamos solo la ruta relativa
+                String rutaRelativa = "uploads/publicaciones/" + carpeta + "/" + nombreOriginal;
+                nombresImagenes.add(rutaRelativa);
+                contador++;
+            } catch (IOException e) {
+                e.printStackTrace();
+                redirectAttributes.addFlashAttribute("error", "Error al guardar imagen: " + imagen.getOriginalFilename());
+                return "redirect:/publicacion/nueva";
+            }
         }
+    }
 
-        var opt = publicacionRepository.findById(id);
-        if (opt.isEmpty()) {
-            redirectAttributes.addFlashAttribute("error", "La publicación no existe.");
-            return "redirect:/home";
-        }
-        PublicacionModel pub = opt.get();
-        boolean esAdmin = usuario.getRol() == UsuarioRol.ADMIN;
-        boolean esDueno = pub.getUsuario().getId().equals(usuario.getId());
-        if (!esAdmin && !esDueno) {
-            redirectAttributes.addFlashAttribute("error", "No tienes permisos para eliminar esta publicación.");
-            return "redirect:/home";
-        }
+    // Asignar imágenes subidas a los campos correspondientes
+    for (int i = 0; i < nombresImagenes.size(); i++) {
+        publicacion.setImagenPorIndice(i, nombresImagenes.get(i));
+    }
 
-        // *** 1) eliminar hijos en anuncios_vistos ***
-        anuncioVistoRepository.deleteByPublicacionId(pub.getId());
+    // Guardar con imágenes definitivas
+    publicacionRepository.save(publicacion);
 
-        // *** 2) borrar BD y carpeta igual que antes ***
-        publicacionRepository.delete(pub);
-        // … código para eliminar carpeta de imágenes …
+    redirectAttributes.addFlashAttribute("success", "Anuncio publicado correctamente.");
+    return "redirect:/perfil/ver";
+}
+@GetMapping("/eliminar/{id}")
+public String eliminarPublicacion(@PathVariable Long id,
+                                  RedirectAttributes redirectAttributes,
+                                  HttpSession session) {
+    UsuarioModel usuario = (UsuarioModel) session.getAttribute("usuario");
+    String token = (String) session.getAttribute("jwt");
 
-        redirectAttributes.addFlashAttribute("success", "Publicación eliminada correctamente.");
+    if (usuario == null || token == null) {
+        redirectAttributes.addFlashAttribute("error", "Debes iniciar sesión para eliminar.");
+        return "redirect:/nl/home";
+    }
+
+    var opt = publicacionRepository.findById(id);
+    if (opt.isEmpty()) {
+        redirectAttributes.addFlashAttribute("error", "La publicación no existe.");
         return "redirect:/home";
     }
+
+    PublicacionModel pub = opt.get();
+    boolean esAdmin = usuario.getRol() == UsuarioRol.ADMIN;
+    boolean esDueno = pub.getUsuario().getId().equals(usuario.getId());
+    if (!esAdmin && !esDueno) {
+        redirectAttributes.addFlashAttribute("error", "No tienes permisos para eliminar esta publicación.");
+        return "redirect:/home";
+    }
+
+    // 1. Eliminar hijos en anuncios_vistos
+    anuncioVistoRepository.deleteByPublicacionId(pub.getId());
+
+    // 2. Eliminar carpeta de imágenes si existe
+    String carpeta = pub.getCarpetaImagen(); // debería ser tipo "publicacion_123"
+    if (carpeta != null && !carpeta.isEmpty()) {
+        File rutaBase = new File("src/main/resources/static/uploads/publicaciones/");
+        File carpetaPublicacion = new File(rutaBase, carpeta);
+        if (carpetaPublicacion.exists() && carpetaPublicacion.isDirectory()) {
+            // Eliminar todos los archivos dentro
+            for (File archivo : carpetaPublicacion.listFiles()) {
+                archivo.delete();
+            }
+            // Luego eliminar la carpeta
+            carpetaPublicacion.delete();
+        }
+    }
+
+    // 3. Eliminar de base de datos
+    publicacionRepository.delete(pub);
+
+    redirectAttributes.addFlashAttribute("success", "Publicación eliminada correctamente.");
+    return "redirect:/home";
+}
 
 
 }

@@ -22,7 +22,10 @@ public class NoLoggedController {
 
     private final PublicacionRepository publicacionRepository;
     private final BarriosRepository barriosRepository;
-
+            @GetMapping("/")
+        public String redireccionRaiz() {
+            return "redirect:/nl/home";
+        }
 
 
     /**
@@ -57,14 +60,8 @@ public class NoLoggedController {
             publicaciones = publicacionRepository.findAll();
         }
 
-        // --- Seleccionar la primera foto como imagen principal ---
-        for (PublicacionModel pub : publicaciones) {
-            if (!pub.getFotos().isEmpty()) {
-                pub.setImagen(pub.getFotos().get(0));
-            }
-        }
 
-        // --- Añadir al modelo ---
+
         model.addAttribute("publicaciones", publicaciones);
         model.addAttribute("barrios", barriosRepository.findAll());
         model.addAttribute("tipos", List.of("Hombres", "Mujeres", "Mixto", "Solo"));

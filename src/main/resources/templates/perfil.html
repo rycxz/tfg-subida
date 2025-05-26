@@ -56,7 +56,8 @@
                 <form th:action="@{/detalle}" method="get">
                     <input type="hidden" name="id" th:value="${pub.id}" />
                     <button type="submit" class="publicacion-button">
-                    <img th:src="${pub.getImagePrincipal}" alt="Imagen publicación">
+                  <img th:src="@{'/' + ${pub.imagePrincipal}}" alt="...">
+
 
                         <h3 th:text="${pub.ubicacion} + ' - ' + ${pub.precio}">Ubicación - Precio</h3>
                     </button>
@@ -73,7 +74,8 @@
                 <form th:action="@{/detalle}" method="get">
                     <input type="hidden" name="id" th:value="${fav.publicacion.id}" />
                     <button type="submit" class="favorito-button">
-                     <img th:src="${fav.publicacion.getImagePrincipal}" alt="Imagen favorito">
+                  <img th:src="@{'/' + ${pub.imagePrincipal}}" alt="...">
+
 
                         <h3 th:text="${fav.publicacion.ubicacion} + ' - ' + ${fav.publicacion.precio}">Ubicación - Precio</h3>
                     </button>

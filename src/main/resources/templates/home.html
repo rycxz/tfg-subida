@@ -55,11 +55,7 @@
         <form th:action="@{/detalle}" method="get">
             <input type="hidden" name="id" th:value="${publicacion.id}" />
             <button type="submit" class="anuncio-button">
-                <img th:src="${#strings.isEmpty(publicacion.imagePrincipal) or publicacion.imagePrincipal == 'predeterminada.png'}
-                                ? '/uploads/publicaciones/predeterminada.png'
-                                : ${publicacion.imagePrincipal}"
-                    alt="Imagen anuncio">
-
+<img th:src="@{'/' + ${publicacion.imagePrincipal}}" alt="Imagen anuncio">
                 <h3 th:text="${publicacion.ubicacion} + ' - ' + ${publicacion.precio}">Ubicación + Precio</h3>
             </button>
         </form>
@@ -70,11 +66,8 @@
         <form th:action="@{/nl/detalle}" method="get">
             <input type="hidden" name="id" th:value="${publicacion.id}" />
             <button type="submit" class="anuncio-button">
-                <img th:src="${#strings.isEmpty(publicacion.imagePrincipal) or publicacion.imagePrincipal == 'predeterminada.png'}
-                                ? '/uploads/publicaciones/predeterminada.png'
-                                : '/uploads/publicaciones/' + ${publicacion.carpeta} + '/' + ${publicacion.imagePrincipal}"
-                     alt="Imagen anuncio">
-                <h3 th:text="${publicacion.ubicacion} + ' - ' + ${publicacion.precio}">Ubicación + Precio</h3>
+          <img th:src="@{'/' + ${publicacion.imagePrincipal}}" alt="Imagen anuncio">
+                                    <h3 th:text="${publicacion.ubicacion} + ' - ' + ${publicacion.precio}">Ubicación + Precio</h3>
             </button>
         </form>
     </div>

@@ -47,59 +47,41 @@
 </section>
 
 <script th:inline="javascript">
-    /*<![CDATA[*/
-    let fotos = [[${fotos}]];
-    let carpeta = [[${publicacion.carpeta}]];
+/*<![CDATA[*/
+let fotos = [[${fotos}]];
+if (fotos.length === 0) {
+    fotos = ["/images/uploads/publicaciones/predeterminada.png"];
+}
+let currentIndex = 0;
 
-// Las URLs Cloudinary ya están completas. Solo usar directamente, excepto si es predeterminada.
-fotos = fotos.map(foto =>
-    !foto || foto.trim() === "" || foto === "predeterminada.png"
-        ? null
-        : foto
-);
+document.addEventListener('DOMContentLoaded', function () {
+    const imageElement = document.getElementById('carousel-image');
+    const prevBtn = document.getElementById('prev');
+    const nextBtn = document.getElementById('next');
 
-
-    // Si todas las imágenes están vacías, poner al menos una predeterminada
-    if (fotos.every(f => f === null)) {
-        fotos = ["/uploads/publicaciones/predeterminada.png"];
+    function updateImage() {
+        imageElement.src = '/' + fotos[currentIndex];
     }
 
-    // Buscamos la primera imagen válida para iniciar el carrusel
-    let currentIndex = fotos.findIndex(f => f !== null);
-    if (currentIndex === -1) currentIndex = 0;
-
-    // Reemplazar los null por la predeterminada en la lista final
-    fotos = fotos.map(f => f ?? "/uploads/publicaciones/predeterminada.png");
-
-    document.addEventListener('DOMContentLoaded', function () {
-        const imageElement = document.getElementById('carousel-image');
-        const prevBtn = document.getElementById('prev');
-        const nextBtn = document.getElementById('next');
-
-        function updateImage() {
-            imageElement.src = fotos[currentIndex];
-        }
-
-        prevBtn.addEventListener('click', () => {
-            currentIndex = (currentIndex - 1 + fotos.length) % fotos.length;
-            updateImage();
-        });
-
-        nextBtn.addEventListener('click', () => {
-            currentIndex = (currentIndex + 1) % fotos.length;
-            updateImage();
-        });
-
-        if (fotos.length <= 1) {
-            prevBtn.style.display = 'none';
-            nextBtn.style.display = 'none';
-        }
-
-        updateImage(); // ← Inicializar con la imagen válida
+    prevBtn.addEventListener('click', () => {
+        currentIndex = (currentIndex - 1 + fotos.length) % fotos.length;
+        updateImage();
     });
-    /*]]>*/
-</script>
 
+    nextBtn.addEventListener('click', () => {
+        currentIndex = (currentIndex + 1) % fotos.length;
+        updateImage();
+    });
+
+    if (fotos.length <= 1) {
+        prevBtn.style.display = 'none';
+        nextBtn.style.display = 'none';
+    }
+
+    updateImage();
+});
+/*]]>*/
+</script>
 
 
 
