@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=Cabin+Rounded&family=Nunito:wght@800&display=swap');
+
+:root {
+    --color-principal: #cc5443;
+    --color-secundario: #a54034;
+    --color-fondo: #fef7f3;
+    --fuente-titulo: 'Nunito', sans-serif;
+    --fuente-cuerpo: 'Cabin Rounded', sans-serif;
+}
+
+body {
+    font-family: var(--fuente-cuerpo);
+    background-color: var(--color-fondo);
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* TÍTULO */
+.titulo-editar {
+    text-align: center;
+    font-size: 2.3rem;
+    margin: 40px 0 25px;
+    color: var(--color-principal);
+    font-family: var(--fuente-titulo);
+}
+
+/* FORMULARIO */
+.formulario-editar-perfil {
+    max-width: 600px;
+    margin: 0 auto 50px;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.formulario-editar-perfil label {
+    font-weight: bold;
+    margin-bottom: 6px;
+    color: #444;
+    font-size: 0.95rem;
+}
+
+.formulario-editar-perfil input[type="text"],
+.formulario-editar-perfil input[type="email"],
+.formulario-editar-perfil input[type="date"],
+.formulario-editar-perfil input[type="file"] {
+    padding: 12px;
+    border: 1.5px solid #ccc;
+    border-radius: 10px;
+    font-size: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.formulario-editar-perfil input:focus {
+    border-color: var(--color-principal);
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(204, 84, 67, 0.1);
+}
+
+.formulario-editar-perfil input[type="checkbox"] {
+    transform: scale(1.2);
+    margin-right: 8px;
+}
+
+/* BOTONES */
+.botones-formulario {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.boton-guardar,
+.boton-cancelar {
+    padding: 12px 22px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    font-family: var(--fuente-cuerpo);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.boton-guardar {
+    background-color: var(--color-principal);
+    color: white;
+    font-weight: bold;
+}
+
+.boton-guardar:hover {
+    background-color: var(--color-secundario);
+    transform: scale(1.03);
+}
+
+.boton-cancelar {
+    background-color: #ccc;
+    color: #333;
+}
+
+.boton-cancelar:hover {
+    background-color: #b1b1b1;
+}
+
+/* RESPONSIVE */
+@media (max-width: 500px) {
+    .formulario-editar-perfil {
+        padding: 20px;
+    }
+
+    .titulo-editar {
+        font-size: 1.9rem;
+    }
+
+    .botones-formulario {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .boton-guardar,
+    .boton-cancelar {
+        width: 100%;
+        text-align: center;
+    }
+}

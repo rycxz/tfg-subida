@@ -1,0 +1,109 @@
+/* estilosPublicar.css */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f6f8fa;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+.publicar-container {
+    max-width: 900px;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+}
+
+.publicar-container h1 {
+    color: #d04d3f;
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.form-publicar label {
+    display: block;
+    margin-top: 18px;
+    font-weight: bold;
+    color: #444;
+}
+
+.form-publicar input[type="text"],
+.form-publicar input[type="number"],
+.form-publicar input[type="file"],
+.form-publicar select,
+.form-publicar textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin-top: 6px;
+    box-sizing: border-box;
+    font-size: 15px;
+}
+
+.form-publicar input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+.imagenes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.imagen-input label {
+    font-weight: 500;
+    color: #555;
+}
+
+.form-buttons {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.form-buttons button,
+.form-buttons .boton-cancelar {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 50px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.form-buttons button {
+    background-color: #d04d3f;
+    color: white;
+}
+
+.form-buttons button:hover {
+    background-color: #bb3e30;
+}
+
+.form-buttons .boton-cancelar {
+    background-color: #f1f1f1;
+    color: #333;
+}
+
+.form-buttons .boton-cancelar:hover {
+    background-color: #ddd;
+}
+
+.mensaje-error {
+    color: #c0392b;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+.mensaje-exito {
+    color: #27ae60;
+    margin-top: 15px;
+    font-weight: bold;
+}

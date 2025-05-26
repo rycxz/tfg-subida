@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Perfil - Kiricasa</title>
+    <link rel="icon" href="/images/elementos/sinfondo.ico" type="image/x-icon">
+
+    <!-- Estilos -->
+    <th:block th:if="${usuario == null}">
+        <link rel="stylesheet" th:href="@{/css/headers/estilosHeaderNoLogged.css}">
+    </th:block>
+    <th:block th:if="${usuario != null and usuario.rol.name() == 'USER'}">
+        <link rel="stylesheet" th:href="@{/css/headers/estilosHeaderLogged.css}">
+    </th:block>
+    <th:block th:if="${usuario != null and usuario.rol.name() == 'ADMIN'}">
+        <link rel="stylesheet" th:href="@{/css/headers/estilosAdmin.css}">
+    </th:block>
+
+    <link rel="stylesheet" th:href="@{/css/estilosEditarPerfil.css}">
+    <link rel="stylesheet" th:href="@{/css/footer/estilosFooter.css}">
+</head>
+<body>
+
+<!-- Header -->
+<div th:if="${usuario == null}">
+    <div th:replace="fragmentos/header :: header_nologged"></div>
+</div>
+<div th:if="${usuario != null and usuario.rol.name() == 'USER'}">
+    <div th:replace="fragmentos/header :: header_user(${usuario.nombre})"></div>
+</div>
+<div th:if="${usuario != null and usuario.rol.name() == 'ADMIN'}">
+    <div th:replace="fragmentos/header :: header_admin(${usuario.nombre})"></div>
+</div>
+
+<main class="perfil-content">
+    <h1 class="titulo-editar">Editar Perfil</h1>
+
+    <form th:action="@{/perfil/editar}" method="post" th:object="${usuario}" class="formulario-editar-perfil">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" th:field="*{nombre}" required />
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" th:field="*{email}" required />
+
+       <label for="numero">Número de teléfono:</label>
+        <input type="text" id="numero" th:field="*{numero}" placeholder="Ej: 612345678" />
+
+        <label for="fechaNacimiento">Fecha de nacimiento:</label>
+        <input type="date" id="fechaNacimiento" th:field="*{fechaNacimiento}" />
+
+        <label>
+            <input type="checkbox" th:field="*{recibirNotificaciones}" />
+            Deseo recibir notificaciones por email
+        </label>
+
+        <div class="botones-formulario">
+            <button type="submit" class="boton-guardar" >Guardar cambios</button>
+            <a th:href="@{/perfil/ver}" class="boton-cancelar">Cancelar</a>
+        </div>
+    </form>
+</main>
+
+<div th:replace="fragmentos/footer :: footer"></div>
+</body>
+</html>

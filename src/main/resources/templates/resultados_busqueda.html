@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Perfil - Kiricasa</title>
+    <link rel="icon" href="/images/elementos/sinfondo.ico" type="image/x-icon">
+
+    <!-- Estilos -->
+    <th:block th:if="${usuario == null}">
+        <link rel="stylesheet" th:href="@{/css/headers/estilosHeaderNoLogged.css}">
+    </th:block>
+    <th:block th:if="${usuario != null and usuario.rol.name() == 'USER'}">
+        <link rel="stylesheet" th:href="@{/css/headers/estilosHeaderLogged.css}">
+    </th:block>
+    <th:block th:if="${usuario != null and usuario.rol.name() == 'ADMIN'}">
+        <link rel="stylesheet" th:href="@{/css/headers/estilosAdmin.css}">
+    </th:block>
+
+    <link rel="stylesheet" th:href="@{/css/estilosBusquedad.css}">
+    <link rel="stylesheet" th:href="@{/css/footer/estilosFooter.css}">
+</head>
+<body>
+
+<!-- Header -->
+<div th:if="${usuario == null}">
+    <div th:replace="fragmentos/header :: header_nologged"></div>
+</div>
+<div th:if="${usuario != null and usuario.rol.name() == 'USER'}">
+    <div th:replace="fragmentos/header :: header_user(${usuario.nombre})"></div>
+</div>
+<div th:if="${usuario != null and usuario.rol.name() == 'ADMIN'}">
+    <div th:replace="fragmentos/header :: header_admin(${usuario.nombre})"></div>
+</div><h1 th:text="'Resultados para: ' + ${query}"></h1>
+
+<form th:action="@{/busqueda/filtros}" method="get" class="filtros-form">
+    <input type="text" name="titulo" placeholder="Título">
+    <input type="text" name="ubicacion" placeholder="Ubicación">
+    <input type="text" name="estado" placeholder="Estado">
+    <input type="number" name="precioMax" placeholder="Precio máx.">
+    <input type="number" name="metrosCuadradosMin" placeholder="Min. m²">
+    <input type="text" name="habitaciones" placeholder="Habitaciones">
+    <input type="number" name="numeroCompañeros" placeholder="Compañeros">
+
+    <label>
+        <input type="checkbox" name="permiteMascotas"> Permite mascotas
+    </label>
+
+    <select name="barrio">
+        <option value="">Todos los barrios</option>
+        <option th:each="b : ${barrios}" th:value="${b.nombre}" th:text="${b.nombre}"></option>
+    </select>
+
+    <button type="submit">Aplicar filtros</button>
+</form>
+
+<div th:if="${#lists.isEmpty(resultados)}" class="mensaje-vacio">
+    <p>No se encontraron resultados.</p>
+</div>
+
+<div class="resultado-container">
+    <div th:each="pub : ${resultados}" class="resultado">
+        <h2 th:text="${pub.titulo}"></h2>
+        <p th:text="${pub.descripcion}"></p>
+        <a th:href="@{/detalle(id=${pub.id})}">Ver detalle</a>
+    </div>
+</div>
+
+<div th:replace="fragmentos/footer :: footer"></div>
+</body>
+</html>

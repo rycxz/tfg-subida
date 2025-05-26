@@ -1,0 +1,115 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Perfil - Kiricasa</title>
+    <link rel="icon" href="/images/elementos/sinfondo.ico" type="image/x-icon">
+
+    <!-- Estilos -->
+    <th:block th:if="${usuario == null}">
+        <link rel="stylesheet" th:href="@{/css/headers/estilosHeaderNoLogged.css}">
+    </th:block>
+    <th:block th:if="${usuario != null and usuario.rol.name() == 'USER'}">
+        <link rel="stylesheet" th:href="@{/css/headers/estilosHeaderLogged.css}">
+    </th:block>
+    <th:block th:if="${usuario != null and usuario.rol.name() == 'ADMIN'}">
+        <link rel="stylesheet" th:href="@{/css/headers/estilosAdmin.css}">
+    </th:block>
+
+    <link rel="stylesheet" th:href="@{/css/estilosPublicar.css}">
+    <link rel="stylesheet" th:href="@{/css/footer/estilosFooter.css}">
+</head>
+<body>
+
+<!-- Header -->
+<div th:if="${usuario == null}">
+    <div th:replace="fragmentos/header :: header_nologged"></div>
+</div>
+<div th:if="${usuario != null and usuario.rol.name() == 'USER'}">
+    <div th:replace="fragmentos/header :: header_user(${usuario.nombre})"></div>
+</div>
+<div th:if="${usuario != null and usuario.rol.name() == 'ADMIN'}">
+    <div th:replace="fragmentos/header :: header_admin(${usuario.nombre})"></div>
+</div>
+
+<main class="publicar-container">
+    <h1>Publicar nuevo anuncio</h1>
+
+    <form th:action="@{/publicacion/publicar}" method="post" enctype="multipart/form-data" class="form-publicar">
+        <!-- Título -->
+        <label for="titulo">Título:</label>
+        <input type="text" id="titulo" name="titulo" required>
+
+        <!-- Descripción -->
+        <label for="descripcion">Descripción:</label>
+        <textarea id="descripcion" name="descripcion" rows="4" required></textarea>
+
+        <!-- Precio -->
+        <label for="precio">Precio:</label>
+        <input type="number" id="precio" name="precio" required>
+
+        <!-- Estado -->
+        <label for="estado">Estado:</label>
+        <input type="text" id="estado" name="estado">
+
+        <!-- Tipo de piso -->
+        <label for="tipo">Tipo de piso:</label>
+        <select id="tipo" name="tipo">
+            <option th:each="tipo : ${T(kiricasa.programa.enums.TipoPiso).values()}"
+                    th:value="${tipo}" th:text="${tipo}"></option>
+        </select>
+
+        <!-- Ubicación -->
+        <label for="ubicacion">Ubicación:</label>
+        <input type="text" id="ubicacion" name="ubicacion" required>
+
+        <!-- Metros cuadrados -->
+        <label for="metrosCuadrados">Metros cuadrados:</label>
+        <input type="number" id="metrosCuadrados" name="metrosCuadrados" min="0" required>
+
+        <!-- Habitaciones -->
+        <label for="habitaciones">Habitaciones:</label>
+        <input type="number" id="habitaciones" name="habitaciones">
+
+        <!-- Permite mascotas -->
+        <label>
+            <input type="checkbox" name="permiteMascotas">
+            Permite mascotas
+        </label>
+
+        <!-- Número de compañeros -->
+        <label for="numeroCompañeros">Número de compañeros:</label>
+        <input type="number" id="numeroCompañeros" name="numeroCompañeros" min="0">
+
+        <!-- Barrio -->
+        <label for="barrioId">Barrio:</label>
+        <select name="barrioId" id="barrioId" required>
+            <option th:each="b : ${barrios}"
+                    th:value="${b.id}"
+                    th:text="${b.nombre}"></option>
+        </select>
+
+        <!-- Imágenes -->
+        <h3>Subir imágenes (máx. 9):</h3>
+        <div class="imagenes-grid">
+            <div th:each="i : ${#numbers.sequence(0,8)}" class="imagen-input">
+                <label th:text="'Imagen ' + ${i + 1} + (i == 0 ? ' (Principal)' : '')"></label>
+                <input type="file" name="imagenes" accept="image/*">
+            </div>
+        </div>
+
+        <!-- Botones -->
+        <div class="form-buttons">
+            <button type="submit">Publicar anuncio</button>
+            <a th:href="@{/home}" class="boton-cancelar">Cancelar</a>
+        </div>
+    </form>
+
+    <p th:if="${error}" th:text="${error}" class="mensaje-error"></p>
+    <p th:if="${success}" th:text="${success}" class="mensaje-exito"></p>
+</main>
+
+<div th:replace="fragmentos/footer :: footer"></div>
+</body>
+</html>

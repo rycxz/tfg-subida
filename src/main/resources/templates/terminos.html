@@ -1,0 +1,102 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Kiricasa</title>
+    <link rel="icon" href="/images/elementos/sinfondo.ico" type="image/x-icon">
+
+
+    <th:block th:if="${usuario == null}">
+        <link rel="stylesheet" th:href="@{/css/headers/estilosHeaderNoLogged.css}">
+    </th:block>
+    <th:block th:if="${usuario != null and usuario.rol.name() == 'USER'}">
+        <link rel="stylesheet" th:href="@{/css/headers/estilosHeaderLogged.css}">
+    </th:block>
+    <th:block th:if="${usuario != null and usuario.rol.name() == 'ADMIN'}">
+        <link rel="stylesheet" th:href="@{/css/headers/estilosAdmin.css}">
+    </th:block>
+
+    <link rel="stylesheet" th:href="@{/css/estilosTermninos.css}">
+    <link rel="stylesheet" th:href="@{/css/footer/estilosFooter.css}">
+</head>
+<body>
+
+<!-- Header -->
+<div th:if="${usuario == null}">
+    <div th:replace="fragmentos/header :: header_nologged"></div>
+</div>
+<div th:if="${usuario != null and usuario.rol.name() == 'USER'}">
+    <div th:replace="fragmentos/header :: header_user(${usuario.nombre})"></div>
+</div>
+<div th:if="${usuario != null and usuario.rol.name() == 'ADMIN'}">
+    <div th:replace="fragmentos/header :: header_admin(${usuario.nombre})"></div>
+</div>
+<main class="terminos-container">
+    <h1 class="terminos-title">Términos y Condiciones de Uso</h1>
+
+    <section class="terminos-section">
+        <h2>1. Aceptación de los términos</h2>
+        <p>
+            Al acceder y utilizar la plataforma Kiricasa, aceptas cumplir con estos Términos y Condiciones. Si no estás de acuerdo con alguno de ellos, te recomendamos no utilizar nuestros servicios.
+        </p>
+    </section>
+
+    <section class="terminos-section">
+        <h2>2. Uso de la plataforma</h2>
+        <p>
+            Kiricasa es un servicio destinado a facilitar la publicación, búsqueda y contacto de anuncios inmobiliarios. Está prohibido el uso de la plataforma para fines fraudulentos, ilegales o que atenten contra los derechos de terceros.
+        </p>
+    </section>
+
+    <section class="terminos-section">
+        <h2>3. Registro y cuentas de usuario</h2>
+        <p>
+            Para acceder a ciertas funcionalidades, el usuario debe registrarse. El usuario se compromete a proporcionar información veraz, mantener la confidencialidad de sus credenciales y notificar cualquier uso no autorizado de su cuenta.
+        </p>
+    </section>
+
+    <section class="terminos-section">
+        <h2>4. Publicación de anuncios</h2>
+        <p>
+            Los usuarios son responsables del contenido que publican. Kiricasa se reserva el derecho a editar, ocultar o eliminar anuncios que incumplan nuestras políticas, contengan datos falsos, ofensivos o inapropiados.
+        </p>
+    </section>
+
+    <section class="terminos-section">
+        <h2>5. Responsabilidad</h2>
+        <p>
+            Kiricasa actúa como intermediario entre usuarios. No nos responsabilizamos por la veracidad de los anuncios, acuerdos entre partes ni por daños directos o indirectos derivados del uso de la plataforma.
+        </p>
+    </section>
+
+    <section class="terminos-section">
+        <h2>6. Propiedad intelectual</h2>
+        <p>
+            Todos los elementos del sitio (logotipos, textos, diseños, imágenes) son propiedad de Kiricasa o de sus respectivos autores y están protegidos por la legislación vigente. Queda prohibida su reproducción sin autorización expresa.
+        </p>
+    </section>
+
+    <section class="terminos-section">
+        <h2>7. Modificaciones</h2>
+        <p>
+            Kiricasa puede modificar estos términos en cualquier momento. Los cambios serán efectivos tras su publicación en la web. Se recomienda revisar periódicamente esta página.
+        </p>
+    </section>
+
+    <section class="terminos-section">
+        <h2>8. Legislación aplicable</h2>
+        <p>
+            Estos Términos y Condiciones se rigen por la legislación española. Cualquier conflicto será resuelto ante los tribunales de Zaragoza, salvo disposición legal en contrario.
+        </p>
+    </section>
+
+    <section class="terminos-section">
+        <p><strong>Última actualización:</strong> 21 de mayo de 2025</p>
+    </section>
+</main>
+
+
+<div th:replace="fragmentos/footer :: footer"></div>
+</body>
+</html>

@@ -1,0 +1,36 @@
+.terminos-container {
+    max-width: 1000px;
+    margin: 60px auto;
+    padding: 30px;
+    background-color: #fefefe;
+    border-radius: 12px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.08);
+    font-family: 'Segoe UI', sans-serif;
+    color: #2e2e2e;
+}
+
+.terminos-title {
+    text-align: center;
+    font-size: 36px;
+    color: #b8412d;
+    margin-bottom: 40px;
+}
+
+.terminos-section {
+    margin-bottom: 40px;
+}
+
+.terminos-section h2 {
+    color: #a93324;
+    font-size: 24px;
+    margin-bottom: 12px;
+}
+
+.terminos-section p {
+    font-size: 17px;
+    line-height: 1.6;
+}
+
+.terminos-section strong {
+    color: #444;
+}

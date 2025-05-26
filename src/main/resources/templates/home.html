@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiricasa</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800&family=Cabin+Rounded&display=swap" rel="stylesheet">
+    <link rel="icon" href="/images/elementos/sinfondo.ico" type="image/x-icon">
+
+
+    <!-- Carga condicional de estilos -->
+    <th:block th:if="${usuario == null}">
+        <link rel="stylesheet" th:href="@{/css/headers/estilosHeaderNoLogged.css}">
+    </th:block>
+    <th:block th:if="${usuario != null and usuario.rol.name() == 'USER'}">
+        <link rel="stylesheet" th:href="@{/css/headers/estilosHeaderLogged.css}">
+    </th:block>
+    <th:block th:if="${usuario != null and usuario.rol.name() == 'ADMIN'}">
+        <link rel="stylesheet" th:href="@{/css/headers/estilosAdmin.css}">
+    </th:block>
+    <link rel="stylesheet" th:href="@{/css/estilosHome.css}">
+    <link rel="stylesheet" th:href="@{/css/footer/estilosFooter.css}">
+
+</head>
+<body>
+    <div th:if="${error}" class="alert-error">
+        <p th:text="${error}">Ha ocurrido un error</p>
+    </div>
+
+    <!-- Header según usuario -->
+    <div th:if="${usuario == null}">
+        <div th:replace="fragmentos/header :: header_nologged"></div>
+    </div>
+    <div th:if="${usuario != null and usuario.rol.name() == 'USER'}">
+        <div th:replace="fragmentos/header :: header_user(${usuario.nombre})"></div>
+    </div>
+    <div th:if="${usuario != null and usuario.rol.name() == 'ADMIN'}">
+        <div th:replace="fragmentos/header :: header_admin(${usuario.nombre})"></div>
+    </div>
+    <p th:if="${logout}" th:text="${logout}" class="mensaje-exito"></p>
+
+
+    <section class="search-section">
+        <h2>Lo que estas buscando, aquí.</h2>
+        <div th:if="${usuario != null and (usuario.rol.name() == 'USER' or usuario.rol.name() == 'ADMIN')}" class="publicar-anuncio">
+        <a th:href="@{/publicacion/nueva}" class="boton-publicar">+ Publicar Anuncio</a>
+    </div>
+    </section>
+
+<div class="anuncios-grid">
+
+
+    <div th:if="${usuario != null}" th:each="publicacion : ${publicaciones}" class="anuncio">
+        <form th:action="@{/detalle}" method="get">
+            <input type="hidden" name="id" th:value="${publicacion.id}" />
+            <button type="submit" class="anuncio-button">
+                <img th:src="${#strings.isEmpty(publicacion.imagePrincipal) or publicacion.imagePrincipal == 'predeterminada.png'}
+                                ? '/uploads/publicaciones/predeterminada.png'
+                                : '/uploads/publicaciones/' + ${publicacion.carpeta} + '/' + ${publicacion.imagePrincipal}"
+                     alt="Imagen anuncio">
+                <h3 th:text="${publicacion.ubicacion} + ' - ' + ${publicacion.precio}">Ubicación + Precio</h3>
+            </button>
+        </form>
+    </div>
+
+
+    <div th:if="${usuario == null}" th:each="publicacion : ${publicaciones}" class="anuncio">
+        <form th:action="@{/nl/detalle}" method="get">
+            <input type="hidden" name="id" th:value="${publicacion.id}" />
+            <button type="submit" class="anuncio-button">
+                <img th:src="${#strings.isEmpty(publicacion.imagePrincipal) or publicacion.imagePrincipal == 'predeterminada.png'}
+                                ? '/uploads/publicaciones/predeterminada.png'
+                                : '/uploads/publicaciones/' + ${publicacion.carpeta} + '/' + ${publicacion.imagePrincipal}"
+                     alt="Imagen anuncio">
+                <h3 th:text="${publicacion.ubicacion} + ' - ' + ${publicacion.precio}">Ubicación + Precio</h3>
+            </button>
+        </form>
+    </div>
+
+</div>
+
+
+
+<section class="categorias-section">
+  <h3 class="categorias-titulo">Filtra por tipo de alojamiento</h3>
+  <p class="categorias-descripcion">
+    Selecciona una categoría para encontrar pisos para hombres, mujeres, mixtos o individuales.
+  </p>
+  <div class="categorias-container">
+    <a th:href="${usuario != null}
+                 ? @{/home(tipo='Hombres')}
+                 : @{/nl/home(tipo='Hombres')}"
+       class="categoria-button">
+      Hombres
+    </a>
+    <a th:href="${usuario != null}
+                 ? @{/home(tipo='Mujeres')}
+                 : @{/nl/home(tipo='Mujeres')}"
+       class="categoria-button">
+      Mujeres
+    </a>
+    <a th:href="${usuario != null}
+                 ? @{/home(tipo='Mixto')}
+                 : @{/nl/home(tipo='Mixto')}"
+       class="categoria-button">
+      Mixto
+    </a>
+    <a th:href="${usuario != null}
+                 ? @{/home(tipo='Solo')}
+                 : @{/nl/home(tipo='Solo')}"
+       class="categoria-button">
+      Solo
+    </a>
+  </div>
+</section>
+
+
+
+
+
+
+    <div th:replace="fragmentos/footer :: footer"></div>
+
+
+
+</body>
+</html>

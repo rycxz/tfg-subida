@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Kiricasa</title>
+    <link rel="icon" href="/images/elementos/sinfondo.ico" type="image/x-icon">
+
+    <!-- Estilos -->
+    <th:block th:if="${usuario == null}">
+        <link rel="stylesheet" th:href="@{/css/headers/estilosHeaderNoLogged.css}">
+    </th:block>
+    <th:block th:if="${usuario != null and usuario.rol.name() == 'USER'}">
+        <link rel="stylesheet" th:href="@{/css/headers/estilosHeaderLogged.css}">
+    </th:block>
+    <th:block th:if="${usuario != null and usuario.rol.name() == 'ADMIN'}">
+        <link rel="stylesheet" th:href="@{/css/headers/estilosAdmin.css}">
+    </th:block>
+
+    <link rel="stylesheet" th:href="@{/css/estilosFavoritos.css}">
+    <link rel="stylesheet" th:href="@{/css/footer/estilosFooter.css}">
+</head>
+<body>
+
+
+<div th:if="${usuario == null}">
+    <div th:replace="fragmentos/header :: header_nologged"></div>
+</div>
+<div th:if="${usuario != null and usuario.rol.name() == 'USER'}">
+    <div th:replace="fragmentos/header :: header_user(${usuario.nombre})"></div>
+</div>
+<div th:if="${usuario != null and usuario.rol.name() == 'ADMIN'}">
+    <div th:replace="fragmentos/header :: header_admin(${usuario.nombre})"></div>
+</div>
+<main class="favoritos-container">
+    <h1>Mis Favoritos</h1>
+    <div class="favoritos-grid">
+        <div th:each="fav : ${favoritos}" class="favorito-card">
+
+
+            <form th:action="@{/favoritos/eliminar1}" method="post" class="inline-form">
+                <input type="hidden" name="publicacionId" th:value="${fav.publicacion.id}" />
+                <button type="submit" class="heart-btn" title="Quitar de favoritos">❤️</button>
+            </form>
+
+            <!-- Botón para ver detalle -->
+            <form th:action="@{/detalle}" method="get">
+                <input type="hidden" name="id" th:value="${fav.publicacion.id}" />
+                <button type="submit" class="favorito-button">
+                    <img th:src="@{'/uploads/publicaciones/' + ${fav.publicacion.carpeta} + '/' + ${fav.publicacion.imagePrincipal}}" alt="Imagen favorito">
+                    <h3 th:text="${fav.publicacion.ubicacion} + ' - ' + ${fav.publicacion.precio}">Ubicación - Precio</h3>
+                </button>
+            </form>
+
+        </div>
+    </div>
+</main>
+
+
+
+<div th:replace="fragmentos/footer :: footer"></div>
+</body>
+</html>

@@ -1,0 +1,118 @@
+.kiri-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1em 2em;
+    background-color: #fdf6f2;
+    font-family: 'Nunito', sans-serif;
+}
+
+.kiri-header .logo {
+    width: 8%;
+    display: flex;
+    align-items: center;
+}
+
+.kiri-header .logo img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.logo {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #cc5443;
+}
+
+.search-bar {
+    width: 45%;
+}
+
+.search-bar form {
+    display: flex;
+    width: 100%;
+}
+
+.search-bar input {
+    flex: 1;
+    padding: 0.5em 1em;
+    border-radius: 20px 0 0 20px;
+    border: 2px solid #000;
+    outline: none;
+    font-family: inherit;
+    font-size: 1em;
+}
+
+.search-bar button {
+    background: #000;
+    border: none;
+    padding: 0 1em;
+    border-radius: 0 20px 20px 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-bar button img {
+    width: 20px;
+    height: 20px;
+}
+
+.icons {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+
+.kiri-header .icons img {
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    filter: brightness(0) saturate(100%) invert(48%) sepia(70%) saturate(471%) hue-rotate(326deg) brightness(96%) contrast(94%);
+}
+
+.login-button {
+    padding: 0.5em 1.2em;
+    background-color: #fff;
+    border: 2px solid #cc5443;
+    border-radius: 20px;
+    color: #cc5443;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background 0.3s ease;
+}
+
+.login-button:hover {
+    background-color: #cc5443;
+    color: #fff;
+}
+
+.barrios-filtro {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    padding: 1rem 2rem;
+    background-color: white;
+    border-top: 2px solid #eee;
+    border-bottom: 2px solid #eee;
+    font-family: 'Cabin Rounded', sans-serif;
+    flex-wrap: wrap;
+}
+
+.barrio-btn {
+    background-color: #cc5443;
+    color: white;
+    text-decoration: none;
+    padding: 0.4em 1.5em;
+    border-radius: 25px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    border: 2px solid #cc5443;
+}
+
+.barrio-btn:hover {
+    background-color: white;
+    color: #cc5443;
+}

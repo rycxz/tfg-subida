@@ -1,0 +1,7 @@
+  "email": "recuricardo@gmail.com",
+  "numero": "643703076",
+  "esAdmin": false,
+  "fechaNacimiento": "2003-12-16",
+  "fechaRegistro": "2025-05-07",
+  "fechaAdmin": null,
+  "rol": "USER"

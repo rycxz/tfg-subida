@@ -1,0 +1,110 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Kiricasa</title>
+    <link rel="icon" href="/images/elementos/sinfondo.ico" type="image/x-icon">
+
+    <!-- Estilos -->
+    <th:block th:if="${usuario == null}">
+        <link rel="stylesheet" th:href="@{/css/headers/estilosHeaderNoLogged.css}">
+    </th:block>
+    <th:block th:if="${usuario != null and usuario.rol.name() == 'USER'}">
+        <link rel="stylesheet" th:href="@{/css/headers/estilosHeaderLogged.css}">
+    </th:block>
+    <th:block th:if="${usuario != null and usuario.rol.name() == 'ADMIN'}">
+        <link rel="stylesheet" th:href="@{/css/headers/estilosAdmin.css}">
+    </th:block>
+
+    <link rel="stylesheet" th:href="@{/css/estilosPrivacidad.css}">
+    <link rel="stylesheet" th:href="@{/css/footer/estilosFooter.css}">
+</head>
+<body>
+
+<!-- Header -->
+<div th:if="${usuario == null}">
+    <div th:replace="fragmentos/header :: header_nologged"></div>
+</div>
+<div th:if="${usuario != null and usuario.rol.name() == 'USER'}">
+    <div th:replace="fragmentos/header :: header_user(${usuario.nombre})"></div>
+</div>
+<div th:if="${usuario != null and usuario.rol.name() == 'ADMIN'}">
+    <div th:replace="fragmentos/header :: header_admin(${usuario.nombre})"></div>
+</div>
+<main class="privacidad-container">
+    <h1 class="privacidad-title">Política de Privacidad</h1>
+
+    <section class="privacidad-section">
+        <h2>1. Información general</h2>
+        <p>
+            En Kiricasa, la privacidad de nuestros usuarios es una prioridad. Esta Política de Privacidad describe cómo recopilamos, usamos y protegemos tu información personal cuando utilizas nuestra plataforma.
+        </p>
+    </section>
+
+    <section class="privacidad-section">
+        <h2>2. Datos que recopilamos</h2>
+        <p>Cuando te registras en Kiricasa o utilizas nuestros servicios, podemos recopilar la siguiente información:</p>
+        <ul>
+            <li>Nombre completo</li>
+            <li>Dirección de correo electrónico</li>
+            <li>Teléfono (opcional)</li>
+            <li>Preferencias de búsqueda y anuncios vistos</li>
+            <li>Direcciones IP, dispositivo y datos de navegación</li>
+        </ul>
+    </section>
+
+    <section class="privacidad-section">
+        <h2>3. Uso de los datos</h2>
+        <p>Utilizamos tus datos para los siguientes fines:</p>
+        <ul>
+            <li>Proporcionarte acceso y personalización de la plataforma</li>
+            <li>Mostrarte anuncios relevantes</li>
+            <li>Facilitar el contacto entre usuarios y anunciantes</li>
+            <li>Mejorar nuestros servicios mediante análisis estadísticos</li>
+        </ul>
+    </section>
+
+    <section class="privacidad-section">
+        <h2>4. Compartición de datos</h2>
+        <p>
+            No compartimos tu información personal con terceros, excepto cuando sea estrictamente necesario para cumplir con obligaciones legales o para el funcionamiento técnico del servicio (como servidores de correo o sistemas de autenticación).
+        </p>
+    </section>
+
+    <section class="privacidad-section">
+        <h2>5. Seguridad</h2>
+        <p>
+            Implementamos medidas de seguridad para proteger tus datos contra accesos no autorizados, pérdidas o alteraciones. Utilizamos cifrado, contraseñas seguras y acceso restringido a la base de datos.
+        </p>
+    </section>
+
+    <section class="privacidad-section">
+        <h2>6. Derechos del usuario</h2>
+        <p>Como usuario tienes derecho a:</p>
+        <ul>
+            <li>Acceder a tus datos personales</li>
+            <li>Solicitar la corrección o eliminación de tus datos</li>
+            <li>Revocar tu consentimiento para el tratamiento de datos</li>
+        </ul>
+        <p>
+            Para ejercer estos derechos, puedes escribirnos a <a href="mailto:privacidad@kiricasa.com">privacidad@kiricasa.com</a>.
+        </p>
+    </section>
+
+    <section class="privacidad-section">
+        <h2>7. Cambios en la política</h2>
+        <p>
+            Kiricasa se reserva el derecho a modificar esta política en cualquier momento. Te notificaremos mediante la web o correo electrónico en caso de cambios importantes.
+        </p>
+    </section>
+
+    <section class="privacidad-section">
+        <p><strong>Última actualización:</strong> 21 de mayo de 2025</p>
+    </section>
+</main>
+
+
+<div th:replace="fragmentos/footer :: footer"></div>
+</body>
+</html>

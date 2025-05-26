@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Kiricasa</title>
+        <link rel="icon" href="/images/elementos/sinfondo.ico" type="image/x-icon">
+
+    <!-- Estilos -->
+    <th:block th:if="${usuario == null}">
+        <link rel="stylesheet" th:href="@{/css/headers/estilosHeaderNoLogged.css}">
+    </th:block>
+    <th:block th:if="${usuario != null and usuario.rol.name() == 'USER'}">
+        <link rel="stylesheet" th:href="@{/css/headers/estilosHeaderLogged.css}">
+    </th:block>
+    <th:block th:if="${usuario != null and usuario.rol.name() == 'ADMIN'}">
+        <link rel="stylesheet" th:href="@{/css/headers/estilosAdmin.css}">
+    </th:block>
+    <link rel="stylesheet" th:href="@{/css/estilosPerfil.css}">
+    <link rel="stylesheet" th:href="@{/css/footer/estilosFooter.css}">
+</head>
+<body>
+
+
+ <!-- Header según usuario -->
+    <div th:if="${usuario == null}">
+        <div th:replace="fragmentos/header :: header_nologged"></div>
+    </div>
+    <div th:if="${usuario != null and usuario.rol.name() == 'USER'}">
+        <div th:replace="fragmentos/header :: header_user(${usuario.nombre})"></div>
+    </div>
+    <div th:if="${usuario != null and usuario.rol.name() == 'ADMIN'}">
+        <div th:replace="fragmentos/header :: header_admin(${usuario.nombre})"></div>
+    </div>
+
+<nav class="perfil-menu">
+    <ul>
+        <li><a th:href="@{/perfil/editar}">Modificar datos del perfil</a></li>
+            <li th:if="${!usuario.verificado}">
+                <a th:href="@{/perfil/2fa}">Verificar correo</a>
+            </li>
+
+         <li><a th:href="@{/perfil/cambiarPW}">Cambiar Contraseña</a></li>
+        <li><a th:href="@{/logout}">Cerrar sesión</a></li>
+    </ul>
+</nav>
+
+<main class="perfil-content">
+<header>
+    <h1>Bienvenido, <span th:text="${usuario.nombre}">Usuario</span></h1>
+</header>
+    <!-- Publicaciones del usuario -->
+    <section>
+        <h2>Mis Publicaciones</h2>
+        <div class="publicaciones-grid">
+            <div th:each="pub : ${publicaciones}" class="publicacion-card">
+                <form th:action="@{/detalle}" method="get">
+                    <input type="hidden" name="id" th:value="${pub.id}" />
+                    <button type="submit" class="publicacion-button">
+                        <img th:src="@{'/uploads/publicaciones/' + ${pub.carpeta} + '/' + ${pub.getImagePrincipal}}" alt="Imagen publicación">
+                        <h3 th:text="${pub.ubicacion} + ' - ' + ${pub.precio}">Ubicación - Precio</h3>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Favoritos del usuario -->
+    <section>
+        <h2>Mis Favoritos</h2>
+        <div class="favoritos-grid">
+            <div th:each="fav : ${favoritos}" class="favorito-card">
+                <form th:action="@{/detalle}" method="get">
+                    <input type="hidden" name="id" th:value="${fav.publicacion.id}" />
+                    <button type="submit" class="favorito-button">
+                        <img th:src="@{'/uploads/publicaciones/' + ${fav.publicacion.carpeta} + '/' + ${fav.publicacion.getImagePrincipal}}" alt="Imagen favorito">
+                        <h3 th:text="${fav.publicacion.ubicacion} + ' - ' + ${fav.publicacion.precio}">Ubicación - Precio</h3>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+</main>
+    <div th:replace="fragmentos/footer :: footer"></div>
+</body>
+</html>

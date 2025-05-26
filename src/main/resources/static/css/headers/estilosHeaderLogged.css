@@ -1,0 +1,105 @@
+.kiri-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 2rem;
+    background-color: white;
+    border-bottom: 2px solid #eee;
+    font-family: 'Cabin Rounded', sans-serif;
+}
+
+.kiri-header .logo {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.8em;
+    color: #cc5443;
+    font-weight: bold;
+    width: 8%;
+    display: flex;
+    align-items: center;
+}
+
+.kiri-header .logo img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.kiri-header .search-bar {
+    width: 45%;
+}
+
+.kiri-header .search-bar form {
+    display: flex;
+    width: 100%;
+    border: 2px solid black;
+    border-radius: 25px;
+    overflow: hidden;
+    height: 40px;
+}
+
+.kiri-header .search-bar input {
+    flex: 1;
+    border: none;
+    padding: 0 1rem;
+    font-size: 1em;
+    outline: none;
+    font-family: inherit;
+}
+
+.kiri-header .search-bar button {
+    background-color: black;
+    border: none;
+    padding: 0 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.kiri-header .search-bar button img {
+    width: 20px;
+    height: 20px;
+}
+
+.kiri-header .icons {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    width: 10%;
+    justify-content: flex-end;
+}
+
+.kiri-header .icons img {
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    filter: brightness(0) saturate(100%) invert(48%) sepia(70%) saturate(471%) hue-rotate(326deg) brightness(96%) contrast(94%);
+}
+
+.barrios-filtro {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    padding: 1rem 2rem;
+    background-color: white;
+    border-top: 2px solid #eee;
+    border-bottom: 2px solid #eee;
+    font-family: 'Cabin Rounded', sans-serif;
+    flex-wrap: wrap;
+}
+
+.barrio-btn {
+    background-color: #cc5443;
+    color: white;
+    text-decoration: none;
+    padding: 0.4em 1.5em;
+    border-radius: 25px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    border: 2px solid #cc5443;
+}
+
+.barrio-btn:hover {
+    background-color: white;
+    color: #cc5443;
+}

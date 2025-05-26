@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Kiricasa - Editar Publicación</title>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800&family=Cabin+Rounded&display=swap" rel="stylesheet">
+    <link rel="icon" href="/images/elementos/sinfondo.ico" type="image/x-icon">
+
+    <!-- Estilos -->
+    <th:block th:if="${usuario == null}">
+        <link rel="stylesheet" th:href="@{/css/headers/estilosHeaderNoLogged.css}">
+    </th:block>
+    <th:block th:if="${usuario != null and usuario.rol.name() == 'USER'}">
+        <link rel="stylesheet" th:href="@{/css/headers/estilosHeaderLogged.css}">
+    </th:block>
+    <th:block th:if="${usuario != null and usuario.rol.name() == 'ADMIN'}">
+        <link rel="stylesheet" th:href="@{/css/headers/estilosAdmin.css}">
+    </th:block>
+    <link rel="stylesheet" th:href="@{/css/estilosEditarPublicacion.css}">
+    <link rel="stylesheet" th:href="@{/css/footer/estilosFooter.css}">
+</head>
+
+<body id="editar-publicacion">
+
+    <!-- Header -->
+    <div th:if="${usuario == null}">
+        <div th:replace="fragmentos/header :: header_nologged"></div>
+    </div>
+    <div th:if="${usuario != null and usuario.rol.name() == 'USER'}">
+        <div th:replace="fragmentos/header :: header_user(${usuario.nombre})"></div>
+    </div>
+    <div th:if="${usuario != null and usuario.rol.name() == 'ADMIN'}">
+        <div th:replace="fragmentos/header :: header_admin(${usuario.nombre})"></div>
+    </div>
+
+    <h1 class="titulo-editar">Editar Publicación</h1>
+
+<div class="galeria-imagenes">
+    <div class="galeria-item"
+         th:classappend="${#strings.isEmpty(img) or img == 'predeterminada.png'} ? ' vacia' : ''"
+         th:each="img, iterStat : ${publicacion.fotos}">
+
+
+        <form th:if="${#strings.isEmpty(img) or img == 'predeterminada.png'}"
+              th:action="@{'/publicacion/editar/' + ${publicacion.id} + '/subir-imagen'}"
+              method="post"
+              enctype="multipart/form-data">
+            <input type="hidden" name="posicion" th:value="${iterStat.index}" />
+            <label style="cursor: pointer;">
+                <img src="/uploads/publicaciones/predeterminada.png"
+                     alt="Imagen predeterminada"
+                     class="imagen-anuncio">
+                <input type="file"
+                       name="imagen"
+                       accept="image/png, image/jpeg, image/jpg"
+                       style="display: none;"
+                       onchange="this.closest('form').submit()">
+            </label>
+        </form>
+
+
+        <div th:if="${not #strings.isEmpty(img) and img != 'predeterminada.png'}">
+            <img th:src="@{'/uploads/publicaciones/' + ${publicacion.carpeta} + '/' + ${img}}"
+                 alt="Imagen anuncio"
+                 class="imagen-anuncio">
+            <a th:href="@{'/publicacion/editar/' + ${publicacion.id} + '/eliminar-imagen?imagen=' + ${img}}"
+               class="boton-eliminar">✖</a>
+        </div>
+
+
+        <div th:if="${iterStat.index == 0}" class="badge-principal">Principal</div>
+    </div>
+</div>
+
+
+
+    <form th:action="@{'/publicacion/editar/' + ${publicacion.id} + '/editarinfo'}" method="post" enctype="multipart/form-data"
+          class="formulario-editar-publicacion">
+        <input type="hidden" name="id" th:value="${publicacion.id}" />
+
+        <label>Título:</label>
+        <input type="text" name="titulo" th:value="${publicacion.titulo}" required />
+
+        <label>Descripción:</label>
+        <textarea name="descripcion" rows="4" required th:text="${publicacion.descripcion}"></textarea>
+
+        <label>Precio:</label>
+        <input type="text" name="precio" th:value="${publicacion.precio}" required />
+
+        <label>Estado:</label>
+        <input type="text" name="estado" th:value="${publicacion.estado}" />
+
+        <label>Tipo de Piso:</label>
+        <select name="tipo">
+            <option th:each="tipo : ${T(kiricasa.programa.enums.TipoPiso).values()}"
+                    th:value="${tipo}"
+                    th:selected="${tipo} == ${publicacion.tipo}"
+                    th:text="${tipo}"></option>
+        </select>
+
+        <label>Ubicación:</label>
+        <input type="text" name="ubicacion" th:value="${publicacion.ubicacion}" />
+
+        <label>Metros cuadrados:</label>
+        <input type="number" name="metrosCuadrados" th:value="${publicacion.metrosCuadrados}" min="0" />
+
+        <label>Habitaciones:</label>
+        <input type="text" name="habitaciones" th:value="${publicacion.habitaciones}" />
+
+        <label>Permite mascotas:</label>
+        <input type="checkbox" name="permiteMascotas" th:checked="${publicacion.permiteMascotas}" />
+
+        <label>Número de compañeros:</label>
+        <input type="number" name="numeroCompañeros" th:value="${publicacion.numeroCompañeros}" min="0" />
+
+        <label>Barrio:</label>
+        <select name="barrioId">
+            <option th:each="barrio : ${barrios}"
+                    th:value="${barrio.id}"
+                    th:selected="${barrio.id == publicacion.barrio.id}"
+                    th:text="${barrio.nombre}"></option>
+        </select>
+
+        <button type="submit" class="boton-guardar">
+            Guardar cambios
+        </button>
+    </form>
+
+    <!-- Footer -->
+    <div th:replace="fragmentos/footer :: footer"></div>
+</body>
+</html>

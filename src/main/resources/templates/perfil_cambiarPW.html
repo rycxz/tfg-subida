@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title> Kiricasa</title>
+    <link rel="icon" href="/images/elementos/sinfondo.ico" type="image/x-icon">
+
+    <!-- Estilos -->
+    <th:block th:if="${usuario == null}">
+        <link rel="stylesheet" th:href="@{/css/headers/estilosHeaderNoLogged.css}">
+    </th:block>
+    <th:block th:if="${usuario != null and usuario.rol.name() == 'USER'}">
+        <link rel="stylesheet" th:href="@{/css/headers/estilosHeaderLogged.css}">
+    </th:block>
+    <th:block th:if="${usuario != null and usuario.rol.name() == 'ADMIN'}">
+        <link rel="stylesheet" th:href="@{/css/headers/estilosAdmin.css}">
+    </th:block>
+
+    <link rel="stylesheet" th:href="@{/css/estilosCambioPW.css}">
+    <link rel="stylesheet" th:href="@{/css/footer/estilosFooter.css}">
+</head>
+<body>
+
+<!-- Header -->
+<div th:if="${usuario == null}">
+    <div th:replace="fragmentos/header :: header_nologged"></div>
+</div>
+<div th:if="${usuario != null and usuario.rol.name() == 'USER'}">
+    <div th:replace="fragmentos/header :: header_user(${usuario.nombre})"></div>
+</div>
+<div th:if="${usuario != null and usuario.rol.name() == 'ADMIN'}">
+    <div th:replace="fragmentos/header :: header_admin(${usuario.nombre})"></div>
+</div><main class="contenedor-cambio-pw">
+    <h1>Cambiar Contraseña</h1>
+
+    <form th:action="@{/perfil/cambiarPW}" method="post" class="form-cambio-pw">
+        <label>Contraseña actual:</label>
+        <input type="password" name="actualPassword" required />
+
+        <label>Nueva contraseña:</label>
+        <input type="password" name="nuevaPassword" required minlength="6" />
+
+        <label>Confirmar nueva contraseña:</label>
+        <input type="password" name="confirmarPassword" required minlength="6" />
+
+        <div class="botones">
+            <button type="submit">Guardar</button>
+            <a th:href="@{/perfil/ver}" class="boton-cancelar">Cancelar</a>
+        </div>
+    </form>
+
+    <p th:if="${error}" th:text="${error}" style="color:red;"></p>
+    <p th:if="${success}" th:text="${success}" style="color:green;"></p>
+</main>
+<div th:replace="fragmentos/footer :: footer"></div>
+</body>
+</html>

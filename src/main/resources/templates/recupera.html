@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Perfil - Kiricasa</title>
+    <link rel="icon" href="/images/elementos/sinfondo.ico" type="image/x-icon">
+
+    <!-- Estilos -->
+    <th:block th:if="${usuario == null}">
+        <link rel="stylesheet" th:href="@{/css/headers/estilosHeaderNoLogged.css}">
+    </th:block>
+    <th:block th:if="${usuario != null and usuario.rol.name() == 'USER'}">
+        <link rel="stylesheet" th:href="@{/css/headers/estilosHeaderLogged.css}">
+    </th:block>
+    <th:block th:if="${usuario != null and usuario.rol.name() == 'ADMIN'}">
+        <link rel="stylesheet" th:href="@{/css/headers/estilosAdmin.css}">
+    </th:block>
+
+    <link rel="stylesheet" th:href="@{/css/estilosRecupera.css}">
+    <link rel="stylesheet" th:href="@{/css/footer/estilosFooter.css}">
+</head>
+<body>
+<div th:fragment="header_nologged">
+    <header class="kiri-header">
+        <div class="logo">
+            <a th:href="@{/nl/home}">
+                <img src="/images/elementos/sinfondo.png" alt="Kiricasa logo">
+            </a>
+        </div>
+
+
+
+        <div class="icons">
+            <a href="/auth/login" class="login-button">Iniciar sesión</a>
+        </div>
+    </header>
+<hr>
+
+
+
+</div>
+<div class="recupera-wrapper">
+    <h2>Recuperar contraseña</h2>
+
+    <form th:action="@{/auth/recupera}" method="post">
+        <label for="email">Introduce tu correo electrónico:</label><br>
+        <p th:if="${error}" th:text="${error}" style="color:red;"></p>
+
+<input type="email" id="email" name="email" th:value="${email}" required>
+
+        <br><br>
+        <button type="submit">Enviar código</button>
+    </form>
+
+
+</div>
+
+<div th:replace="fragmentos/footer :: footer"></div>
+</body>
+</html>

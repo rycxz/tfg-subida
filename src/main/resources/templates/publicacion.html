@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiricasa</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800&family=Cabin+Rounded&display=swap" rel="stylesheet">
+    <link rel="icon" href="/images/elementos/sinfondo.ico" type="image/x-icon">
+
+
+    <!-- Carga condicional de estilos -->
+    <th:block th:if="${usuario == null}">
+        <link rel="stylesheet" th:href="@{/css/headers/estilosHeaderNoLogged.css}">
+    </th:block>
+    <th:block th:if="${usuario != null and usuario.rol.name() == 'USER'}">
+        <link rel="stylesheet" th:href="@{/css/headers/estilosHeaderLogged.css}">
+    </th:block>
+    <th:block th:if="${usuario != null and usuario.rol.name() == 'ADMIN'}">
+        <link rel="stylesheet" th:href="@{/css/headers/estilosAdmin.css}">
+    </th:block>
+    <link rel="stylesheet" th:href="@{/css/estilosPublicacion.css}">
+    <link rel="stylesheet" th:href="@{/css/footer/estilosFooter.css}">
+
+</head>
+<body>
+
+    <!-- Header según usuario -->
+    <div th:if="${usuario == null}">
+        <div th:replace="fragmentos/header :: header_nologged"></div>
+    </div>
+    <div th:if="${usuario != null and usuario.rol.name() == 'USER'}">
+        <div th:replace="fragmentos/header :: header_user(${usuario.nombre})"></div>
+    </div>
+    <div th:if="${usuario != null and usuario.rol.name() == 'ADMIN'}">
+        <div th:replace="fragmentos/header :: header_admin(${usuario.nombre})"></div>
+    </div>
+
+<section class="carousel">
+    <div class="carousel-container">
+        <img id="carousel-image"
+             src="" alt="Foto del piso">
+
+        <button class="prev" id="prev">&#10094;</button>
+        <button class="next" id="next">&#10095;</button>
+    </div>
+</section>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    let fotos = [[${fotos}]];
+    let carpeta = [[${publicacion.carpeta}]];
+
+    // Mapeamos a URLs reales o a la predeterminada
+    fotos = fotos.map(foto =>
+        !foto || foto.trim() === "" || foto === "predeterminada.png"
+            ? null
+            : `/uploads/publicaciones/${carpeta}/${foto}`
+    );
+
+    // Si todas las imágenes están vacías, poner al menos una predeterminada
+    if (fotos.every(f => f === null)) {
+        fotos = ["/uploads/publicaciones/predeterminada.png"];
+    }
+
+    // Buscamos la primera imagen válida para iniciar el carrusel
+    let currentIndex = fotos.findIndex(f => f !== null);
+    if (currentIndex === -1) currentIndex = 0;
+
+    // Reemplazar los null por la predeterminada en la lista final
+    fotos = fotos.map(f => f ?? "/uploads/publicaciones/predeterminada.png");
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const imageElement = document.getElementById('carousel-image');
+        const prevBtn = document.getElementById('prev');
+        const nextBtn = document.getElementById('next');
+
+        function updateImage() {
+            imageElement.src = fotos[currentIndex];
+        }
+
+        prevBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + fotos.length) % fotos.length;
+            updateImage();
+        });
+
+        nextBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % fotos.length;
+            updateImage();
+        });
+
+        if (fotos.length <= 1) {
+            prevBtn.style.display = 'none';
+            nextBtn.style.display = 'none';
+        }
+
+        updateImage(); // ← Inicializar con la imagen válida
+    });
+    /*]]>*/
+</script>
+
+
+
+
+<!-- Título -->
+<h1 class="titulo" th:text="${publicacion.titulo}">Título del piso</h1>
+
+<!-- Contenido -->
+<section class="detalle-contenido">
+    <div class="info">
+        <p><strong>Tipo:</strong> <span th:text="${publicacion.tipo}"></span></p>
+        <p><strong>Precio:</strong> <span th:text="${publicacion.precio}"></span></p>
+        <p><strong>Ubicación:</strong> <span th:text="${publicacion.ubicacion}"></span></p>
+        <p><strong>Barrio:</strong> <span th:text="${nombreBarrio}">Nombre del barrio</span></p>
+        <p><strong>Habitaciones:</strong> <span th:text="${publicacion.habitaciones}"></span></p>
+        <p><strong>Metros cuadrados:</strong> <span th:text="${publicacion.metrosCuadrados}"></span></p>
+        <p><strong>Descripción:</strong></p>
+        <p th:text="${publicacion.descripcion}">Descripción del piso.</p>
+    </div>
+<br>
+<div class="contacto">
+    <p>Contacta con el anunciante</p>
+    <textarea id="mensaje" placeholder="Escribe tu mensaje..." required></textarea>
+    <a th:href="'mailto:' + ${publicacion.usuario.email}"id="enviarCorreo" class="btn-accion" onclick="prepararCorreo(event)">Enviar mensaje</a>
+</div>
+
+<script>
+    function prepararCorreo(event) {
+        const mensaje = document.getElementById('mensaje').value;
+        const enlace = document.getElementById('enviarCorreo');
+        const email = enlace.getAttribute('href').replace('mailto:', '');
+        enlace.setAttribute('href', `mailto:${email}?subject=Consulta%20sobre%20anuncio&body=${encodeURIComponent(mensaje)}`);
+
+    }
+</script>
+<div th:if="${usuario != null and usuario.id != publicacion.usuario.id}">
+    <form th:action="@{${enFavoritos} ? '/favoritos/eliminar' : '/favoritos/añadir'}" method="post">
+        <input type="hidden" name="publicacionId" th:value="${publicacion.id}" />
+        <button class="boton-favorito" type="submit">
+            <span th:text="${enFavoritos} ? '❌ Quitar de Favoritos' : '❤️ Añadir a Favoritos'"></span>
+        </button>
+    </form>
+</div>
+<br>
+
+<div class="botones-acciones" th:if="${puedeGestionar}">
+    <a th:href="@{'/publicacion/editar/' + ${publicacion.id}}" class="btn-accion">Modificar anuncio</a>
+<a th:href="@{/publicacion/eliminar/{id}(id=${publicacion.id})}" class="btn-accion eliminar">Eliminar anuncio</a>
+
+</div>
+
+
+<br>
+</section>
+    <div th:replace="fragmentos/footer :: footer"></div>
+
+
+
+
+</body>
+</html>

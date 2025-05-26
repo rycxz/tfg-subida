@@ -1,0 +1,143 @@
+/* Contenedor principal del panel */
+.admin-panel {
+    padding: 2rem;
+    background-color: #fffaf7;
+    font-family: 'Segoe UI', sans-serif;
+    color: #333;
+}
+
+.admin-panel-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+/* Títulos */
+.admin-panel-title {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #c44d3c;
+    margin-bottom: 2rem;
+}
+
+.admin-panel-subtitulo {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: #a2362b;
+}
+
+/* Tabla */
+.admin-panel-tabla {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2rem;
+}
+
+.admin-panel-tabla th,
+.admin-panel-tabla td {
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid #e4dede;
+    text-align: left;
+}
+
+.admin-panel-tabla th {
+    background-color: #fbe9e7;
+    color: #c44d3c;
+    font-weight: bold;
+}
+
+/* Botones */
+.admin-panel-acciones form {
+    display: inline-block;
+    margin-right: 0.5rem;
+}
+
+.admin-btn-borrar {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 0.4rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.admin-btn-borrar:hover {
+    background-color: #c0392b;
+}
+
+.admin-btn-rol {
+    border: none;
+    padding: 0.4rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    color: white;
+}
+
+.admin-hacer {
+    background-color: #2ecc71;
+}
+
+.admin-hacer:hover {
+    background-color: #27ae60;
+}
+
+.admin-quitar {
+    background-color: #f39c12;
+}
+
+.admin-quitar:hover {
+    background-color: #e67e22;
+}
+
+/* Formulario de barrio */
+.admin-form-barrio {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    max-width: 500px;
+}
+
+.admin-form-barrio label {
+    font-weight: bold;
+    color: #c44d3c;
+}
+
+.admin-form-barrio input {
+    padding: 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.admin-btn-guardar {
+    background-color: #c44d3c;
+    color: white;
+    border: none;
+    padding: 0.6rem;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-top: 1rem;
+    cursor: pointer;
+}
+
+.admin-btn-guardar:hover {
+    background-color: #a2362b;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .admin-panel-tabla th, .admin-panel-tabla td {
+        font-size: 0.9rem;
+        padding: 0.5rem;
+    }
+
+    .admin-panel-container {
+        padding: 1rem;
+    }
+}

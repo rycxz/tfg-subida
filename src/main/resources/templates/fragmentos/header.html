@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800&family=Cabin+Rounded&display=swap" rel="stylesheet">
+
+</head>
+<body>
+<!-- No logueado -->
+<div th:fragment="header_nologged">
+    <header class="kiri-header">
+        <div class="logo">
+            <a th:href="@{/nl/home}">
+                <img src="/images/elementos/sinfondo.png" alt="Kiricasa logo">
+            </a>
+        </div>
+
+<div class="search-bar">
+    <form th:action="@{/busqueda/buscar}" method="get">
+        <input type="text" name="query" placeholder="Buscar..."  />
+        <button type="submit">
+            <img src="/images/elementos/icono-buscar.svg" alt="Buscar" id="buscar">
+        </button>
+    </form>
+</div>
+
+
+        <div class="icons">
+            <a href="/auth/login" class="login-button">Iniciar sesión</a>
+        </div>
+    </header>
+<div class="barrios-filtro">
+  <th:block th:each="b : ${barrios}">
+    <a th:href="@{/nl/home(barrio=${b.nombre})}"
+       th:text="${b.nombre}"
+       class="barrio-btn"></a>
+  </th:block>
+</div>
+
+
+
+</div>
+
+
+<!-- Usuario -->
+<div th:fragment="header_user(nombre)">
+    <header class="kiri-header">
+        <div class="logo">
+            <a th:href="@{/home}">
+                <img src="/images/elementos/sinfondo.png" alt="Kiricasa logo">
+            </a>
+        </div>
+
+       <div class="search-bar">
+    <form th:action="@{/busqueda/buscar}" method="get">
+        <input type="text" name="query" placeholder="Buscar..."  />
+        <button type="submit">
+            <img src="/images/elementos/icono-buscar.svg" alt="Buscar" id="buscar">
+        </button>
+    </form>
+</div>
+
+
+        <div class="icons">
+            <a href="/favoritos/ver"><img src="/images/elementos/icono-corazon.svg" alt="Favoritos"></a>
+            <a href="/perfil/ver"><img src="/images/elementos/icono-usuario.svg" alt="Usuario"></a>
+        </div>
+    </header>
+<div class="barrios-filtro">
+  <th:block th:each="b : ${barrios}">
+    <a th:href="@{/home(barrio=${b.nombre})}"
+       th:text="${b.nombre}"
+       class="barrio-btn"></a>
+  </th:block>
+</div>
+
+
+</div>
+
+
+<!-- Admin -->
+<div th:fragment="header_admin(nombre)">
+    <header class="kiri-header">
+        <div class="logo">
+            <a th:href="@{/home}">
+                <img src="/images/elementos/sinfondo.png" alt="Kiricasa logo">
+            </a>
+        </div>
+
+   <div class="search-bar">
+    <form th:action="@{/busqueda/buscar}" method="get">
+        <input type="text" name="query" placeholder="Buscar..."  />
+        <button type="submit">
+            <img src="/images/elementos/icono-buscar.svg" alt="Buscar" id="buscar">
+        </button>
+    </form>
+</div>
+
+        <div class="icons">
+            <span class="admin-label">Admin: <span th:text="${nombre}">Admin</span></span>
+                <a th:href="@{/admin/ver}" class="btn-admin">Administrar</a>
+                 <a href="/perfil/ver"><img src="/images/elementos/icono-usuario.svg" alt="Usuario"></a>
+            <a href="/logout" class="logout-button">Cerrar sesión</a>
+        </div>
+    </header>
+<div class="barrios-filtro">
+  <th:block th:each="b : ${barrios}">
+    <a th:href="@{/home(barrio=${b.nombre})}"
+       th:text="${b.nombre}"
+       class="barrio-btn"></a>
+  </th:block>
+</div>
+
+
+</div>
+
+
+</body>
+</html>

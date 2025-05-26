@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Perfil - Kiricasa</title>
+    <link rel="icon" href="/images/elementos/sinfondo.ico" type="image/x-icon">
+
+    <!-- Estilos -->
+    <th:block th:if="${usuario == null}">
+        <link rel="stylesheet" th:href="@{/css/headers/estilosHeaderNoLogged.css}">
+    </th:block>
+    <th:block th:if="${usuario != null and usuario.rol.name() == 'USER'}">
+        <link rel="stylesheet" th:href="@{/css/headers/estilosHeaderLogged.css}">
+    </th:block>
+    <th:block th:if="${usuario != null and usuario.rol.name() == 'ADMIN'}">
+        <link rel="stylesheet" th:href="@{/css/headers/estilosAdmin.css}">
+    </th:block>
+
+    <link rel="stylesheet" th:href="@{/css/estilosAdminVista.css}">
+    <link rel="stylesheet" th:href="@{/css/footer/estilosFooter.css}">
+</head>
+<body>
+
+<!-- Header -->
+<div th:if="${usuario == null}">
+    <div th:replace="fragmentos/header :: header_nologged"></div>
+</div>
+<div th:if="${usuario != null and usuario.rol.name() == 'USER'}">
+    <div th:replace="fragmentos/header :: header_user(${usuario.nombre})"></div>
+</div>
+<div th:if="${usuario != null and usuario.rol.name() == 'ADMIN'}">
+    <div th:replace="fragmentos/header :: header_admin(${usuario.nombre})"></div>
+</div><main class="admin-panel">
+  <div class="admin-panel-container">
+    <h1 class="admin-panel-title">Panel de Administración</h1>
+
+    <!-- Sección 1: Usuarios -->
+    <section class="admin-panel-seccion">
+      <h2 class="admin-panel-subtitulo">Gestión de Usuarios</h2>
+      <table class="admin-panel-tabla">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Rol</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="u : ${usuarios}">
+            <td th:text="${u.id}">1</td>
+            <td th:text="${u.nombre}">Juan</td>
+            <td th:text="${u.email}">juan@ej.com</td>
+            <td th:text="${u.rol}">USER</td>
+            <td class="admin-panel-acciones">
+              <form th:action="@{/admin/usuarios/delete/{id}(id=${u.id})}"
+                    method="post"
+                    th:object="${u}"
+                    onsubmit="return confirm('¿Seguro que quieres borrar al usuario \'' + [[${u.nombre}]] + '\' ?');">
+                <button type="submit" class="admin-btn-borrar">Borrar</button>
+              </form>
+
+              <form th:action="@{${u.rol.name() == 'ADMIN'} ? '/admin/usuarios/quitar-admin/' + ${u.id} : '/admin/usuarios/hacer-admin/' + ${u.id}}"
+                    method="post">
+                <button type="submit"
+                        th:class="${u.rol.name() == 'ADMIN'} ? 'admin-btn-rol admin-quitar' : 'admin-btn-rol admin-hacer'">
+                  <span th:text="${u.rol.name() == 'ADMIN'} ? 'Quitar Admin' : 'Hacer Admin'">Hacer Admin</span>
+                </button>
+              </form>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Sección 2: Barrios -->
+    <section class="admin-panel-seccion">
+      <h2 class="admin-panel-subtitulo">Añadir Nuevo Barrio</h2>
+      <form th:action="@{/admin/barrios/add}" method="post" class="admin-form-barrio">
+        <label for="nombreBarrio">Nombre del barrio:</label>
+        <input type="text" id="nombreBarrio" name="nombre" required />
+
+        <label for="descripcion">Descripción:</label>
+        <input type="text" id="descripcion" name="descripcion" required />
+
+        <label for="ubicacion">Ubicación:</label>
+        <input type="text" id="ubicacion" name="ubicacion" required />
+
+        <button type="submit" class="admin-btn-guardar">Crear Barrio</button>
+      </form>
+      <section class="admin-panel-seccion">
+  <h2 class="admin-panel-subtitulo">Lista de Barrios</h2>
+  <table class="admin-panel-tabla">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Ubicación</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="b : ${barrios}">
+        <td th:text="${b.id}">1</td>
+        <td th:text="${b.nombre}">Delicias</td>
+        <td th:text="${b.descripcion}">Barrio tradicional...</td>
+        <td th:text="${b.ubicacion}">Zaragoza</td>
+        <td>
+          <form th:action="@{/admin/barrios/delete/{id}(id=${b.id})}" method="post"
+                onsubmit="return confirm('¿Seguro que quieres borrar el barrio \'' + [[${b.nombre}]] + '\' ?');">
+            <button type="submit" class="admin-btn-borrar">Borrar</button>
+          </form>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+    </section>
+  </div>
+</main>
+
+
+
+<div th:replace="fragmentos/footer :: footer"></div>
+</body>
+</html>

@@ -1,0 +1,99 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Perfil - Kiricasa</title>
+    <link rel="icon" href="/images/elementos/sinfondo.ico" type="image/x-icon">
+
+    <!-- Estilos -->
+    <th:block th:if="${usuario == null}">
+        <link rel="stylesheet" th:href="@{/css/headers/estilosHeaderNoLogged.css}">
+    </th:block>
+    <th:block th:if="${usuario != null and usuario.rol.name() == 'USER'}">
+        <link rel="stylesheet" th:href="@{/css/headers/estilosHeaderLogged.css}">
+    </th:block>
+    <th:block th:if="${usuario != null and usuario.rol.name() == 'ADMIN'}">
+        <link rel="stylesheet" th:href="@{/css/headers/estilosAdmin.css}">
+    </th:block>
+
+    <link rel="stylesheet" th:href="@{/css/estilosBlog.css}">
+    <link rel="stylesheet" th:href="@{/css/footer/estilosFooter.css}">
+</head>
+<body>
+
+<!-- Header -->
+<div th:if="${usuario == null}">
+    <div th:replace="fragmentos/header :: header_nologged"></div>
+</div>
+<div th:if="${usuario != null and usuario.rol.name() == 'USER'}">
+    <div th:replace="fragmentos/header :: header_user(${usuario.nombre})"></div>
+</div>
+<div th:if="${usuario != null and usuario.rol.name() == 'ADMIN'}">
+    <div th:replace="fragmentos/header :: header_admin(${usuario.nombre})"></div>
+</div>
+<main class="blog-container">
+    <h1 class="blog-title">Blog de Kiricasa</h1>
+
+    <section class="blog-post">
+        <h2>Consejos para encontrar piso en Zaragoza</h2>
+        <p class="blog-date">Publicado el 15 de mayo de 2025</p>
+        <p>
+            Buscar piso en Zaragoza puede ser todo un reto si no sabes por dónde empezar. La ciudad cuenta con una gran variedad de barrios, cada uno con sus propias ventajas.
+            En Kiricasa recomendamos comenzar por zonas como <strong>Actur</strong> (ideal para familias y estudiantes del Campus Río Ebro), <strong>Universidad</strong> (ambiente joven y buena conexión de transporte)
+            o <strong>La Almozara</strong> (zona tranquila con buenos precios).
+        </p>
+        <p>
+            Establece un presupuesto mensual que incluya alquiler, suministros, transporte y gastos personales. Utiliza filtros por barrio, precio y características clave como si acepta mascotas o si está amueblado.
+            No dudes en contactar al propietario para resolver dudas, y si es posible, agenda una visita presencial antes de tomar una decisión.
+        </p>
+    </section>
+
+    <section class="blog-post">
+        <h2>¿Qué tener en cuenta al compartir piso?</h2>
+        <p class="blog-date">Publicado el 7 de mayo de 2025</p>
+        <p>
+            Compartir piso no es solo una forma de ahorrar dinero, también puede convertirse en una experiencia positiva si se gestiona bien. Lo más importante es encontrar compañeros de piso compatibles
+            en términos de horarios, limpieza, nivel de ruido y hábitos personales.
+        </p>
+        <p>
+            Recomendamos tener una charla clara desde el principio sobre las normas básicas: turnos de limpieza, gastos comunes, uso de zonas compartidas, etc. También es buena idea usar aplicaciones
+            para dividir los pagos y evitar malentendidos. En Kiricasa puedes encontrar anuncios que especifican si buscan compañeros, lo cual facilita mucho este tipo de búsqueda.
+        </p>
+    </section>
+
+    <section class="blog-post">
+        <h2>Top 5 barrios más económicos en 2025</h2>
+        <p class="blog-date">Publicado el 30 de abril de 2025</p>
+        <p>
+            Si estás buscando una opción económica para vivir en Zaragoza, aquí tienes nuestro ranking actualizado de los barrios más accesibles:
+        </p>
+        <ol>
+            <li><strong>Oliver-Valdefierro:</strong> tranquilo, bien comunicado y con buena relación calidad-precio.</li>
+            <li><strong>Miralbueno:</strong> ideal si buscas espacios más amplios y zonas verdes.</li>
+            <li><strong>San José:</strong> muy bien conectado y con gran variedad de servicios.</li>
+            <li><strong>Las Fuentes:</strong> perfecto para estudiantes y trabajadores jóvenes.</li>
+            <li><strong>Torrero:</strong> barrio tradicional con precios muy competitivos.</li>
+        </ol>
+        <p>
+            Aunque estos barrios son más asequibles, también ofrecen calidad de vida, acceso a transporte público y proximidad a universidades o centros comerciales. ¡Explora las opciones en Kiricasa y elige lo que mejor se ajuste a ti!
+        </p>
+    </section>
+
+    <section class="blog-post">
+        <h2>¿Por qué usar Kiricasa para buscar piso?</h2>
+        <p class="blog-date">Publicado el 21 de abril de 2025</p>
+        <p>
+            En Kiricasa no solo publicamos anuncios, también te ofrecemos herramientas para filtrar por barrio, precio, tipo de alojamiento, número de compañeros, si acepta mascotas, entre otras opciones.
+            Nuestra plataforma es fácil de usar y te permite guardar favoritos, ver estadísticas de visitas e incluso contactar directamente con propietarios o agencias.
+        </p>
+        <p>
+            Además, mantenemos actualizados nuestros anuncios y protegemos tu información personal. Tanto si buscas tu primera habitación como si eres un propietario, Kiricasa es tu mejor opción en Zaragoza.
+        </p>
+    </section>
+</main>
+
+
+<div th:replace="fragmentos/footer :: footer"></div>
+</body>
+</html>
