@@ -34,43 +34,45 @@
     </div>
 
     <h1 class="titulo-editar">Editar Publicación</h1>
-
 <div class="galeria-imagenes">
     <div class="galeria-item"
-         th:classappend="${#strings.isEmpty(img) or img == 'predeterminada.png'} ? ' vacia' : ''"
-         th:each="img, iterStat : ${publicacion.fotos}">
+         th:each="img, iterStat : ${fotosCompletas}"
+         th:classappend="${#strings.isEmpty(img) or img == 'predeterminada.png'} ? ' vacia' : ''">
 
 
-      <form th:if="${#strings.isEmpty(img) or img == 'predeterminada.png'}"
+        <form th:if="${#strings.isEmpty(img) or img == 'predeterminada.png'}"
               th:action="@{'/publicacion/editar/' + ${publicacion.id} + '/subir-imagen'}"
               method="post"
               enctype="multipart/form-data">
             <input type="hidden" name="posicion" th:value="${iterStat.index}" />
             <label style="cursor: pointer;">
-            <img th:src="@{/images/elementos/predeterminada.png}"
-
-                     alt="Imagen predeterminada"
-                     class="imagen-anuncio">
+              <img th:src="@{/images/uploads/publicaciones/predeterminada.png}"
+        alt="Imagen predeterminada"
+        class="imagen-anuncio" />
                 <input type="file"
                        name="imagen"
                        accept="image/png, image/jpeg, image/jpg"
                        style="display: none;"
-                       onchange="this.closest('form').submit()">
+                       onchange="this.closest('form').submit()" />
             </label>
         </form>
 
 
         <div th:if="${not #strings.isEmpty(img) and img != 'predeterminada.png'}">
-           <img th:src="${img}" alt="Imagen anuncio" class="imagen-anuncio">
+            <img th:src="@{/{ruta}(ruta=${img})}" alt="Imagen anuncio" class="imagen-anuncio" />
 
-            <a th:href="@{'/publicacion/editar/' + ${publicacion.id} + '/eliminar-imagen?imagen=' + ${img}}"
-               class="boton-eliminar">✖</a>
+         <a th:if="${not #strings.isEmpty(img)}"
+    th:href="@{'/publicacion/editar/' + ${publicacion.id} + '/eliminar-imagen?imagen=' + ${img.split('/')[img.split('/').length - 1]}}"
+    class="boton-eliminar">✖</a>
+
+
         </div>
 
-
+        <!-- Indicar que es la imagen principal -->
         <div th:if="${iterStat.index == 0}" class="badge-principal">Principal</div>
     </div>
 </div>
+
 
 
 

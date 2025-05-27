@@ -48,41 +48,40 @@
 <header>
     <h1>Bienvenido, <span th:text="${usuario.nombre}">Usuario</span></h1>
 </header>
-    <!-- Publicaciones del usuario -->
-    <section>
-        <h2>Mis Publicaciones</h2>
-        <div class="publicaciones-grid">
-            <div th:each="pub : ${publicaciones}" class="publicacion-card">
-                <form th:action="@{/detalle}" method="get">
-                    <input type="hidden" name="id" th:value="${pub.id}" />
-                    <button type="submit" class="publicacion-button">
-                  <img th:src="@{'/' + ${pub.imagePrincipal}}" alt="...">
+   <section>
+    <h2>Mis Publicaciones</h2>
+    <div class="publicaciones-grid">
+        <div th:each="pub : ${publicaciones}" class="publicacion-card">
+            <form th:action="@{/detalle}" method="get">
+                <input type="hidden" name="id" th:value="${pub.id}" />
+                <button type="submit" class="publicacion-button">
+      <img th:src="@{/{ruta}(ruta=${pub.imagePrincipal})}" alt="Imagen publicación">
 
 
-                        <h3 th:text="${pub.ubicacion} + ' - ' + ${pub.precio}">Ubicación - Precio</h3>
-                    </button>
-                </form>
-            </div>
+                    <h3 th:text="${pub.ubicacion} + ' - ' + ${pub.precio}">Ubicación - Precio</h3>
+                </button>
+            </form>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Favoritos del usuario -->
     <section>
-        <h2>Mis Favoritos</h2>
-        <div class="favoritos-grid">
-            <div th:each="fav : ${favoritos}" class="favorito-card">
-                <form th:action="@{/detalle}" method="get">
-                    <input type="hidden" name="id" th:value="${fav.publicacion.id}" />
-                    <button type="submit" class="favorito-button">
-                  <img th:src="@{'/' + ${pub.imagePrincipal}}" alt="...">
+    <h2>Mis Favoritos</h2>
+    <div class="favoritos-grid">
+        <div th:each="fav : ${favoritos}" class="favorito-card">
+            <form th:action="@{/detalle}" method="get">
+                <input type="hidden" name="id" th:value="${fav.publicacion.id}" />
+                <button type="submit" class="favorito-button">
+ <img th:src="@{/{ruta}(ruta=${fav.publicacion.imagePrincipal})}" alt="Imagen favorito">
 
 
-                        <h3 th:text="${fav.publicacion.ubicacion} + ' - ' + ${fav.publicacion.precio}">Ubicación - Precio</h3>
-                    </button>
-                </form>
-            </div>
+
+                    <h3 th:text="${fav.publicacion.ubicacion} + ' - ' + ${fav.publicacion.precio}">Ubicación - Precio</h3>
+                </button>
+            </form>
         </div>
-    </section>
+    </div>
+</section>
 
 </main>
     <div th:replace="fragmentos/footer :: footer"></div>

@@ -57,15 +57,15 @@ public class PerfilController {
               UsuarioModel usuarioLogueado = (UsuarioModel) session.getAttribute("usuario");
             List<PublicacionModel> publicaciones = publicacionRepository.findByUsuario(usuarioLogueado);
             List<FavoritosModel> favoritos = favoritosRepository.findByUsuario(usuarioLogueado);
-              if (usuarioLogueado == null || token == null) {
+            if (usuarioLogueado == null || token == null) {
                 return "redirect:/nl/home";
               }
- model.addAttribute("barrios", barriosRepository.findAll());
-              model.addAttribute("usuario", usuarioLogueado);
+                model.addAttribute("barrios", barriosRepository.findAll());
+                model.addAttribute("usuario", usuarioLogueado);
                 model.addAttribute("publicaciones", publicaciones);
+                System.out.println("Publicaciones del usuario: " + publicaciones.get(0).getImagePrincipal() + "-------------------------------------------------------------------------------------------------------------------------");
                 model.addAttribute("favoritos", favoritos);
-
-              return "perfil";
+                return "perfil";
          }
         @GetMapping("/editar")
         /**

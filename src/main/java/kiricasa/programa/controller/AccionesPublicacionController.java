@@ -75,6 +75,12 @@ public class AccionesPublicacionController {
         if (!usuario.getRol().equals(UsuarioRol.ADMIN) && !publicacion.getUsuario().getId().equals(usuario.getId())) {
             return "redirect:/home";
         }
+        List<String> fotos = new ArrayList<>(publicacion.getFotos());
+        while (fotos.size() < 9) {
+            fotos.add("predeterminada.png");
+        }
+model.addAttribute("fotosCompletas", fotos);
+
         model.addAttribute("usuario", usuario);
         model.addAttribute("publicacion", publicacion);
         model.addAttribute("barrios", barriosRepository.findAll());
@@ -119,7 +125,7 @@ public String subirImagen(@PathVariable Long id,
             publicacion.setCarpetaImagen(carpeta);
         }
 
-        String rutaBase = new File("src/main/resources/static/uploads/publicaciones/").getAbsolutePath();
+        String rutaBase = new File("src/main/resources/static/images/uploads/publicaciones/").getAbsolutePath();
         File carpetaDir = new File(rutaBase, carpeta);
         if (!carpetaDir.exists()) carpetaDir.mkdirs();
 
@@ -129,7 +135,8 @@ public String subirImagen(@PathVariable Long id,
         archivo.transferTo(destino.toFile());
 
 
-        String rutaRelativa = "uploads/publicaciones/" + carpeta + "/" + nombreOriginal;
+    String rutaRelativa = nombreOriginal;
+
 
         for (int i = 0; i < 9; i++) {
             String imgActual = publicacion.getImagenPorIndice(i);
@@ -172,8 +179,9 @@ public String eliminarImagen(@PathVariable Long id,
 
     if (posicion != -1) {
 
-        String rutaBase = new File("src/main/resources/static").getAbsolutePath();
-        File archivo = new File(rutaBase, nombre);
+        String rutaBase = new File("src/main/resources/static/images/uploads/publicaciones/").getAbsolutePath();
+            String carpeta = publicacion.getCarpetaImagen();
+            File archivo = new File(rutaBase + "/" + carpeta, nombre);
         if (archivo.exists()) {
             if (archivo.delete()) {
                 publicacion.setImagenPorIndice(posicion, "");
@@ -184,7 +192,7 @@ public String eliminarImagen(@PathVariable Long id,
             }
         } else {
 
-            publicacion.setImagenPorIndice(posicion, "");
+            publicacion.setImagenPorIndice(posicion, "predeterminada.png");
             publicacionRepository.save(publicacion);
             redirectAttributes.addFlashAttribute("success", "Imagen eliminada de la publicación (no estaba en disco).");
         }
@@ -328,7 +336,7 @@ public String publicarNuevaPublicacion(@RequestParam String titulo,
     // Crear carpeta en disco
     String carpeta = "publicacion_" + publicacion.getId();
     publicacion.setCarpetaImagen(carpeta);
-    String rutaBase = new File("src/main/resources/static/uploads/publicaciones/").getAbsolutePath();
+    String rutaBase = new File("src/main/resources/static/images/uploads/publicaciones/").getAbsolutePath();
     String rutaFinal = rutaBase + "/" + carpeta;
 
     File carpetaDir = new File(rutaFinal);
@@ -345,8 +353,8 @@ public String publicarNuevaPublicacion(@RequestParam String titulo,
                 Path destino = Paths.get(rutaFinal, nombreOriginal);
                 imagen.transferTo(destino.toFile());
 
-                // Guardamos solo la ruta relativa
-                String rutaRelativa = "uploads/publicaciones/" + carpeta + "/" + nombreOriginal;
+
+                String rutaRelativa =   nombreOriginal;
                 nombresImagenes.add(rutaRelativa);
                 contador++;
             } catch (IOException e) {
@@ -357,12 +365,12 @@ public String publicarNuevaPublicacion(@RequestParam String titulo,
         }
     }
 
-    // Asignar imágenes subidas a los campos correspondientes
+
     for (int i = 0; i < nombresImagenes.size(); i++) {
         publicacion.setImagenPorIndice(i, nombresImagenes.get(i));
     }
 
-    // Guardar con imágenes definitivas
+
     publicacionRepository.save(publicacion);
 
     redirectAttributes.addFlashAttribute("success", "Anuncio publicado correctamente.");
@@ -400,7 +408,7 @@ public String eliminarPublicacion(@PathVariable Long id,
     // 2. Eliminar carpeta de imágenes si existe
     String carpeta = pub.getCarpetaImagen(); // debería ser tipo "publicacion_123"
     if (carpeta != null && !carpeta.isEmpty()) {
-        File rutaBase = new File("src/main/resources/static/uploads/publicaciones/");
+        File rutaBase = new File("src/main/resources/static/images/uploads/publicaciones");
         File carpetaPublicacion = new File(rutaBase, carpeta);
         if (carpetaPublicacion.exists() && carpetaPublicacion.isDirectory()) {
             // Eliminar todos los archivos dentro
