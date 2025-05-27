@@ -47,6 +47,7 @@ body {
 
 .formulario-editar-perfil input[type="text"],
 .formulario-editar-perfil input[type="email"],
+.formulario-editar-perfil input[type="tel"],
 .formulario-editar-perfil input[type="date"],
 .formulario-editar-perfil input[type="file"] {
     padding: 12px;
@@ -64,6 +65,11 @@ body {
     box-shadow: 0 0 0 4px rgba(204, 84, 67, 0.1);
 }
 
+.formulario-editar-perfil input:invalid {
+    border-color: red;
+}
+
+/* CHECKBOX */
 .formulario-editar-perfil input[type="checkbox"] {
     transform: scale(1.2);
     margin-right: 8px;
@@ -107,6 +113,23 @@ body {
 
 .boton-cancelar:hover {
     background-color: #b1b1b1;
+}
+
+/* MENSAJES */
+.mensaje-exito {
+    text-align: center;
+    color: green;
+    margin-top: -15px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.mensaje-error {
+    text-align: center;
+    color: red;
+    margin-top: -15px;
+    margin-bottom: 10px;
+    font-weight: bold;
 }
 
 /* RESPONSIVE */

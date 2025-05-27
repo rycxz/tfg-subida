@@ -1,225 +1,184 @@
-/* ====================
-   ESTILOS GENERALES
-   ==================== */
+@import url('https://fonts.googleapis.com/css2?family=Cabin+Rounded&family=Nunito:wght@800&display=swap');
 
-body#editar-publicacion {
-    font-family: 'Cabin Rounded', sans-serif;
-    background-color: #f5f7fa;
-    color: #333;
+:root {
+    --color-principal: #cc5443;
+    --color-secundario: #a54034;
+    --color-fondo: #fef7f3;
+    --color-texto: #333;
+    --fuente-titulo: 'Nunito', sans-serif;
+    --fuente-cuerpo: 'Cabin Rounded', sans-serif;
+}
+
+body {
+    font-family: var(--fuente-cuerpo);
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
     margin: 0;
     padding: 0;
 }
 
-/* ====================
-   TÍTULOS
-   ==================== */
-
 .titulo-editar {
     text-align: center;
-    font-size: 2.5rem;
-    margin-top: 20px;
-    color: #3498db;
+    font-size: 2.3rem;
+    margin: 40px 0 25px;
+    color: var(--color-principal);
+    font-family: var(--fuente-titulo);
 }
 
-.subtitulo-galeria {
-    text-align: center;
-    font-size: 1.5rem;
-    margin: 20px 0 10px;
-}
-
-
+/* GALERÍA DE IMÁGENES */
 .galeria-imagenes {
-    width: 100%;
-    max-width: 800px;
-    margin: 0 auto 30px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
     padding: 0 20px;
-    box-sizing: border-box;
-
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); /* más pequeñas */
-    gap: 10px;
+    margin-bottom: 30px;
 }
 
 .galeria-item {
     position: relative;
-    width: 100%;
-    height: 100%;
-
-    aspect-ratio: 1 / 1;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+    width: 160px;
+    height: 160px;
+    border: 2px dashed #ccc;
+    border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
     background-color: #fff;
-    transition: box-shadow 0.3s ease;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+}
+
+.galeria-item.vacia {
+    border-style: dashed;
+    background-color: #fafafa;
 }
 
 .imagen-anuncio {
-    width: 100%;
-    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
     object-fit: cover;
     border-radius: 8px;
-    transition: transform 0.3s ease;
 }
-
-/* Reducción también en móviles */
-@media (max-width: 500px) {
-    .galeria-imagenes {
-        grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
-        gap: 8px;
-    }
-
-    .galeria-item {
-        max-width: 90px;
-        max-height: 90px;
-        border-radius: 6px;
-    }
-.galeria-item:hover .imagen-anuncio {
-    transform: scale(1.05);
-}
-
-    .badge-principal {
-        font-size: 10px;
-        padding: 2px 5px;
-    }
-}
-
-/* ====================
-   BOTÓN ELIMINAR
-   ==================== */
 
 .boton-eliminar {
     position: absolute;
-    top: 5px;
-    left: 5px;
-    background-color: rgba(255, 0, 0, 0.8);
-    color: white;
+    top: 6px;
+    right: 6px;
+    background-color: var(--color-principal);
+    color: #fff;
+    border: none;
     border-radius: 50%;
-    width: 22px;
-    height: 22px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    width: 26px;
+    height: 26px;
+    text-align: center;
+    line-height: 26px;
+    font-size: 1rem;
+    cursor: pointer;
     text-decoration: none;
-    font-size: 14px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-    transition: background-color 0.2s ease;
+    transition: background-color 0.3s ease;
 }
 
 .boton-eliminar:hover {
-    background-color: rgba(255, 0, 0, 1);
+    background-color: var(--color-secundario);
 }
 
-/* ====================
-   BADGE PRINCIPAL
-   ==================== */
-
+/* ETIQUETA PRINCIPAL */
 .badge-principal {
     position: absolute;
-    top: 5px;
-    right: 5px;
-    background-color: #ff4757;
-    color: white;
-    padding: 4px 8px;
-    border-radius: 12px;
-    font-size: 12px;
-    font-weight: bold;
+    bottom: 6px;
+    left: 6px;
+    background-color: var(--color-principal);
+    color: #fff;
+    font-size: 0.75rem;
+    padding: 3px 6px;
+    border-radius: 6px;
 }
 
-/* ====================
-   FORMULARIO
-   ==================== */
-
+/* FORMULARIO */
 .formulario-editar-publicacion {
-    max-width: 600px;
+    max-width: 700px;
     margin: 0 auto 50px;
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 16px;
 }
 
 .formulario-editar-publicacion label {
     font-weight: bold;
-    margin-top: 10px;
+    font-size: 0.95rem;
+    margin-bottom: 4px;
+    color: #444;
 }
 
 .formulario-editar-publicacion input[type="text"],
 .formulario-editar-publicacion input[type="number"],
+.formulario-editar-publicacion input[type="date"],
+.formulario-editar-publicacion input[type="file"],
+.formulario-editar-publicacion input[type="email"],
 .formulario-editar-publicacion textarea,
 .formulario-editar-publicacion select {
-    padding: 8px 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    padding: 12px;
+    border: 1.5px solid #ccc;
+    border-radius: 10px;
     font-size: 1rem;
     width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.formulario-editar-publicacion textarea {
-    resize: vertical;
+.formulario-editar-publicacion input:focus,
+.formulario-editar-publicacion textarea:focus,
+.formulario-editar-publicacion select:focus {
+    border-color: var(--color-principal);
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(204, 84, 67, 0.1);
 }
 
 .formulario-editar-publicacion input[type="checkbox"] {
     transform: scale(1.2);
-    margin-left: 5px;
+    margin-right: 8px;
 }
 
-/* ====================
-   BOTÓN GUARDAR
-   ==================== */
-
+/* BOTÓN GUARDAR */
 .boton-guardar {
-    margin-top: 20px;
-    padding: 12px;
-    background-color: #3498db;
+    padding: 12px 22px;
+    font-size: 1rem;
+    background-color: var(--color-principal);
     color: white;
-    font-size: 1.1rem;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
+    font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    align-self: flex-end;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .boton-guardar:hover {
-    background-color: #2980b9;
+    background-color: var(--color-secundario);
+    transform: scale(1.03);
 }
 
-/* ====================
-   RESPONSIVE
-   ==================== */
+/* RESPONSIVE */
+@media (max-width: 600px) {
+    .galeria-imagenes {
+        flex-direction: column;
+        align-items: center;
+    }
 
-@media (max-width: 500px) {
     .formulario-editar-publicacion {
-        padding: 15px;
+        padding: 20px;
     }
 
     .titulo-editar {
-        font-size: 2rem;
+        font-size: 1.9rem;
     }
 
-    .subtitulo-galeria {
-        font-size: 1.2rem;
-    }
-
-    .galeria-imagenes {
-        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-        gap: 10px;
-    }
-
-    .badge-principal {
-        padding: 2px 6px;
-        font-size: 10px;
-    }
-
-    .boton-eliminar {
-        width: 20px;
-        height: 20px;
-        font-size: 12px;
+    .boton-guardar {
+        width: 100%;
+        text-align: center;
     }
 }

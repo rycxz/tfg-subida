@@ -154,25 +154,24 @@
     <form th:action="@{/auth/register}"  th:object="${registerRequest}" method="post">
       <input type="text" name="nombre" placeholder="Nombre" required>
       <input type="email" name="email" placeholder="Email" required>
-
   <input
     type="password"
     name="password"
     placeholder="Contraseña (mín. 6 caracteres)"
     required
     minlength="6"
-  >
-
-
-
-
-      <input type="tel" name="numero" placeholder="Número de teléfono" required>
+  >      <input type="tel" name="numero" placeholder="Número de teléfono" required>
       <label for="fechaNacimiento">Fecha de nacimiento</label>
-      <input type="date" name="fechaNacimiento" required>
+     <input type="date"
+       name="fechaNacimiento"
+       required
+       min="1900-01-01"
+       th:attr="max=${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" />
+
 
       <div class="checkbox-container">
         <input type="checkbox" name="terminos" required>
-        <label>Estoy de acuerdo con los <a href="/terminos" target="_blank">términos y condiciones</a></label>
+        <label>Estoy de acuerdo con los <a href="/variado/condiciones" target="_blank">términos y condiciones</a></label>
       </div>
 
       <div class="checkbox-container">

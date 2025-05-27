@@ -50,23 +50,25 @@ public class PerfilController {
           * @param session
           * @return
           */
-       @GetMapping("/ver")
-         public String verPerfil(Model model, HttpSession session) {
-              String token = (String) session.getAttribute("jwt");
-              //hay que obtener el usuario logueado,sus publicaciones y sus favoritos
-              UsuarioModel usuarioLogueado = (UsuarioModel) session.getAttribute("usuario");
-            List<PublicacionModel> publicaciones = publicacionRepository.findByUsuario(usuarioLogueado);
-            List<FavoritosModel> favoritos = favoritosRepository.findByUsuario(usuarioLogueado);
+     @GetMapping("/ver")
+        public String verPerfil(Model model, HttpSession session) {
+            String token = (String) session.getAttribute("jwt");
+            UsuarioModel usuarioLogueado = (UsuarioModel) session.getAttribute("usuario");
+
             if (usuarioLogueado == null || token == null) {
                 return "redirect:/nl/home";
-              }
-                model.addAttribute("barrios", barriosRepository.findAll());
-                model.addAttribute("usuario", usuarioLogueado);
-                model.addAttribute("publicaciones", publicaciones);
-                System.out.println("Publicaciones del usuario: " + publicaciones.get(0).getImagePrincipal() + "-------------------------------------------------------------------------------------------------------------------------");
-                model.addAttribute("favoritos", favoritos);
-                return "perfil";
-         }
+            }
+
+            List<PublicacionModel> publicaciones = publicacionRepository.findByUsuario(usuarioLogueado);
+            List<FavoritosModel> favoritos = favoritosRepository.findByUsuario(usuarioLogueado);
+
+            model.addAttribute("barrios", barriosRepository.findAll());
+            model.addAttribute("usuario", usuarioLogueado);
+            model.addAttribute("publicaciones", publicaciones);
+            model.addAttribute("favoritos", favoritos);
+            return "perfil";
+        }
+
         @GetMapping("/editar")
         /**
          * * Muestra el formulario de edición del perfil
@@ -85,36 +87,30 @@ public class PerfilController {
             model.addAttribute("usuario", usuario);
             return "perfil_editar"; // Vista con el formulario
         }
-        @PostMapping("/editar")
-        /**
-         *  * Procesa la edición del perfil
-         * @param usuarioForm
-         * @param session
-         * @param redirectAttributes
-         * @param model
-         * @return
-         */
-        public String procesarEdicionPerfil(@ModelAttribute UsuarioModel usuarioForm,
-                                            HttpSession session,
-                                            RedirectAttributes redirectAttributes,Model model) {
+       @PostMapping("/editar")
+public String procesarEdicionPerfil(@ModelAttribute UsuarioModel usuarioForm,
+                                    HttpSession session,
+                                    RedirectAttributes redirectAttributes,
+                                    Model model) {
 
-            UsuarioModel usuarioSesion = (UsuarioModel) session.getAttribute("usuario");
+    UsuarioModel usuarioSesion = (UsuarioModel) session.getAttribute("usuario");
 
-            if (usuarioSesion == null) {
-                return "redirect:/nl/home";
-            }
+    if (usuarioSesion == null) {
+        return "redirect:/nl/home";
+    }
 
-            // Copiar solo los campos editables que quieras permitir
-            usuarioSesion.setNombre(usuarioForm.getNombre());
-            usuarioSesion.setEmail(usuarioForm.getEmail());
-            // Añade aquí cualquier otro campo editable
+    usuarioSesion.setNombre(usuarioForm.getNombre());
+    usuarioSesion.setEmail(usuarioForm.getEmail());
+    usuarioSesion.setNumero(usuarioForm.getNumero());
+    usuarioSesion.setFechaNacimiento(usuarioForm.getFechaNacimiento());
+    usuarioSesion.setRecibirNotificaciones(usuarioForm.isRecibirNotificaciones());
 
-            usuarioRepository.save(usuarioSesion);
-            session.setAttribute("usuario", usuarioSesion); // Actualizar en sesión
-            model.addAttribute("barrios", barriosRepository.findAll());
-            redirectAttributes.addFlashAttribute("success", "Perfil actualizado correctamente.");
-            return "redirect:/perfil/ver";
-        }
+    usuarioRepository.save(usuarioSesion);
+    session.setAttribute("usuario", usuarioSesion);
+    redirectAttributes.addFlashAttribute("success", "Perfil actualizado correctamente.");
+    return "redirect:/perfil/ver";
+}
+
         @GetMapping("/2fa")
         /**
          * * Muestra el formulario de verificación de 2FA

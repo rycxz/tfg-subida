@@ -43,10 +43,12 @@
         <input type="email" id="email" th:field="*{email}" required />
 
        <label for="numero">Número de teléfono:</label>
-        <input type="text" id="numero" th:field="*{numero}" placeholder="Ej: 612345678" />
+     <input type="tel" id="numero" th:field="*{numero}" pattern="[0-9]{9}" placeholder="Ej: 612345678" />
+
 
         <label for="fechaNacimiento">Fecha de nacimiento:</label>
-        <input type="date" id="fechaNacimiento" th:field="*{fechaNacimiento}" />
+ <input type="date" id="fechaNacimiento" th:field="*{fechaNacimiento}" min="1900-01-01" />
+
 
         <label>
             <input type="checkbox" th:field="*{recibirNotificaciones}" />

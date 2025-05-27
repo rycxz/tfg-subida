@@ -87,7 +87,7 @@
         <textarea name="descripcion" rows="4" required th:text="${publicacion.descripcion}"></textarea>
 
         <label>Precio:</label>
-        <input type="text" name="precio" th:value="${publicacion.precio}" required />
+        <input type="number" name="precio" th:value="${publicacion.precio}" required />
 
         <label>Estado:</label>
         <input type="text" name="estado" th:value="${publicacion.estado}" />
@@ -107,7 +107,7 @@
         <input type="number" name="metrosCuadrados" th:value="${publicacion.metrosCuadrados}" min="0" />
 
         <label>Habitaciones:</label>
-        <input type="text" name="habitaciones" th:value="${publicacion.habitaciones}" />
+        <input type="number" name="habitaciones" th:value="${publicacion.habitaciones}" />
 
         <label>Permite mascotas:</label>
         <input type="checkbox" name="permiteMascotas" th:checked="${publicacion.permiteMascotas}" />

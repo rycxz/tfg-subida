@@ -79,6 +79,7 @@ public String register(
             model.addAttribute("error", "La fecha de nacimiento no puede ser anterior a 1900");
             return "registro";
         }
+
          if (!request.getNumero().matches("\\d{9,15}")) {
         model.addAttribute("registerRequest", request);
         model.addAttribute("error", "El número de teléfono debe contener entre 9 y 15 dígitos.");
