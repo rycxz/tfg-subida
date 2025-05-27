@@ -125,7 +125,7 @@ public String subirImagen(@PathVariable Long id,
             publicacion.setCarpetaImagen(carpeta);
         }
 
-        String rutaBase = new File("src/main/resources/static/images/uploads/publicaciones/").getAbsolutePath();
+        String rutaBase = new File("images/uploads/publicaciones/").getAbsolutePath();
         File carpetaDir = new File(rutaBase, carpeta);
         if (!carpetaDir.exists()) carpetaDir.mkdirs();
 
@@ -179,7 +179,7 @@ public String eliminarImagen(@PathVariable Long id,
 
     if (posicion != -1) {
 
-        String rutaBase = new File("src/main/resources/static/images/uploads/publicaciones/").getAbsolutePath();
+        String rutaBase = new File("images/uploads/publicaciones/").getAbsolutePath();
             String carpeta = publicacion.getCarpetaImagen();
             File archivo = new File(rutaBase + "/" + carpeta, nombre);
         if (archivo.exists()) {
@@ -336,7 +336,7 @@ public String publicarNuevaPublicacion(@RequestParam String titulo,
     // Crear carpeta en disco
     String carpeta = "publicacion_" + publicacion.getId();
     publicacion.setCarpetaImagen(carpeta);
-    String rutaBase = new File("src/main/resources/static/images/uploads/publicaciones/").getAbsolutePath();
+    String rutaBase = new File("images/uploads/publicaciones/").getAbsolutePath();
     String rutaFinal = rutaBase + "/" + carpeta;
 
     File carpetaDir = new File(rutaFinal);
@@ -408,7 +408,7 @@ public String eliminarPublicacion(@PathVariable Long id,
     // 2. Eliminar carpeta de imágenes si existe
     String carpeta = pub.getCarpetaImagen(); // debería ser tipo "publicacion_123"
     if (carpeta != null && !carpeta.isEmpty()) {
-        File rutaBase = new File("src/main/resources/static/images/uploads/publicaciones");
+        File rutaBase = new File("images/uploads/publicaciones");
         File carpetaPublicacion = new File(rutaBase, carpeta);
         if (carpetaPublicacion.exists() && carpetaPublicacion.isDirectory()) {
             // Eliminar todos los archivos dentro
