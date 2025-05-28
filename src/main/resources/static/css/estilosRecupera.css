@@ -8,6 +8,10 @@
     --fuente-cuerpo: 'Cabin Rounded', sans-serif;
 }
 
+* {
+    box-sizing: border-box;
+}
+
 body {
     font-family: var(--fuente-cuerpo);
     background-color: var(--color-fondo);
@@ -40,7 +44,7 @@ form {
     padding: 2rem;
     border-radius: 20px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-    width: 90%;
+    width: 100%;
     max-width: 400px;
     transition: all 0.3s ease;
 }
@@ -97,13 +101,41 @@ p[th\\:if] {
     margin-top: 10px;
 }
 
-/* Responsivo */
-@media (max-width: 480px) {
+/* RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+    .recupera-wrapper {
+        padding: 30px 15px;
+    }
+
     form {
         padding: 1.5rem;
     }
 
     h2 {
+        font-size: 1.75em;
+    }
+}
+
+@media (max-width: 480px) {
+    .recupera-wrapper {
+        padding: 20px 10px;
+    }
+
+    form {
+        padding: 1.2rem;
+    }
+
+    h2 {
         font-size: 1.5em;
+    }
+
+    label {
+        font-size: 14px;
+    }
+
+    input[type="email"],
+    button[type="submit"] {
+        font-size: 14px;
+        padding: 10px;
     }
 }

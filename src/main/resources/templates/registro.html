@@ -2,45 +2,172 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Registro - Kiricasa</title>
+  <title> Kiricasa</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --kiricasa-red: #cc5443;
-      --kiricasa-bg: #fdf6f2;
-    }
+      <link rel="icon" href="/images/elementos/sinfondo.ico" type="image/x-icon">
+<style>
+  :root {
+    --kiricasa-red: #cc5443;
+    --kiricasa-bg: #fdf6f2;
+  }
 
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Nunito', sans-serif;
-      background: url('/images/fondos/fondo-reg.jpg') no-repeat center center fixed;
-      background-size: cover;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
+  * {
+    box-sizing: border-box;
+  }
 
+  body {
+    margin: 0;
+    padding: 0 1em; /* Espaciado lateral en móviles */
+    font-family: 'Nunito', sans-serif;
+    background: url('/images/fondos/fondo-reg.jpg') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+
+  .register-card {
+    background-color: var(--kiricasa-bg);
+    width: 100%;
+    max-width: 450px;
+    border-radius: 30px;
+    padding: 2.5em;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .register-card h2 {
+    text-align: center;
+    color: var(--kiricasa-red);
+    margin-bottom: 1.5em;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="date"],
+  input[type="tel"] {
+    width: 100%;
+    padding: 0.8em;
+    border: 2px solid var(--kiricasa-red);
+    border-radius: 30px;
+    font-size: 1em;
+    outline: none;
+  }
+
+  .saltar-wrapper {
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .btn-saltar {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: transparent;
+    color: var(--kiricasa-red);
+    border: 2px solid var(--kiricasa-red); /* corregido aquí */
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .btn-saltar:hover {
+    background-color: var(--kiricasa-red);
+    color: white;
+  }
+
+  label {
+    font-weight: 600;
+    color: #333;
+    font-size: 0.95em;
+  }
+
+  .checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    font-size: 0.9em;
+    flex-wrap: wrap;
+  }
+
+  .checkbox-container input[type="checkbox"] {
+    transform: scale(1.2);
+  }
+
+  .checkbox-container a {
+    color: var(--kiricasa-red);
+    text-decoration: underline;
+    font-weight: bold;
+  }
+
+  .submit-btn {
+    padding: 0.9em;
+    background-color: var(--kiricasa-red);
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 20px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .submit-btn:hover {
+    background-color: #b94535;
+  }
+
+  .login-buttons button:hover {
+    background-color: #b94535;
+  }
+
+  .back-button {
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    background-color: var(--kiricasa-red);
+    color: white;
+    padding: 0.5em 1.2em;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+
+  .back-button:hover {
+    background-color: #b94535;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
     .register-card {
-      background-color: var(--kiricasa-bg);
-      width: 450px;
-      border-radius: 30px;
-      padding: 2.5em;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+      padding: 2em;
     }
 
-    .register-card h2 {
-      text-align: center;
-      color: var(--kiricasa-red);
-      margin-bottom: 1.5em;
+    .back-button {
+      top: 1rem;
+      left: 1rem;
+      font-size: 0.9em;
+      padding: 0.4em 1em;
+    }
+  }
+
+  @media (max-width: 500px) {
+    .register-card {
+      width: 100%;
+      padding: 1.5em;
     }
 
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5em;
+    .btn-saltar {
+      font-size: 0.9em;
+      padding: 0.6em 1em;
     }
 
     input[type="text"],
@@ -48,98 +175,11 @@
     input[type="password"],
     input[type="date"],
     input[type="tel"] {
-      width: 100%;
-      padding: 0.8em;
-      border: 2px solid var(--kiricasa-red);
-      border-radius: 30px;
-      font-size: 1em;
-      outline: none;
-    }
-
-.saltar-wrapper {
-    text-align: center;
-    margin-top: 20px;
-}
-
-.btn-saltar {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: transparent;
-    color: var(--kiricasa-red);
-    border: 2px solid --kiricasa-red;
-    border-radius: 8px;
-    font-weight: bold;
-    text-decoration: none;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.btn-saltar:hover {
-    background-color: var(--kiricasa-red);
-    color: white;
-}
-
-    label {
-      font-weight: 600;
-      color: #333;
       font-size: 0.95em;
     }
+  }
+</style>
 
-    .checkbox-container {
-      display: flex;
-      align-items: center;
-      gap: 0.5em;
-      font-size: 0.9em;
-    }
-
-    .checkbox-container input[type="checkbox"] {
-      transform: scale(1.2);
-    }
-
-    .checkbox-container a {
-      color: var(--kiricasa-red);
-      text-decoration: underline;
-      font-weight: bold;
-    }
-
-    .submit-btn {
-      padding: 0.9em;
-      background-color: var(--kiricasa-red);
-      color: white;
-      font-weight: bold;
-      border: none;
-      border-radius: 20px;
-      font-size: 1em;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    .submit-btn:hover {
-      background-color: #b94535;
-    }
-
-    .login-buttons button:hover {
-      background-color: #b94535;
-    }
-    .back-button {
-  position: absolute;
-  top: 2rem;
-  left: 2rem;
-  background-color: var(--kiricasa-red);
-  color: white;
-  padding: 0.5em 1.2em;
-  border-radius: 20px;
-  text-decoration: none;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
-}
-
-    @media (max-width: 500px) {
-      .register-card {
-        width: 90%;
-        padding: 2em;
-      }
-    }
-  </style>
 </head>
 <body>
   <div class="register-card">

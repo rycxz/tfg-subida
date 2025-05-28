@@ -1,111 +1,147 @@
 @import url('https://fonts.googleapis.com/css2?family=Cabin+Rounded&family=Nunito:wght@800&display=swap');
 
 :root {
-    --color-principal: #cc5443;
-    --color-secundario: #a54034;
-    --color-fondo: #fef7f3;
-    --fuente-titulo: 'Nunito', sans-serif;
-    --fuente-cuerpo: 'Cabin Rounded', sans-serif;
+  --color-principal: #cc5443;
+  --color-secundario: #a54034;
+  --color-fondo: #fef7f3;
+  --fuente-titulo: 'Nunito', sans-serif;
+  --fuente-cuerpo: 'Cabin Rounded', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 body {
-    margin: 0;
-    padding: 0;
-    font-family: var(--fuente-cuerpo);
-    background-color: var(--color-fondo);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+  margin: 0;
+  padding: 0;
+  font-family: var(--fuente-cuerpo);
+  background-color: var(--color-fondo);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 #codigo-wrapper {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 3rem 1rem;
-    text-align: center;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  text-align: center;
 }
 
 #codigo-title {
-    font-family: var(--fuente-titulo);
-    font-size: 2em;
-    color: var(--color-principal);
-    margin-bottom: 2rem;
+  font-family: var(--fuente-titulo);
+  font-size: 2em;
+  color: var(--color-principal);
+  margin-bottom: 2rem;
 }
 
 #codigo-form {
-    background-color: white;
-    padding: 2rem;
-    border-radius: 20px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-    width: 90%;
-    max-width: 400px;
-    text-align: left;
-    transition: all 0.3s ease;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 400px;
+  text-align: left;
+  transition: all 0.3s ease;
 }
 
 #codigo-form label {
-    font-weight: bold;
-    color: #444;
-    display: block;
-    margin-bottom: 8px;
-    margin-top: 1rem;
-    font-size: 15px;
+  font-weight: bold;
+  color: #444;
+  display: block;
+  margin-bottom: 8px;
+  margin-top: 1rem;
+  font-size: 15px;
 }
 
 #codigo-form input[type="text"],
 #codigo-form input[type="password"] {
-    width: 100%;
-    padding: 12px;
-    border: 1.5px solid #ccc;
-    border-radius: 10px;
-    font-size: 14px;
-    font-family: var(--fuente-cuerpo);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;
+  padding: 12px;
+  border: 1.5px solid #ccc;
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: var(--fuente-cuerpo);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 #codigo-form input:focus {
-    border-color: var(--color-principal);
-    outline: none;
-    box-shadow: 0 0 0 4px rgba(204, 84, 67, 0.1);
+  border-color: var(--color-principal);
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(204, 84, 67, 0.1);
 }
 
 #codigo-submit {
-    margin-top: 2rem;
-    width: 100%;
-    padding: 12px;
-    background-color: var(--color-principal);
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-family: var(--fuente-cuerpo);
-    font-weight: bold;
-    font-size: 15px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-top: 2rem;
+  width: 100%;
+  padding: 12px;
+  background-color: var(--color-principal);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-family: var(--fuente-cuerpo);
+  font-weight: bold;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 #codigo-submit:hover {
-    background-color: var(--color-secundario);
-    transform: scale(1.03);
+  background-color: var(--color-secundario);
+  transform: scale(1.03);
 }
 
 #codigo-error {
-    color: #e74c3c;
-    font-size: 14px;
-    margin-top: 1.5rem;
-    text-align: center;
+  color: #e74c3c;
+  font-size: 14px;
+  margin-top: 1.5rem;
+  text-align: center;
 }
 
-/* Responsive */
-@media (max-width: 480px) {
-    #codigo-form {
-        padding: 1.5rem;
-    }
+/* Responsive Design */
+@media (max-width: 768px) {
+  #codigo-wrapper {
+    padding: 2rem 1rem;
+  }
 
-    #codigo-title {
-        font-size: 1.6em;
-    }
+  #codigo-title {
+    font-size: 1.75em;
+  }
+
+  #codigo-form {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  #codigo-wrapper {
+    padding: 1.5rem 0.8rem;
+  }
+
+  #codigo-title {
+    font-size: 1.5em;
+  }
+
+  #codigo-form {
+    padding: 1.2rem;
+  }
+
+  #codigo-form label {
+    font-size: 14px;
+  }
+
+  #codigo-form input {
+    font-size: 13.5px;
+    padding: 10px;
+  }
+
+  #codigo-submit {
+    font-size: 14px;
+    padding: 10px;
+  }
 }

@@ -1,103 +1,180 @@
 @import url('https://fonts.googleapis.com/css2?family=Cabin+Rounded&family=Nunito:wght@800&display=swap');
 
 :root {
-    --color-principal: #cc5443;
-    --color-secundario: #a54034;
-    --color-fondo: #fef7f3;
-    --fuente-titulo: 'Nunito', sans-serif;
-    --fuente-cuerpo: 'Cabin Rounded', sans-serif;
+  --color-principal: #cc5443;
+  --color-secundario: #a54034;
+  --color-fondo: #fef7f3;
+  --fuente-titulo: 'Nunito', sans-serif;
+  --fuente-cuerpo: 'Cabin Rounded', sans-serif;
 }
 
 body {
-    background-color: var(--color-fondo);
-    font-family: var(--fuente-cuerpo);
-    margin: 0;
-    padding: 0;
+  background-color: var(--color-fondo);
+  font-family: var(--fuente-cuerpo);
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
 }
 
 /* Contenedor principal */
 .favoritos-container {
-    padding: 2rem;
-    text-align: center;
+  padding: 2rem;
+  text-align: center;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .favoritos-container h1 {
-    font-family: var(--fuente-titulo);
-    font-size: 2.5rem;
-    color: var(--color-principal);
-    margin-bottom: 2rem;
+  font-family: var(--fuente-titulo);
+  font-size: 2.5rem;
+  color: var(--color-principal);
+  margin-bottom: 2rem;
 }
 
 /* Grid de tarjetas */
 .favoritos-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    justify-content: center;
-    align-items: stretch;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 2rem;
+  justify-content: center;
+  align-items: stretch;
+  width: 100%;
 }
 
 /* Tarjeta individual */
 .favorito-card {
-    background-color: #fff;
-    border-radius: 20px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-    padding: 1rem;
-    position: relative;
-    transition: transform 0.2s ease;
+  background-color: #fff;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  padding: 1rem;
+  position: relative;
+  transition: transform 0.2s ease;
 }
 
 .favorito-card:hover {
-    transform: translateY(-5px);
+  transform: translateY(-5px);
 }
 
-/* Imagen y ubicación */
+/* Imagen y título */
 .favorito-button {
-    all: unset;
-    cursor: pointer;
-    display: block;
-    text-align: left;
-    width: 100%;
+  all: unset;
+  cursor: pointer;
+  display: block;
+  text-align: left;
+  width: 100%;
 }
 
 .favorito-button img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-    border-radius: 15px;
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 15px;
 }
 
 .favorito-button h3 {
-    margin-top: 1rem;
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: #333;
-    font-family: var(--fuente-cuerpo);
+  margin-top: 1rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #333;
+  font-family: var(--fuente-cuerpo);
 }
 
 /* Botón corazón */
 .heart-btn {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    background: transparent;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    transition: transform 0.2s ease;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: transform 0.2s ease;
 }
 
 .heart-btn:hover {
-    transform: scale(1.2);
+  transform: scale(1.2);
 }
 
-/* Responsive */
-@media (max-width: 480px) {
-    .favorito-button img {
-        height: 150px;
-    }
+/* ============================ */
+/*        BREAKPOINTS          */
+/* ============================ */
 
-    .favorito-button h3 {
-        font-size: 1rem;
-    }
+@media (max-width: 1024px) {
+  .favoritos-container {
+    padding: 1.8rem;
+  }
+
+  .favoritos-container h1 {
+    font-size: 2.2rem;
+  }
+
+  .favoritos-grid {
+    gap: 1.6rem;
+  }
+
+  .favorito-button img {
+    height: 170px;
+  }
+
+  .favorito-button h3 {
+    font-size: 1.05rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .favoritos-container {
+    padding: 1.5rem;
+  }
+
+  .favoritos-container h1 {
+    font-size: 2rem;
+  }
+
+  .favoritos-grid {
+    gap: 1.4rem;
+  }
+
+  .favorito-card {
+    padding: 0.9rem;
+  }
+
+  .favorito-button img {
+    height: 160px;
+  }
+
+  .favorito-button h3 {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .favoritos-container {
+    padding: 1rem;
+  }
+
+  .favoritos-grid {
+    gap: 1.2rem;
+  }
+
+  .favorito-card {
+    padding: 0.8rem;
+  }
+
+  .favoritos-container h1 {
+    font-size: 1.6rem;
+  }
+
+  .favorito-button img {
+    height: 140px;
+  }
+
+  .favorito-button h3 {
+    font-size: 0.95rem;
+  }
+
+  .heart-btn {
+    font-size: 1.3rem;
+    top: 0.8rem;
+    right: 0.8rem;
+  }
 }

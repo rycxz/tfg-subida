@@ -1,114 +1,165 @@
-body {
-    font-family: 'Cabin Rounded', sans-serif;
-    background-color: #fdfdfd;
-    margin: 0;
-    padding: 0 2rem;
-    color: #333;
+/* GLOBAL: evita scroll lateral y aplica box-sizing */
+* {
+  box-sizing: border-box;
 }
 
+body {
+  font-family: 'Cabin Rounded', sans-serif;
+  background-color: #fdfdfd;
+  margin: 0;
+  padding: 0 2rem;
+  color: #333;
+  overflow-x: hidden;
+}
+
+/* TITULOS Y PARRAFOS */
 h1 {
-    margin-top: 2rem;
-    font-size: 2rem;
-    color: #cc5443;
-    text-align: center;
+  margin-top: 2rem;
+  font-size: 2rem;
+  color: #cc5443;
+  text-align: center;
 }
 
 p {
-    font-size: 1rem;
-    line-height: 1.6;
-    color: #555;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #555;
 }
 
+/* CONTENEDOR PRINCIPAL */
 .resultado-container {
-    max-width: 1000px;
-    margin: 2rem auto;
+  max-width: 1000px;
+  margin: 2rem auto;
 }
 
+/* TARJETAS DE RESULTADO */
 .resultado {
-    background-color: #fff;
-    border: 1px solid #eee;
-    border-radius: 16px;
-    padding: 1.5rem 2rem;
-    margin-bottom: 2rem;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
-    transition: transform 0.2s ease;
+  background-color: #fff;
+  border: 1px solid #eee;
+  border-radius: 16px;
+  padding: 1.5rem 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease;
 }
 
 .resultado:hover {
-    transform: scale(1.01);
+  transform: scale(1.01);
 }
 
 .resultado h2 {
-    margin-top: 0;
-    color: #cc5443;
-    font-size: 1.5rem;
+  margin-top: 0;
+  color: #cc5443;
+  font-size: 1.5rem;
 }
 
 .resultado a {
-    display: inline-block;
-    margin-top: 1rem;
-    padding: 0.5em 1.2em;
-    background-color: #cc5443;
-    color: white;
-    text-decoration: none;
-    border-radius: 25px;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.5em 1.2em;
+  background-color: #cc5443;
+  color: white;
+  text-decoration: none;
+  border-radius: 25px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
 }
 
 .resultado a:hover {
-    background-color: #a73d33;
+  background-color: #a73d33;
 }
 
+/* MENSAJE SIN RESULTADOS */
 .mensaje-vacio {
-    text-align: center;
-    margin: 3rem auto;
-    font-size: 1.2rem;
-    color: #888;
+  text-align: center;
+  margin: 3rem auto;
+  font-size: 1.2rem;
+  color: #888;
 }
+
+/* FORMULARIO DE FILTROS */
 .filtros-form {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    padding: 2rem;
-    background-color: #fff9f8;
-    border: 1px solid #eee;
-    border-radius: 16px;
-    margin: 2rem auto;
-    max-width: 1000px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    justify-content: space-between;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 2rem;
+  background-color: #fff9f8;
+  border: 1px solid #eee;
+  border-radius: 16px;
+  margin: 2rem auto;
+  max-width: 1000px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  justify-content: space-between;
 }
 
 .filtros-form input,
 .filtros-form select {
-    flex: 1 1 200px;
-    padding: 0.5rem 1rem;
-    border: 2px solid #ddd;
-    border-radius: 10px;
-    font-family: 'Cabin Rounded', sans-serif;
+  flex: 1 1 200px;
+  padding: 0.5rem 1rem;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  font-family: 'Cabin Rounded', sans-serif;
 }
 
 .filtros-form label {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-weight: bold;
-    color: #555;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: bold;
+  color: #555;
 }
 
 .filtros-form button {
-    padding: 0.6rem 2rem;
-    background-color: #cc5443;
-    color: white;
-    border: none;
-    border-radius: 25px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+  padding: 0.6rem 2rem;
+  background-color: #cc5443;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .filtros-form button:hover {
-    background-color: #a73d33;
+  background-color: #a73d33;
 }
 
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  body {
+    padding: 0 1rem;
+  }
+
+  .filtros-form {
+    flex-direction: column;
+    padding: 1.5rem;
+  }
+
+  .filtros-form input,
+  .filtros-form select {
+    width: 100%;
+  }
+
+  .resultado {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.6rem;
+  }
+
+  .resultado h2 {
+    font-size: 1.3rem;
+  }
+
+  .resultado a {
+    font-size: 0.95rem;
+    padding: 0.4em 1em;
+  }
+
+  .filtros-form button {
+    width: 100%;
+  }
+}

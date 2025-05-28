@@ -2,158 +2,197 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Login - Kiricasa</title>
+  <title>Kiricasa</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --kiricasa-red: #cc5443;
-      --kiricasa-bg: #fdf6f2;
-    }
+ <style>
+  :root {
+    --kiricasa-red: #cc5443;
+    --kiricasa-bg: #fdf6f2;
+  }
 
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Nunito', sans-serif;
-      background: url('/images/fondos/fondo-login.jpg') no-repeat center center fixed;
-      background-size: cover;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
+  * {
+    box-sizing: border-box;
+  }
 
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Nunito', sans-serif;
+    background: url('/images/fondos/fondo-login.jpg') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 1em;
+  }
+
+  .login-card {
+    background-color: var(--kiricasa-bg);
+    width: 100%;
+    max-width: 400px;
+    border-radius: 30px;
+    padding: 3em;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .login-card h2 {
+    margin-bottom: 1em;
+    font-weight: 700;
+    font-size: 1.2em;
+    text-align: center;
+    color: #333;
+  }
+
+  .saltar-wrapper {
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .btn-saltar {
+    display: inline-block;
+    padding: 0.8em 1.2em;
+    background-color: var(--kiricasa-red);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .btn-saltar:hover {
+    background-color: #b94535;
+  }
+
+  .register-link {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    margin-bottom: 1.5em;
+    flex-wrap: wrap;
+    gap: 0.5em;
+  }
+
+  .register-link span {
+    font-weight: bold;
+  }
+
+  .register-link a {
+    background-color: var(--kiricasa-red);
+    color: white;
+    padding: 0.5em 1.2em;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  .login-input {
+    width: 100%;
+    margin-bottom: 2em;
+  }
+
+  .login-input input {
+    width: 100%;
+    padding: 0.8em;
+    border: 2px solid var(--kiricasa-red);
+    border-radius: 30px;
+    font-size: 1em;
+    color: #333;
+    outline: none;
+  }
+
+  .login-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 1em;
+    flex-wrap: wrap;
+  }
+
+  .login-buttons button {
+    flex: 1 1 45%;
+    padding: 0.8em;
+    background-color: var(--kiricasa-red);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .login-buttons button:hover {
+    background-color: #b94535;
+  }
+
+  .back-button {
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    background-color: var(--kiricasa-red);
+    color: white;
+    padding: 0.5em 1.2em;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+
+  .back-button:hover {
+    background-color: #b94535;
+  }
+
+
+  @media (max-width: 768px) {
     .login-card {
-      background-color: var(--kiricasa-bg);
-      width: 400px;
-      border-radius: 30px;
-      padding: 3em;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .login-card h2 {
-      margin-bottom: 1em;
-      font-weight: 700;
-      font-size: 1.2em;
-      text-align: center;
-      color: #333;
-    }.saltar-wrapper {
-  text-align: center;
-  margin-top: 20px;
-}
-
-.btn-saltar {
-  display: inline-block;
-  padding: 0.8em;
-  background-color: var(--kiricasa-red);
-  color: white;
-  border: none;
-  border-radius: 20px;
-  font-weight: bold;
-  text-decoration: none;
-  font-size: 1em;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.btn-saltar:hover {
-  background-color: #b94535;
-}
-
-    .register-link {
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-      align-items: center;
-      margin-bottom: 1.5em;
-    }
-
-    .register-link span {
-      font-weight: bold;
-    }
-
-    .register-link a {
-      background-color: var(--kiricasa-red);
-      color: white;
-      padding: 0.5em 1.2em;
-      border-radius: 20px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    .login-input {
-      width: 100%;
-      margin-bottom: 2em;
-    }
-
-    .login-input input {
-      width: 100%;
-      padding: 0.8em;
-      border: 2px solid var(--kiricasa-red);
-      border-radius: 30px;
-      font-size: 1em;
-      color: #333;
-      outline: none;
-    }
-
-    .login-buttons {
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-      gap: 1em;
+      padding: 2em;
     }
 
     .login-buttons button {
-      flex: 1;
-      padding: 0.8em;
-      background-color: var(--kiricasa-red);
-      color: white;
-      border: none;
-      border-radius: 20px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
+      flex: 1 1 100%;
     }
 
-    .login-buttons button:hover {
-      background-color: #b94535;
-    }
     .back-button {
-  position: absolute;
-  top: 2rem;
-  left: 2rem;
-  background-color: var(--kiricasa-red);
-  color: white;
-  padding: 0.5em 1.2em;
-  border-radius: 20px;
-  text-decoration: none;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
-}
-
-.back-button:hover {
-  background-color: #b94535;
-}
-
-
-    @media (max-width: 500px) {
-      .login-card {
-        width: 90%;
-        padding: 2em;
-      }
-
-      .login-buttons {
-        flex-direction: column;
-      }
-
-      .login-buttons button {
-        width: 100%;
-      }
+      top: 1rem;
+      left: 1rem;
+      font-size: 0.9em;
+      padding: 0.4em 1em;
     }
-  </style>
+  }
+
+  @media (max-width: 480px) {
+    .login-card {
+      padding: 1.5em;
+    }
+
+    .btn-saltar,
+    .register-link a {
+      font-size: 0.9em;
+      padding: 0.5em 1em;
+    }
+
+    .login-input input {
+      font-size: 0.95em;
+    }
+
+    .login-buttons {
+      flex-direction: column;
+    }
+
+    .login-buttons button {
+      width: 100%;
+    }
+  }
+</style>
+    <link rel="icon" href="/images/elementos/sinfondo.ico" type="image/x-icon">
 </head>
 <body>
 

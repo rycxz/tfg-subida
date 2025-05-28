@@ -1,227 +1,238 @@
-/* GENERAL */
+/* GLOBAL RESET */
+* {
+  box-sizing: border-box;
+}
 
 body {
-    overflow-x: hidden;
-    margin: 0;
-    padding: 0;
-    font-family: 'Cabin Rounded', sans-serif;
-    background-color: #fefaf6;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  font-family: 'Cabin Rounded', sans-serif;
+  background-color: #fefaf6;
 }
 
 /* GRID DE ANUNCIOS */
-
 .anuncios-grid {
-    column-count: 4;
-    column-gap: 3rem;
-    padding: 5rem 6rem;
-    max-width: 100%;
-    box-sizing: border-box;
+  column-count: 4;
+  column-gap: 3rem;
+  padding: 5rem 6rem;
+  max-width: 100%;
 }
 
 .anuncio {
-    background-color: #cc5443;
-    border-radius: 25px;
-    margin: 3rem 0;
-    display: inline-block;
-    width: 100%;
-    padding: 2rem 1.5rem;
-    box-sizing: border-box;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background-color: #cc5443;
+  border-radius: 25px;
+  margin: 3rem 0;
+  display: inline-block;
+  width: 100%;
+  padding: 2rem 1.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Estilos adicionales para variar visualmente */
-
 .anuncio-ancho {
-    width: 100%;
+  width: 100%;
 }
 
 .anuncio-alto {
-    padding-bottom: 4rem; /* da sensación de más alto */
+  padding-bottom: 4rem;
 }
 
 .anuncio:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  transform: translateY(-4px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
 .anuncio img {
-    width: 14em;
-    height: 14em;
-    display: block;
-    margin: 0 auto 1.5rem auto;
-    border-radius: 12px;
+  width: 14em;
+  height: 14em;
+  display: block;
+  margin: 0 auto 1.5rem;
+  border-radius: 12px;
 }
 
 .anuncio h3,
 .anuncio p {
-    color: #fff;
-    font-family: 'Cabin Rounded', sans-serif;
-    margin: 0.6rem 0;
-    text-align: center;
+  color: #fff;
+  margin: 0.6rem 0;
+  text-align: center;
 }
 
-/* BOTÓN DENTRO DE LA TARJETA */
-
+/* BOTÓN */
 .anuncio-button {
-    all: unset;
-    display: block;
-    width: 100%;
-    cursor: pointer;
+  all: unset;
+  display: block;
+  width: 100%;
+  cursor: pointer;
 }
 
 /* SECCIÓN DE BÚSQUEDA */
-
 .search-section {
-    text-align: center;
-    margin-top: 4rem;
-    margin-bottom: 3rem;
+  text-align: center;
+  margin-top: 4rem;
+  margin-bottom: 3rem;
 }
 
 .search-section h2 {
-    color: #cc5443;
-    font-family: 'Nunito', sans-serif;
-    font-weight: 700;
-    margin-bottom: 1.8rem;
-    font-size: 1.3rem;
+  color: #cc5443;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  margin-bottom: 1.8rem;
+  font-size: 1.3rem;
 }
 
 .search-box {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 45%;
-    margin: 0 auto;
-    border: 2px solid #333;
-    border-radius: 25px;
-    overflow: hidden;
-    background-color: #fefaf6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  max-width: 500px;
+  margin: 0 auto;
+  border: 2px solid #333;
+  border-radius: 25px;
+  overflow: hidden;
+  background-color: #fefaf6;
 }
 
 .search-box input {
-    flex: 1;
-    border: none;
-    padding: 0.9rem 1.2rem;
-    font-size: 1em;
-    outline: none;
-    background-color: transparent;
+  flex: 1;
+  border: none;
+  padding: 0.9rem 1.2rem;
+  font-size: 1em;
+  outline: none;
+  background-color: transparent;
 }
 
 .search-box button {
-    background-color: transparent;
-    border: none;
-    padding: 0.7rem 1rem;
-    cursor: pointer;
+  background-color: transparent;
+  border: none;
+  padding: 0.7rem 1rem;
+  cursor: pointer;
 }
 
 .search-box button img {
-    width: 20px;
-    height: 20px;
-    filter: brightness(0) saturate(100%) invert(48%) sepia(70%) saturate(471%) hue-rotate(326deg) brightness(96%) contrast(94%);
+  width: 20px;
+  height: 20px;
+  filter: brightness(0) saturate(100%) invert(48%) sepia(70%) saturate(471%) hue-rotate(326deg) brightness(96%) contrast(94%);
 }
 
-/* RESPONSIVE - COLUMNAS VARIABLES SEGÚN ANCHO */
-
+/* RESPONSIVE COLUMN COUNT */
 @media (max-width: 1200px) {
-    .anuncios-grid {
-        column-count: 3;
-        padding: 3rem 2rem;
-    }
+  .anuncios-grid {
+    column-count: 3;
+    padding: 4rem 2rem;
+  }
 }
 
 @media (max-width: 768px) {
-    .anuncios-grid {
-        column-count: 2;
-    }
+  .anuncios-grid {
+    column-count: 2;
+    column-gap: 2rem;
+    padding: 3rem 1.5rem;
+  }
 }
 
 @media (max-width: 480px) {
-    .anuncios-grid {
-        column-count: 1;
-    }
+  .anuncios-grid {
+    column-count: 1;
+    padding: 2rem 1rem;
+  }
 }
 
+/* BOTÓN PUBLICAR */
 .boton-publicar {
-    display: inline-block;
-    background-color: #cc5443; /* Color Kiricasa */
-    color: #fff;
-    font-family: 'Nunito', sans-serif;
-    font-weight: 800;
-    font-size: 1em;
-    padding: 0.75em 1.5em;
-    border-radius: 12px;
-    text-decoration: none;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: inline-block;
+  background-color: #cc5443;
+  color: #fff;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 1em;
+  padding: 0.75em 1.5em;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .boton-publicar:hover {
-    background-color: #a54034;
-    transform: scale(1.03);
+  background-color: #a54034;
+  transform: scale(1.03);
 }
 
-
-
-.categorias-container {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 10rem;
-}
-.categorias-titulo {
-    font-size: 1.6rem;
-    color: #cc5443;
-    text-align: center;
-    margin-bottom: 0.5rem;
-}
+/* CATEGORÍAS */
 .categorias-section {
+  padding: 3rem 2rem;
+  text-align: center;
+  background: linear-gradient(to bottom, #fefaf6, #fcefe7);
+  border-radius: 20px;
+}
 
-    padding: 3rem 4rem;
-    text-align: center;
-    background: linear-gradient(to bottom, #fefaf6, #fcefe7);
-    border-radius: 20px;
+.categorias-titulo {
+  font-size: 1.6rem;
+  color: #cc5443;
+  text-align: center;
+  margin-bottom: 0.5rem;
 }
 
 .categorias-descripcion {
-    font-size: 1rem;
-    color: #666;
-    text-align: center;
-    margin-bottom: 2rem;
+  font-size: 1rem;
+  color: #666;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.categorias-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2rem;
 }
 
 .categoria-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    text-decoration: none;
-    background-color: #cc5443;
-    color: #fff;
-    font-family: 'Cabin Rounded', sans-serif;
-    font-size: 1.4rem; /* texto más grande */
-    font-weight: bold;
-    padding: 1rem;
-    border-radius: 20px;
-    cursor: pointer;
-    width: 120px;       /* más pequeño */
-    height: 120px;      /* más pequeño */
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  text-decoration: none;
+  background-color: #cc5443;
+  color: #fff;
+  font-family: 'Cabin Rounded', sans-serif;
+  font-size: 1.4rem;
+  font-weight: bold;
+  padding: 1rem;
+  border-radius: 20px;
+  cursor: pointer;
+  width: 120px;
+  height: 120px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .categoria-button:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  transform: translateY(-4px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
+@media (max-width: 480px) {
+  .categoria-button {
+    width: 100px;
+    height: 100px;
+    font-size: 1.1rem;
+  }
+
+  .categorias-container {
+    gap: 1.2rem;
+  }
+}
+
+/* ALERTA */
 .alert-error {
-    background-color: #ffe5e5;
-    color: #cc0000;
-    border: 1px solid #cc0000;
-    padding: 1rem 1.5rem;
-    margin: 2rem auto;
-    border-radius: 8px;
-    width: 80%;
-    font-family: 'Cabin Rounded', sans-serif;
-    font-size: 1rem;
-    text-align: center;
-    box-shadow: 0 4px 10px rgba(204, 0, 0, 0.1);
+  background-color: #ffe5e5;
+  color: #cc0000;
+  border: 1px solid #cc0000;
+  padding: 1rem 1.5rem;
+  margin: 2rem auto;
+  border-radius: 8px;
+  width: 90%;
+  font-size: 1rem;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(204, 0, 0, 0.1);
 }

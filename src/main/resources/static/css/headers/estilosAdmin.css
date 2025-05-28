@@ -147,4 +147,140 @@
 .barrio-btn:hover {
     background-color: white;
     color: #cc5443;
+}@media (max-width: 1024px) {
+  .kiri-header {
+    padding: 1.2rem 1.5rem;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center; /* centra los elementos hijos */
+  }
+
+  .kiri-header .logo {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .kiri-header .search-bar {
+    flex: 1 1 100px;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .kiri-header .icons {
+    justify-content: center;
+  }
+
+  .barrios-filtro {
+    justify-content: center;
+    gap: 0.7rem;
+    padding: 0.8rem;
+    text-align: center;
+  }
+
+  .barrio-btn {
+    font-size: 0.95rem;
+    padding: 0.4em 1.2em;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .kiri-header {
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+  }
+
+  .kiri-header .logo {
+    justify-content: center;
+    font-size: 1.5em;
+    margin-bottom: 0.5rem;
+  }
+
+  .kiri-header .search-bar {
+    width: 100%;
+    max-width: 500px;
+    margin-bottom: 0;
+  }
+
+  .kiri-header .search-bar form {
+    height: 38px;
+    margin-bottom: 0;
+  }
+
+  .kiri-header .icons {
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .admin-label,
+  .logout-button,
+  .btn-admin {
+    text-align: center;
+    margin: 0.5rem 0;
+  }
+
+  .barrios-filtro {
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .barrio-btn {
+    padding: 0.35em 1em;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .kiri-header {
+    gap: 0.5rem;
+  }
+
+  .kiri-header .search-bar {
+    flex: 1 1 100px;
+    max-width: 100%;
+  }
+
+  .kiri-header .search-bar form {
+    height: 36px;
+  }
+
+  .kiri-header .search-bar input {
+    font-size: 0.95em;
+    padding: 0 0.8rem;
+  }
+
+  .kiri-header .search-bar button img {
+    width: 18px;
+    height: 18px;
+  }
+
+  .kiri-header .logo img {
+    max-width: 32px;
+  }
+
+  .admin-label {
+    font-size: 0.9rem;
+    margin-right: 0;
+  }
+
+  .btn-admin,
+  .logout-button {
+    font-size: 0.9rem;
+    padding: 0.4em 1em;
+    text-align: center;
+  }
+
+  .barrios-filtro {
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+
+  .barrio-btn {
+    font-size: 0.85rem;
+    padding: 0.3em 0.8em;
+  }
 }

@@ -1,105 +1,211 @@
 .kiri-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1.5rem 2rem;
-    background-color: white;
-    border-bottom: 2px solid #eee;
-    font-family: 'Cabin Rounded', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 2rem;
+  background-color: white;
+  border-bottom: 2px solid #eee;
+  font-family: 'Cabin Rounded', sans-serif;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .kiri-header .logo {
-    font-family: 'Nunito', sans-serif;
-    font-size: 1.8em;
-    color: #cc5443;
-    font-weight: bold;
-    width: 8%;
-    display: flex;
-    align-items: center;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.8em;
+  color: #cc5443;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  width: auto;
 }
 
 .kiri-header .logo img {
-    max-width: 100%;
-    height: auto;
-    display: block;
+  max-width: 40px;
+  height: auto;
+  margin-right: 0.5em;
+  display: block;
 }
 
 .kiri-header .search-bar {
-    width: 45%;
+  flex: 1 1 300px;
+  max-width: 500px;
 }
 
 .kiri-header .search-bar form {
-    display: flex;
-    width: 100%;
-    border: 2px solid black;
-    border-radius: 25px;
-    overflow: hidden;
-    height: 40px;
+  display: flex;
+  width: 100%;
+  border: 2px solid black;
+  border-radius: 25px;
+  overflow: hidden;
+  height: 40px;
 }
 
 .kiri-header .search-bar input {
-    flex: 1;
-    border: none;
-    padding: 0 1rem;
-    font-size: 1em;
-    outline: none;
-    font-family: inherit;
+  flex: 1;
+  border: none;
+  padding: 0 1rem;
+  font-size: 1em;
+  outline: none;
+  font-family: inherit;
 }
 
 .kiri-header .search-bar button {
-    background-color: black;
-    border: none;
-    padding: 0 1rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  background-color: black;
+  border: none;
+  padding: 0 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .kiri-header .search-bar button img {
-    width: 20px;
-    height: 20px;
+  width: 20px;
+  height: 20px;
 }
 
 .kiri-header .icons {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-    width: 10%;
-    justify-content: flex-end;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: flex-end;
+  flex: 0 0 auto;
 }
 
 .kiri-header .icons img {
-    width: 28px;
-    height: 28px;
-    cursor: pointer;
-    filter: brightness(0) saturate(100%) invert(48%) sepia(70%) saturate(471%) hue-rotate(326deg) brightness(96%) contrast(94%);
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  filter: brightness(0) saturate(100%) invert(48%) sepia(70%) saturate(471%) hue-rotate(326deg) brightness(96%) contrast(94%);
 }
 
+/* Filtro de barrios */
 .barrios-filtro {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    padding: 1rem 2rem;
-    background-color: white;
-    border-top: 2px solid #eee;
-    border-bottom: 2px solid #eee;
-    font-family: 'Cabin Rounded', sans-serif;
-    flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem 1rem;
+  background-color: white;
+  border-top: 2px solid #eee;
+  border-bottom: 2px solid #eee;
+  font-family: 'Cabin Rounded', sans-serif;
+  flex-wrap: wrap;
 }
 
 .barrio-btn {
-    background-color: #cc5443;
-    color: white;
-    text-decoration: none;
-    padding: 0.4em 1.5em;
-    border-radius: 25px;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-    border: 2px solid #cc5443;
+  background-color: #cc5443;
+  color: white;
+  text-decoration: none;
+  padding: 0.4em 1.5em;
+  border-radius: 25px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  border: 2px solid #cc5443;
 }
 
 .barrio-btn:hover {
-    background-color: white;
-    color: #cc5443;
+  background-color: white;
+  color: #cc5443;
 }
+@media (max-width: 1024px) {
+  .kiri-header {
+    padding: 1.2rem 1.5rem;
+    gap: 0.8rem;
+  }
+.kiri-header .search-bar {
+  flex: 1 1 100px;
+  max-width: 500px;
+}
+  .kiri-header .search-bar {
+    max-width: 100%;
+  }
+
+  .barrios-filtro {
+    gap: 0.7rem;
+    padding: 0.8rem;
+  }
+
+  .barrio-btn {
+    font-size: 0.95rem;
+    padding: 0.4em 1.2em;
+  }
+}
+
+@media (max-width: 768px) {
+  .kiri-header {
+    flex-direction: column;
+    align-items: center; /* centrado horizontal de los elementos */
+    padding: 1rem;
+  }
+
+  .kiri-header .logo {
+    justify-content: center;
+    font-size: 1.5em;
+    margin-bottom: 0.5rem;
+  }
+
+  .kiri-header .search-bar {
+    width: 100%;
+    max-width: 500px;
+    margin-bottom: 0;
+  }
+
+  .kiri-header .search-bar form {
+    height: 38px;
+    margin-bottom: 0;
+  }
+
+  .kiri-header .icons {
+    justify-content: center;
+  }
+
+  .barrios-filtro {
+    justify-content: center;
+    gap: 0.6rem;
+  }
+
+  .barrio-btn {
+    padding: 0.35em 1em;
+    font-size: 0.9rem;
+  }
+}
+
+
+@media (max-width: 480px) {
+  .kiri-header {
+    gap: 0.5rem;
+  }
+ .kiri-header .search-bar {
+  flex: 1 1 100px;
+  max-width: 500px;
+}
+  .kiri-header .search-bar form {
+    height: 36px;
+  }
+
+  .kiri-header .search-bar input {
+    font-size: 0.95em;
+    padding: 0 0.8rem;
+  }
+
+  .kiri-header .search-bar button img {
+    width: 18px;
+    height: 18px;
+  }
+
+  .kiri-header .logo img {
+    max-width: 32px;
+  }
+
+  .barrios-filtro {
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+
+  .barrio-btn {
+    font-size: 0.85rem;
+    padding: 0.3em 0.8em;
+  }
+}
+
