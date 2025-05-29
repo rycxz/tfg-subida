@@ -47,25 +47,24 @@ public class AdminController {
     private FavoritosRepository favoritosRepository;
       @SuppressWarnings("FieldMayBeFinal")
     private AnunciosVistosRepository anunciosVistosRepository;
-    @GetMapping("/ver")
-    /**
-     * * Muestra la vista de administración
-     * @param model
-     * @param session
-     * @return
-     */
-    public String verAdmin(Model model, HttpSession session) {
-        UsuarioModel current = (UsuarioModel) session.getAttribute("usuario");
-        if (current == null || current.getRol() != UsuarioRol.ADMIN) {
-            return "redirect:/home";
+        @GetMapping("/ver")
+        public String verAdmin(Model model, HttpSession session) {
+            UsuarioModel current = (UsuarioModel) session.getAttribute("usuario");
+            if (current == null || current.getRol() != UsuarioRol.ADMIN) {
+                return "redirect:/home";
+            }
+
+            // Cargamos todos…
+            List<UsuarioModel> todos = usuarioRepository.findAll();
+
+            todos.removeIf(u -> u.getId().equals(current.getId()));
+
+            model.addAttribute("usuario", current);
+            model.addAttribute("usuarios", todos);
+            model.addAttribute("barrios", barriosRepository.findAll());
+            return "admin";
         }
-         UsuarioModel usuario = (UsuarioModel) session.getAttribute("usuario");
-        model.addAttribute("usuario", usuario);
-        model.addAttribute("barrios", barriosRepository.findAll());
-        model.addAttribute("usuarios", usuarioRepository.findAll());
-        model.addAttribute("barrios", barriosRepository.findAll());
-        return "admin";
-    }
+
 @PostMapping("/usuarios/delete/{id}")
 @Transactional
 /**

@@ -1,23 +1,27 @@
-/* Contenedor principal del panel */
+/* GLOBAL */
 .admin-panel {
     padding: 2rem;
     background-color: #fffaf7;
     font-family: 'Segoe UI', sans-serif;
     color: #333;
+    text-align: center;
 }
 
 .admin-panel-container {
+    width: 100%;
     max-width: 1200px;
     margin: 0 auto;
     background-color: #ffffff;
     padding: 2rem;
     border-radius: 16px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 /* Títulos */
 .admin-panel-title {
-    text-align: center;
     font-size: 2.5rem;
     color: #c44d3c;
     margin-bottom: 2rem;
@@ -27,6 +31,9 @@
     font-size: 1.8rem;
     margin-bottom: 1rem;
     color: #a2362b;
+    width: 100%;
+    text-align: left;
+    max-width: 1000px;
 }
 
 /* Tabla */
@@ -34,6 +41,7 @@
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 2rem;
+    overflow-x: auto;
 }
 
 .admin-panel-tabla th,
@@ -49,57 +57,50 @@
     font-weight: bold;
 }
 
-/* Botones */
+/* Acciones centradas */
+.admin-panel-acciones {
+    text-align: center;
+    width: 100%;
+    max-width: 1000px;
+    margin-bottom: 1rem;
+}
+
 .admin-panel-acciones form {
     display: inline-block;
-    margin-right: 0.5rem;
+    margin: 0 0.3rem;
 }
 
-.admin-btn-borrar {
-    background-color: #e74c3c;
-    color: white;
-    border: none;
-    padding: 0.4rem 1rem;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.admin-btn-borrar:hover {
-    background-color: #c0392b;
-}
-
+/* Botones de acciones */
+.admin-btn-borrar,
 .admin-btn-rol {
-    border: none;
     padding: 0.4rem 1rem;
+    border: none;
     border-radius: 8px;
     cursor: pointer;
     font-weight: bold;
     color: white;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: inline-block;
 }
 
-.admin-hacer {
-    background-color: #2ecc71;
-}
+.admin-btn-borrar { background-color: #e74c3c; }
+.admin-btn-borrar:hover { background-color: #c0392b; transform: scale(1.05); }
 
-.admin-hacer:hover {
-    background-color: #27ae60;
-}
+.admin-btn-rol.admin-hacer { background-color: #2ecc71; }
+.admin-btn-rol.admin-hacer:hover { background-color: #27ae60; transform: scale(1.05); }
 
-.admin-quitar {
-    background-color: #f39c12;
-}
-
-.admin-quitar:hover {
-    background-color: #e67e22;
-}
+.admin-btn-rol.admin-quitar { background-color: #f39c12; }
+.admin-btn-rol.admin-quitar:hover { background-color: #e67e22; transform: scale(1.05); }
 
 /* Formulario de barrio */
 .admin-form-barrio {
     display: flex;
     flex-direction: column;
     gap: 0.8rem;
+    width: 100%;
     max-width: 500px;
+    margin: 0 auto 2rem;
+    text-align: left;
 }
 
 .admin-form-barrio label {
@@ -112,6 +113,7 @@
     border: 1px solid #ccc;
     border-radius: 8px;
     font-size: 1rem;
+    width: 100%;
 }
 
 .admin-btn-guardar {
@@ -122,22 +124,141 @@
     border-radius: 10px;
     font-size: 1rem;
     font-weight: bold;
-    margin-top: 1rem;
     cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: block;
+    margin: 1rem auto 0;
 }
 
 .admin-btn-guardar:hover {
     background-color: #a2362b;
+    transform: scale(1.03);
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-    .admin-panel-tabla th, .admin-panel-tabla td {
-        font-size: 0.9rem;
-        padding: 0.5rem;
-    }
+/* === RESPONSIVE 1024px (ligeramente más compacto) === */
+@media (max-width: 1024px) {
+  .admin-panel-container {
+    padding: 1.25rem;
+  }
+    .admin-panel-tabla th:nth-child(4),
+  .admin-panel-tabla td:nth-child(4) {
+    display: none;
+  }
+  .admin-panel-title {
+    font-size: 2.2rem;
+    margin-bottom: 1.25rem;
+  }
+  .admin-panel-subtitulo {
+    font-size: 1.5rem;
+  }
+  .admin-panel-tabla th,
+  .admin-panel-tabla td {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.95rem;
+  }
+  .admin-form-barrio {
+    max-width: 85%;
+    gap: 0.6rem;
+  }
+  .admin-btn-borrar,
+  .admin-btn-rol {
+    padding: 0.35rem 0.9rem;
+    font-size: 0.9rem;
+  }
+}
 
-    .admin-panel-container {
-        padding: 1rem;
-    }
+/* === RESPONSIVE 768px (tablet) === */
+@media (max-width: 768px) {
+      body {
+    padding: 0 1rem;
+  }
+    body {
+    padding: 0 0.5rem;
+  }
+  .admin-panel-container {
+    padding: 0.75rem;
+  }
+  .admin-panel-title {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+  .admin-panel-subtitulo {
+    font-size: 1.3rem;
+  }
+  .admin-panel-tabla {
+    width: auto;
+    margin: 0 auto 1.25rem;
+    display: table;
+    table-layout: auto;
+    overflow-x: auto;
+  }
+  .admin-panel-tabla th,
+  .admin-panel-tabla td {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.85rem;
+  }
+  .admin-panel-acciones form {
+    margin: 0 0.2rem;
+  }
+  .admin-form-barrio {
+    width: 90%;
+    gap: 0.5rem;
+  }
+  .admin-btn-borrar,
+  .admin-btn-rol {
+    padding: 0.3rem 0.8rem;
+    font-size: 0.85rem;
+  }
+  .admin-btn-guardar {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* === RESPONSIVE 480px (móvil) === */
+@media (max-width: 480px) {
+  .admin-panel {
+    padding: 0.75rem;
+  }
+  .admin-panel-container {
+    padding: 0.5rem;
+  }
+  .admin-panel-title {
+    font-size: 1.6rem;
+    margin-bottom: 0.75rem;
+  }
+  .admin-panel-subtitulo {
+    font-size: 1rem;
+  }
+  .admin-panel-tabla {
+    width: auto;
+    margin: 0 auto 1rem;
+  }
+  .admin-panel-tabla th,
+  .admin-panel-tabla td {
+    padding: 0.3rem 0.4rem;
+    font-size: 0.8rem;
+  }
+  .admin-panel-acciones {
+    text-align: center;
+  }
+  .admin-panel-acciones form {
+    display: block;
+    margin: 0.2rem 0;
+  }
+  .admin-btn-borrar,
+  .admin-btn-rol {
+    width: 100%;
+    padding: 0.25rem 0.6rem;
+    font-size: 0.8rem;
+  }
+  .admin-form-barrio {
+    width: 100%;
+    gap: 0.4rem;
+  }
+  .admin-btn-guardar {
+    width: 100%;
+    padding: 0.4rem;
+    font-size: 0.85rem;
+  }
 }

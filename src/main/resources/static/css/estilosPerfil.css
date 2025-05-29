@@ -122,3 +122,85 @@ body {
     color: #333;
     font-family: var(--fuente-cuerpo);
 }
+/* ===== 1024px ===== */
+@media (max-width: 1024px) {
+  .perfil-content {
+    padding: 2rem 3%;
+  }
+
+  .perfil-menu ul {
+    gap: 1.5rem;
+  }
+
+  .publicacion-button img,
+  .favorito-button img {
+    height: 160px;
+  }
+
+  .publicacion-button h3,
+  .favorito-button h3 {
+    font-size: 1rem;
+  }
+}
+
+/* ===== 768px ===== */
+@media (max-width: 768px) {
+  .perfil-content header h1 {
+    font-size: 2rem;
+  }
+
+  .perfil-content section h2 {
+    font-size: 1.3rem;
+  }
+
+  .perfil-menu {
+    padding: 1rem;
+  }
+
+  .perfil-menu ul {
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .publicacion-button img,
+  .favorito-button img {
+    height: 150px;
+  }
+
+  .publicacion-button h3,
+  .favorito-button h3 {
+    font-size: 0.95rem;
+  }
+}
+
+/* ===== 480px ===== */
+@media (max-width: 480px) {
+  .perfil-content {
+    padding: 1rem;
+  }
+
+  .perfil-content header h1 {
+    font-size: 1.6rem;
+  }
+
+  .perfil-content section h2 {
+    font-size: 1.2rem;
+  }
+
+  .perfil-menu ul {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .publicacion-button img,
+  .favorito-button img {
+    height: 130px;
+  }
+
+  .publicacion-button h3,
+  .favorito-button h3 {
+    font-size: 0.9rem;
+    padding: 0.8rem;
+  }
+}

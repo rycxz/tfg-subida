@@ -132,24 +132,87 @@ body {
     font-weight: bold;
 }
 
-/* RESPONSIVE */
-@media (max-width: 500px) {
-    .formulario-editar-perfil {
-        padding: 20px;
-    }
+/* === RESPONSIVE 1024px (Tablets grandes / pantallas pequeñas) === */
+@media (max-width: 1024px) {
+  .formulario-editar-perfil {
+    max-width: 80%;
+    padding: 25px;
+  }
 
-    .titulo-editar {
-        font-size: 1.9rem;
-    }
+  .titulo-editar {
+    font-size: 2.1rem;
+    margin: 30px 0 20px;
+  }
 
-    .botones-formulario {
-        flex-direction: column;
-        align-items: stretch;
-    }
+  .botones-formulario {
+    gap: 8px;
+  }
 
-    .boton-guardar,
-    .boton-cancelar {
-        width: 100%;
-        text-align: center;
-    }
+  .boton-guardar,
+  .boton-cancelar {
+    padding: 10px 20px;
+    font-size: 0.95rem;
+  }
 }
+
+/* === RESPONSIVE 768px (Tablets / Landscape móviles) === */
+@media (max-width: 768px) {
+  .formulario-editar-perfil {
+    max-width: 90%;
+    padding: 22px;
+    gap: 14px;
+  }
+
+  .titulo-editar {
+    font-size: 2rem;
+    margin: 25px 0 18px;
+  }
+
+  .formulario-editar-perfil label {
+    font-size: 0.9rem;
+  }
+
+  .botones-formulario {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .boton-guardar,
+  .boton-cancelar {
+    width: 100%;
+    padding: 10px;
+    font-size: 0.95rem;
+  }
+}
+
+/* === RESPONSIVE 500px (Móviles) === */
+@media (max-width: 500px) {
+  .formulario-editar-perfil {
+    padding: 18px;
+    gap: 12px;
+  }
+
+  .titulo-editar {
+    font-size: 1.8rem;
+    margin: 20px 0 15px;
+  }
+
+  .formulario-editar-perfil input[type="text"],
+  .formulario-editar-perfil input[type="email"],
+  .formulario-editar-perfil input[type="tel"],
+  .formulario-editar-perfil input[type="date"],
+  .formulario-editar-perfil input[type="file"] {
+    padding: 10px;
+  }
+
+  .botones-formulario {
+    gap: 6px;
+  }
+
+  .boton-guardar,
+  .boton-cancelar {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+}
+

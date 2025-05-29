@@ -13,8 +13,9 @@ body {
 
 /* GRID DE ANUNCIOS */
 .anuncios-grid {
-  column-count: 4;
-  column-gap: 3rem;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3rem;
   padding: 5rem 6rem;
   max-width: 100%;
 }
@@ -22,8 +23,6 @@ body {
 .anuncio {
   background-color: #cc5443;
   border-radius: 25px;
-  margin: 3rem 0;
-  display: inline-block;
   width: 100%;
   padding: 2rem 1.5rem;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -43,11 +42,13 @@ body {
 }
 
 .anuncio img {
-  width: 14em;
-  height: 14em;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
   display: block;
   margin: 0 auto 1.5rem;
   border-radius: 12px;
+  object-fit: cover;
 }
 
 .anuncio h3,
@@ -115,26 +116,36 @@ body {
   filter: brightness(0) saturate(100%) invert(48%) sepia(70%) saturate(471%) hue-rotate(326deg) brightness(96%) contrast(94%);
 }
 
-/* RESPONSIVE COLUMN COUNT */
+/* RESPONSIVE */
 @media (max-width: 1200px) {
   .anuncios-grid {
-    column-count: 3;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;
     padding: 4rem 2rem;
   }
 }
 
 @media (max-width: 768px) {
   .anuncios-grid {
-    column-count: 2;
-    column-gap: 2rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
     padding: 3rem 1.5rem;
   }
 }
 
 @media (max-width: 480px) {
   .anuncios-grid {
-    column-count: 1;
+    grid-template-columns: 1fr;
     padding: 2rem 1rem;
+  }
+
+  .anuncio img {
+    height: auto;
+    max-width: 100%;
+  }
+
+  .anuncio {
+    padding: 1.5rem 1rem;
   }
 }
 
